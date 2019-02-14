@@ -1,0 +1,25 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-fluid">
+      <div class="navbar-header">
+        <a routerLink="/" class="navbar-brand">Home</a>
+      </div>
+
+      <div class="navbar-default">
+        <ul class="nav navbar-nav">
+          <li routerLinkActive="active"><a routerLink="/predictions">Predictions</a></li>
+          <li routerLinkActive="active"><a routerLink="/scoreboard">Scoreboard</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown" appDropdown>
+            <a style="cursor: pointer;" class="dropdown-toggle" role="button">Menu <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li routerLinkActive="active"><a routerLink="/login" style="cursor: pointer;">Login</a></li>
+              <li routerLinkActive="active"><a routerLink="/register" style="cursor: pointer;">Register</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>

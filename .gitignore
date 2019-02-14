@@ -4,4 +4,4 @@ dist
 .vscode
 npm-debug.log
 *.log
-
+package-lock.json

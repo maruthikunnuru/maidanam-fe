@@ -3,13 +3,31 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './header/header.component';
+import { PredictionsComponent } from './predictions/predictions.component';
+import { ScoreboardComponent } from './scoreboard/scoreboard.component';
+import { HomeComponent } from './home/home.component';
+import { FormsModule } from '@angular/forms';
+import { DropdownDirective } from './shared/dropdown.directive';
+import { LoginComponent } from './login/login.component';
+import { ErrorPageComponent } from './error-page/error-page.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent,
+    PredictionsComponent,
+    ScoreboardComponent,
+    HomeComponent,
+    DropdownDirective,
+    LoginComponent,
+    ErrorPageComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule
   ],
   providers: [],

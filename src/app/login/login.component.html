@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-5">
+      <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+        <div class="row">
+          <div class="col-sm-4 form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" class="form-control" name="username" ngModel required>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4 form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" class="form-control" name="password" ngModel required>
+          </div>
+        </div>
+        <br><br>
+        <div class="row">
+          <div class="col-xs-12">
+            &nbsp;<button class="btn btn-success" type="submit" [disabled]="!f.valid">Login</button>&nbsp;
+            &nbsp;<button class="btn btn-danger" type="button" (click)="onSocialSubmit()">Google Sign-In</button>&nbsp;
+            &nbsp;<button class="btn btn-primary" type="button" (click)="onSocialSubmit()">Facebook Sign-In</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

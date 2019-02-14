@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <form (ngSubmit)="onRegister(r)" #r="ngForm">
+        <div class="row">
+          <div class="col-sm-6 form-group">
+            <label for="refcode">Enter Your Referral Code</label>
+            <input type="text" id="refcode" class="form-control" name="refcode" ngModel required>
+          </div>
+        </div>
+        <br><br>
+        <div class="row">
+          <div class="col-xs-12">
+            &nbsp;<button class="btn btn-primary" type="submit" [disabled]="!r.valid">Register</button>&nbsp;
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
