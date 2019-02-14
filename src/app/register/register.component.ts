@@ -21,7 +21,7 @@ export class RegisterComponent implements OnInit {
     const referralCode = value.refcode;
 
     if(referralCode === '12345'){
-      this.router.navigate(['/predictions']);
+      this.router.navigate(['/login']);
     } else {
       this.router.navigate(['/error']);
     }
