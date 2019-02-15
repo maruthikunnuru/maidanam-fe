@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-5">
+      <div class="row">
+        <div class="col-xs-12">
+          &nbsp;<button class="btn btn-primary" type="submit" (click)="joinGroup()">Join Group</button>&nbsp;
+          &nbsp;<button class="btn btn-info" type="submit" (click)="createGroup()">Create Group</button>&nbsp;
+        </div>
+      </div>
+    </div>
+  </div>
+  <br><br>
+
+  <form (ngSubmit)="onJoin(j)" #j="ngForm">
+    <div class="row" *ngIf=joinMode>
+      <div class="col-sm-5">
+          <label for="groupCode1">Enter Group Code to join:</label>&nbsp;
+          <input type="text" id="groupCode1" class="form-control" name="groupCode" ngModel required>&nbsp;
+          <br>
+          <button type="submit" class="btn btn-success" [disabled]="!j.valid">Save</button>
+      </div>
+    </div>
+  </form>
+
+  <form (ngSubmit)="onCreate(c)" #c="ngForm">
+    <div class="row" *ngIf=createMode>
+      <div class="col-sm-5">
+        <div class="form-group">
+          <label for="groupCode2">Enter Group Name to create:</label>&nbsp;
+          <input type="text" id="groupCode2" class="form-control" name="groupCode" ngModel required>&nbsp;
+          <br>
+          <button type="submit" class="btn btn-success" [disabled]="!c.valid">Save</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -12,6 +12,7 @@ import { DropdownDirective } from './shared/dropdown.directive';
 import { LoginComponent } from './login/login.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { RegisterComponent } from './register/register.component';
+import { ManageGroupsComponent } from './manage-groups/manage-groups.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { RegisterComponent } from './register/register.component';
     DropdownDirective,
     LoginComponent,
     ErrorPageComponent,
-    RegisterComponent
+    RegisterComponent,
+    ManageGroupsComponent
   ],
   imports: [
     BrowserModule,
