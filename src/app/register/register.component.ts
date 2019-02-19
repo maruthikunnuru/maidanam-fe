@@ -18,9 +18,9 @@ export class RegisterComponent implements OnInit {
 
   onRegister(form: NgForm) {
     const value = form.value;
-    const referralCode = value.refcode;
+    const referralCode = value.refCode;
 
-    if(referralCode === '12345'){
+    if(referralCode === '12345') {
       this.router.navigate(['/login']);
     } else {
       this.router.navigate(['/error']);

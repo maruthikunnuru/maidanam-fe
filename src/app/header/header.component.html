@@ -2,7 +2,11 @@
   <div class="container-fluid">
     <div class="navbar-fluid">
       <div class="navbar-header">
-        <a routerLink="/" class="navbar-brand">Home</a>
+        <a routerLink="/" class="navbar-brand" style="text-transform:none">
+          <div class="top-left">
+            <img width="30px" src="assets/images/Logo1.png"/>
+          </div>
+        </a>
       </div>
 
       <div class="navbar-default">
@@ -14,9 +18,17 @@
           <li class="dropdown" appDropdown>
             <a style="cursor: pointer;" class="dropdown-toggle" role="button">Menu <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li routerLinkActive="active"><a routerLink="/login" style="cursor: pointer;">Login</a></li>
+              <li routerLinkActive="active">
+                <button class="btn white" type="button" (click)="signInWithGoogle()">
+                  <a style="text-transform:none">
+                    <div class="left">
+                      <img width="180px" alt="Google &quot;G&quot; Logo" src="assets/images/Google1.png"/>
+                    </div>
+                  </a>
+                </button>
               <li routerLinkActive="active"><a routerLink="/register" style="cursor: pointer;">Register</a></li>
               <li routerLinkActive="active"><a routerLink="/groups" style="cursor: pointer;">Manage Groups</a></li>
+              <li ><a style="cursor: pointer;" (click)="signOut()">Sign Out</a></li>
             </ul>
           </li>
         </ul>
