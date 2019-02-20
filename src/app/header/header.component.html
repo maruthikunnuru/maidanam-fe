@@ -4,7 +4,7 @@
       <div class="navbar-header">
         <a routerLink="/" class="navbar-brand" style="text-transform:none">
           <div class="top-left">
-            <img width="30px" src="assets/images/Logo1.png"/>
+            <img width="40px" src="assets/images/Logo2.png"/>
           </div>
         </a>
       </div>
@@ -14,7 +14,13 @@
           <li routerLinkActive="active"><a routerLink="/predictions">Predictions</a></li>
           <li routerLinkActive="active"><a routerLink="/scoreboard">Scoreboard</a></li>
         </ul>
+
         <ul class="nav navbar-nav navbar-right">
+          <ul class="nav navbar-nav navbar-brand" *ngIf=loggedIn>
+            <li style="color: green">
+              Welcome !! {{ loginService.getUserProfile().displayName }}
+            </li>
+          </ul>
           <li class="dropdown" appDropdown>
             <a style="cursor: pointer;" class="dropdown-toggle" role="button">Menu <span class="caret"></span></a>
             <ul class="dropdown-menu">
@@ -28,7 +34,7 @@
                 </button>
               <li routerLinkActive="active"><a routerLink="/register" style="cursor: pointer;">Register</a></li>
               <li routerLinkActive="active"><a routerLink="/groups" style="cursor: pointer;">Manage Groups</a></li>
-              <li ><a style="cursor: pointer;" (click)="signOut()">Sign Out</a></li>
+              <li *ngIf=loggedIn><a style="cursor: pointer;" (click)="signOut()">Sign Out</a></li>
             </ul>
           </li>
         </ul>

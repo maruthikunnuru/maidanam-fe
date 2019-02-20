@@ -1,27 +1,43 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService, GoogleLoginProvider, SocialUser} from 'angularx-social-login';
 import {Router} from '@angular/router';
+import {UserModel} from '../shared/user.model';
+import {LoginService} from '../services/login.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
-  private user: SocialUser;
+  private socialUser: SocialUser;
   private loggedIn: boolean;
+  subscription: Subscription;
 
   constructor(private router: Router,
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private loginService: LoginService) { }
 
   ngOnInit() {
-    this.authService.authState.subscribe((user) => {
-      this.user = user;
-      this.loggedIn = (user != null);
-      console.log(user);
+    this.subscription = this.authService.authState.subscribe((googleUser) => {
+      this.socialUser = googleUser;
+      this.loggedIn = (googleUser != null);
+
+      console.log(this.socialUser);
       if (this.loggedIn) {
-        this.router.navigate(['/predictions']);
+        this.loginService.setUserProfile(this.socialUser);
+
+        if (this.loginService.isRegisteredUser(this.socialUser.email)) {
+          alert('Welcome back ' + this.socialUser.name);
+          this.router.navigate(['/predictions']);
+        } else {
+          alert('Hey ' + this.socialUser.name + '. You are not a registered User !!');
+          this.router.navigate(['/register']);
+        }
+      } else {
+        this.router.navigate(['/home']);
       }
     });
   }
@@ -31,7 +47,14 @@ export class HeaderComponent implements OnInit {
   }
 
   signOut(): void {
-    this.authService.signOut();
+    if (this.loggedIn) {
+      confirm('Do you want to signout Mr.' + this.loginService.getUserProfile().displayName)
+      this.authService.signOut();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 }

@@ -3,7 +3,7 @@ export class UserModel {
     public firstName: string;
     public lastName: string;
     public email: string;
-    public userName: string;
+    public imageUrl: string;
     public groups: string[];
 
 
@@ -11,13 +11,13 @@ export class UserModel {
                 firstName: string,
                 lastName: string,
                 email: string,
-                userName: string,
+                imageUrl: string,
                 groups: string[]) {
         this.displayName = displayName;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.userName = userName;
+        this.imageUrl = imageUrl;
         this.groups = groups;
     }
 }
