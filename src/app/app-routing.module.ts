@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {PredictionsComponent} from './predictions/predictions.component';
 import {HomeComponent} from './home/home.component';
+import {MatchesComponent} from './matches/matches.component';
 import {ScoreboardComponent} from './scoreboard/scoreboard.component';
 import {ErrorPageComponent} from './error-page/error-page.component';
 import {RegisterComponent} from './register/register.component';
@@ -10,6 +11,7 @@ import {ManageGroupsComponent} from './manage-groups/manage-groups.component';
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full'},
   { path: 'home', component: HomeComponent },
+  { path: 'matches', component: MatchesComponent },
   { path: 'predictions', component: PredictionsComponent },
   { path: 'scoreboard', component: ScoreboardComponent},
   { path: 'register', component: RegisterComponent},

@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {SocialLoginModule, AuthServiceConfig, LoginOpt, GoogleLoginProvider} from 'angularx-social-login';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,6 +15,9 @@ import { ErrorPageComponent } from './error-page/error-page.component';
 import { RegisterComponent } from './register/register.component';
 import { ManageGroupsComponent } from './manage-groups/manage-groups.component';
 import {LoginService} from './services/login.service';
+import { MatchesComponent } from './matches/matches.component';
+import { CurrentViewComponent } from './matches/current-view/current-view.component';
+import { ListViewComponent } from './matches/list-view/list-view.component';
 
 const googleLoginOptions: LoginOpt = {
   scope: 'profile email',
@@ -40,10 +44,14 @@ export function provideConfig() {
     DropdownDirective,
     ErrorPageComponent,
     RegisterComponent,
-    ManageGroupsComponent
+    ManageGroupsComponent,
+    MatchesComponent,
+    CurrentViewComponent,
+    ListViewComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     AppRoutingModule,
     SocialLoginModule

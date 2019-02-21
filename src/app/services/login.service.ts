@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {SocialUser} from "angularx-social-login";
-import {UserModel} from "../shared/user.model";
+import {SocialUser} from 'angularx-social-login';
+import {UserModel} from '../shared/user.model';
 
 @Injectable()
 export class LoginService {
