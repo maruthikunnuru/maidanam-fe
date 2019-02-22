@@ -1,0 +1,85 @@
+<link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Nova+Mono|Roboto+Mono" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+<!--This is Navigation Bar -->
+<nav class="navbar navbar-md-expand navbar-light" style="background:#FF851B;padding:0px;">
+  <a class="navbar-brand" href='#'>
+
+    <img src="assets/images/Sumo.jpeg" width="60" height="55">
+  </a>
+   <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#targetData">
+          <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="targetData" class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+            
+            <li class="navbar-item px-1">
+              <form class="form-inline">
+                <button class="btn btn-sm btn-link">Register</button>
+              </form>
+            </li>
+            
+            <li class="navbar-item px-1">
+                <form class="form-inline">
+                  <button class="btn btn-sm btn-outline-primary">Login</button>
+                </form>
+            </li>
+
+        </ul>
+
+    </div>
+
+</nav>
+
+<!-- This is Floating component: Group name drop down -->
+<div class="container-fluid sticky-top" style="padding:0px;">
+    <div class="d-flex justify-content-end">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              JNTU
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="#">JNTU</a>
+              <a class="dropdown-item" href="#">Family</a>
+              <a class="dropdown-item" href="#">Office</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+
+<!-- This is Current/All Match view buttons -->
+<div class="container-fluid">
+  <div class="d-flex justify-content-center">
+  <div class="btn-group  btn-group-toggle">
+      <label class="btn btn-outline-info" [ngClass] = "{'active':currentView}" style="width:80px;">
+        <input type="radio" name="options" id="option1" checked (click)="changeView($event)" value="current"> Current
+      </label>
+    
+      <label class="btn btn-outline-info"  [ngClass] = "{'active':listView}" style="width:80px;">
+        <input type="radio" name="options" id="option2" autocomplete="off" (click)="changeView($event)" value="all">All
+      </label>
+      
+  </div>
+</div>
+</div>
+
+
+
+<!-- This is Current Match view-->
+<div @flyInOut *ngIf="currentView">
+ <app-current-view></app-current-view>
+</div>
+
+<!-- This is All Matches View *ngIf="listView"-->
+
+<div @flyInOut *ngIf="listView">
+  <app-list-view></app-list-view>  
+</div>

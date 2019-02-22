@@ -1,0 +1,11 @@
+.open-close-container {
+    border: 1px solid #F4A460;
+    background: #ffffff;
+    margin: 1.5em 0em;
+    padding: 0px 0px 15px 0px;
+    color: #000000;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 0.5em;
+    box-shadow: 0px 0px 8px 2px #F4A460;
+  }
