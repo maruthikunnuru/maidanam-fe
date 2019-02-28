@@ -1,3 +1,35 @@
-<div style="text-align:center">
-  <h1>Scoreboard !!</h1>
+<div class="container-fluid sticky-top" style="padding:0px;">
+  <div class="d-flex justify-content-end">
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        JNTU
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#">JNTU</a>
+        <a class="dropdown-item" href="#">Family</a>
+        <a class="dropdown-item" href="#">Office</a>
+      </div>
+    </div>
+  </div>
+</div>
+<hr>
+<div class="table-responsive-sm">
+  <table class="table table-bordered table-success">
+    <thead>
+    <tr>
+      <th scope="col">Rank</th>
+      <th scope="col">Player</th>
+      <th scope="col">Coins</th>
+      <th scope="col">Change</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let score of scores">
+      <td>{{score.rank}}</td>
+      <td>{{score.player}}</td>
+      <td>{{score.coins}}</td>
+      <td>{{score.change}}</td>
+    </tr>
+    </tbody>
+  </table>
 </div>
