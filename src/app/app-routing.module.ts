@@ -7,6 +7,7 @@ import {ScoreboardComponent} from './scoreboard/scoreboard.component';
 import {ErrorPageComponent} from './error-page/error-page.component';
 import {RegisterComponent} from './register/register.component';
 import {ManageGroupsComponent} from './manage-groups/manage-groups.component';
+import {PlayerHistoryComponent} from './player-history/player-history.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -16,7 +17,8 @@ const appRoutes: Routes = [
   { path: 'scoreboard', component: ScoreboardComponent},
   { path: 'register', component: RegisterComponent},
   { path: 'error', component: ErrorPageComponent},
-  { path: 'groups', component: ManageGroupsComponent}
+  { path: 'groups', component: ManageGroupsComponent},
+  { path: 'player', component: PlayerHistoryComponent}
 ];
 
 @NgModule({

@@ -1,0 +1,92 @@
+<div class="container-fluid">
+  <div class="d-flex justify-content-center">
+    <br>
+        <h1 style="color:darkred">Vinod Aripaka</h1>
+  </div>
+  <div class="table-responsive-sm">
+    <table class="table table-borderless table-secondary">
+      <tr>
+        <td>
+          <h4 style="color:blue" >Rank : {{player.rank}} </h4>
+        </td>
+        <td>
+          <h6 style="color:blue">Coins : {{player.coins}} </h6>
+        </td>
+        <td>
+          <h6 style="color:blue">Loan : {{player.loan}} </h6>
+        </td>
+
+      </tr>
+      <tr>
+        <td>
+          <h4 style="color:blue" >Success : {{player.successRate}}% </h4>
+        </td>
+        <td>
+          <h6 style="color:blue">Winners : {{player.winners}} </h6>
+        </td>
+        <td>
+          <h6 style="color:blue">Bonus : {{player.bonus}} </h6>
+        </td>
+        <td>
+          <h6 style="color:blue">Challenges : {{player.challenges}} </h6>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <hr>
+  <div class="table-responsive-sm">
+    <table class="table table-bordered table-danger">
+      <thead>
+      <tr>
+        <th scope="col">Team</th>
+        <th scope="col">Winner</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let plt of player.teamStats">
+        <td>{{plt.team}}</td>
+        <td>{{plt.winners}}</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <table class="table table-bordered table-primary">
+      <thead>
+      <tr>
+        <th scope="col">Player</th>
+        <th scope="col">Challenges</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let plc of player.challengeStats">
+        <td>{{plc.playr}}</td>
+        <td>{{plc.challenges}}</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <table class="table table-bordered table-warning">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Match</th>
+        <th scope="col">Winner</th>
+        <th scope="col">Coins Won</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let plm of player.matchStats; let i = index">
+        <td>{{i+1}}</td>
+        <td>{{plm.match}}</td>
+        <td>{{plm.winner}}</td>
+        <td>{{plm.coinsWon}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+

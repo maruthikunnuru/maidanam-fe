@@ -18,6 +18,7 @@ import {LoginService} from './services/login.service';
 import { MatchesComponent } from './matches/matches.component';
 import { CurrentViewComponent } from './matches/current-view/current-view.component';
 import { ListViewComponent } from './matches/list-view/list-view.component';
+import { PlayerHistoryComponent } from './player-history/player-history.component';
 
 const googleLoginOptions: LoginOpt = {
   scope: 'profile email',
@@ -47,7 +48,8 @@ export function provideConfig() {
     ManageGroupsComponent,
     MatchesComponent,
     CurrentViewComponent,
-    ListViewComponent
+    ListViewComponent,
+    PlayerHistoryComponent
   ],
   imports: [
     BrowserModule,
