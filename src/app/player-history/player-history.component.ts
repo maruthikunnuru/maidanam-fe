@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {PlayerModel} from '../shared/player.model';
-import {TeamStatsModel} from '../shared/team-stats.model';
-import {ChallengeStatsModel} from '../shared/challenge-stats.model';
-import {MatchStatsModel} from '../shared/match-stats.model';
+import {PlayerModel} from '../z-models/player.model';
+import {TeamStatsModel} from '../z-models/team-stats.model';
+import {ChallengeStatsModel} from '../z-models/challenge-stats.model';
+import {MatchStatsModel} from '../z-models/match-stats.model';
 
 @Component({
   selector: 'app-player-history',

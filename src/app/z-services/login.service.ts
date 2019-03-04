@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {SocialUser} from 'angularx-social-login';
-import {UserModel} from '../shared/user.model';
+import {UserModel} from '../z-models/user.model';
 
 @Injectable()
 export class LoginService {
@@ -22,11 +22,11 @@ export class LoginService {
     }
 
     setUserProfile(socialUser: SocialUser) {
-        this.user = new UserModel(socialUser.name,
+        this.user = new UserModel(null,
+            socialUser.email,
             socialUser.firstName,
             socialUser.lastName,
-            socialUser.email,
-            socialUser.photoUrl, []);
+            'USER');
     }
 
     getUserProfile() {

@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {Router} from '@angular/router';
-import {LoginService} from '../services/login.service';
+import {LoginService} from '../z-services/login.service';
 
 @Component({
   selector: 'app-register',
@@ -28,7 +28,7 @@ export class RegisterComponent implements OnInit {
 
     if(referralCode === '12345') {
 
-      this.username = this.loginService.getUserProfile().email;
+      this.username = this.loginService.getUserProfile().emailId;
       this.registeredUsers = this.loginService.getRegisteredUsers();
 
       if (this.registeredUsers.includes(this.username)) {

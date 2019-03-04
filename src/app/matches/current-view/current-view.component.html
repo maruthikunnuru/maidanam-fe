@@ -1,33 +1,16 @@
  <!-- 1st Match -->
- <div class="container-fluid">
+ <div class="container-fluid" *ngFor="let match of currentMatches; let i = index">
   <div class="row no-gutters open-close-container col-sm-8 col-md-6 col-lg-4 mx-auto">
     <div class="d-flex-column" style="width:100%;">
       <div>
-        <p style="font-weight:normal;font-family: 'Ubuntu', sans-serif;" class="text-center">Today<br>20:00 IST</p>
+        <p style="font-weight:normal;font-family: 'Ubuntu', sans-serif;" class="text-center">{{match.localDate}}<br>{{match.localTime}}</p>
       </div>
     
       <div class="d-flex justify-content-around">
-        <img class="img-fluid" src="assets/images/Chennai Super Kings.jpg" style="max-height: 111px;border-radius:15px;box-shadow:0px 0px 5px 1px #dddddd;">
+        <img class="img-fluid rounded" [src]="'assets/images/' + match.team1.teamShortName + '.jpg'" style="max-height: 111px;border-radius:15px;box-shadow:0px 0px 5px 1px #dddddd;">
         <p style="font-weight:normal;font-family: 'Ubuntu', sans-serif;" class="align-self-center">vs</p>
-        <img class="img-fluid" src="assets/images/Mumbai Indians.jpg" style="max-height: 111px;border-radius:15px;box-shadow:0px 0px 5px 1px #dddddd;">
+        <img class="img-fluid rounded" [src]="'assets/images/' + match.team2.teamShortName + '.jpg'" style="max-height: 111px;border-radius:15px;box-shadow:0px 0px 5px 1px #dddddd;">
       </div>
     </div>
   </div>
-</div>  
-
-<!-- Current Match view - 2nd Match -->
-<div class="container-fluid">
-    <div class="row no-gutters open-close-container col-sm-8 col-md-6 col-lg-4  mx-auto">
-      <div class="d-flex-column" style="width:100%;">
-        <div>
-          <p style="font-weight:normal;font-family: 'Ubuntu', sans-serif;" class="text-center">Tomorrow<br>19:00 IST</p>
-        </div>
-      
-        <div class="d-flex justify-content-around">
-          <img class="img-fluid rounded-circle" src="assets/images/Mumbai Indians.jpg" style="max-height: 111px;border-radius:15px;box-shadow:0px 0px 5px 1px #dddddd;">
-          <p style="font-weight:normal;font-family: 'Ubuntu', sans-serif;" class="align-self-center">vs</p>
-          <img class="img-fluid rounded-circle" src="assets/images/Kolkata Knight Riders.jpg" style="max-height: 111px;border-radius:15px;box-shadow:0px 0px 5px 1px #dddddd;">
-        </div>
-      </div>
-    </div>
-  </div>  
+</div>

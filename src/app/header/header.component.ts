@@ -1,8 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService, GoogleLoginProvider, SocialUser} from 'angularx-social-login';
 import {Router} from '@angular/router';
-import {UserModel} from '../shared/user.model';
-import {LoginService} from '../services/login.service';
+import {LoginService} from '../z-services/login.service';
 import {Subscription} from 'rxjs';
 
 @Component({
@@ -48,7 +47,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   signOut(): void {
     if (this.loggedIn) {
-      confirm('Do you want to signout Mr.' + this.loginService.getUserProfile().displayName)
+      confirm('Do you want to signout Mr.' + this.loginService.getUserProfile().firstName)
       this.authService.signOut();
     }
   }

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {SocialLoginModule, AuthServiceConfig, LoginOpt, GoogleLoginProvider} from 'angularx-social-login';
+import { SocialLoginModule, AuthServiceConfig, LoginOpt, GoogleLoginProvider} from 'angularx-social-login';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -10,15 +10,18 @@ import { PredictionsComponent } from './predictions/predictions.component';
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 import { HomeComponent } from './home/home.component';
 import { FormsModule } from '@angular/forms';
-import { DropdownDirective } from './shared/dropdown.directive';
+import { DropdownDirective } from './z-models/dropdown.directive';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { RegisterComponent } from './register/register.component';
 import { ManageGroupsComponent } from './manage-groups/manage-groups.component';
-import {LoginService} from './services/login.service';
+import { LoginService} from './z-services/login.service';
 import { MatchesComponent } from './matches/matches.component';
 import { CurrentViewComponent } from './matches/current-view/current-view.component';
 import { ListViewComponent } from './matches/list-view/list-view.component';
 import { PlayerHistoryComponent } from './player-history/player-history.component';
+import { ScoreboardService} from './z-services/scoreboard.service';
+import { MatchesService} from './z-services/matches.service';
+import { PlayerHistoryService} from './z-services/player-history.service';
 
 const googleLoginOptions: LoginOpt = {
   scope: 'profile email',
@@ -42,8 +45,8 @@ export function provideConfig() {
     PredictionsComponent,
     ScoreboardComponent,
     HomeComponent,
-    DropdownDirective,
     ErrorPageComponent,
+    DropdownDirective,
     RegisterComponent,
     ManageGroupsComponent,
     MatchesComponent,
@@ -63,7 +66,10 @@ export function provideConfig() {
       provide: AuthServiceConfig,
       useFactory: provideConfig
     },
-    LoginService
+    LoginService,
+    ScoreboardService,
+    MatchesService,
+    PlayerHistoryService
   ],
   bootstrap: [AppComponent]
 })

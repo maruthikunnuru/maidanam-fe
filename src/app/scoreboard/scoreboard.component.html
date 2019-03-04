@@ -19,16 +19,19 @@
     <tr>
       <th scope="col">Rank</th>
       <th scope="col">Player</th>
-      <th scope="col">Coins</th>
-      <th scope="col">Change</th>
+      <th scope="col">Effective Coins</th>
+      <th scope="col">Total Coins</th>
+      <th scope="col">Total Loan</th>
+
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let score of scores">
-      <td>{{score.rank}}</td>
-      <td>{{score.player}}</td>
-      <td>{{score.coins}}</td>
-      <td>{{score.change}}</td>
+      <td>{{score.rankNumber}}</td>
+      <td>{{score.user.firstName}}</td>
+      <td>{{score.effectiveCoins}}</td>
+      <td>{{score.totalCoins}}</td>
+      <td>{{score.totalLoan}}</td>
     </tr>
     </tbody>
   </table>
