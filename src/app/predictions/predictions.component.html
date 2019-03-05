@@ -1,3 +1,105 @@
-<div style="text-align:center">
-  <h1>Predictions !!</h1>
-</div>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
+<div class="container-fluid">
+  <div class="d-flex col-sm-8 col-md-6 col-lg-4 mx-auto">
+    <div class="d-flex-column" style="width:100%;">
+      <div>
+        <h4  class="text-center">Predictions</h4>
+      </div>
+      <br>
+
+      <div class="d-flex-column justify-content-around">
+        <div class="d-flex" style="width:100%;">
+          <div class="align-self-start" style="width:40%;font-size:1.4em;font-weight:normal;font-family: 'Ubuntu', sans-serif;">
+            Winner
+          </div>
+          <div class="d-flex justify-content-end" style="width:60%;">
+              <div class="btn-group btn-group-toggle" data-toggle="buttons" style="width:90%;">
+                  <label class="btn btn-outline-success btn-sm active" >
+                    <input type="radio" name="options" id="option1" autocomplete="off" checked> CSK
+                  </label>
+                  <label class="btn btn-outline-success btn-sm"  >
+                    <input type="radio" name="options" id="option2" autocomplete="off"> RCB
+                  </label>
+                  
+              </div>
+          </div>
+
+        </div>
+
+        <br>
+
+        <div class="d-flex" style="width:100%;">
+            <div class="d-flex justify-content-start align-items-center" style="width:40%;font-size:1.4em;font-weight:normal;font-family: 'Ubuntu', sans-serif;">
+              Margin
+              <i class="material-icons">
+                  info
+                  </i> 
+            </div>
+            <div class="d-flex justify-content-end" style="width:60%;padding:1%;">
+                <div class="btn-group btn-group-toggle" data-toggle="buttons" style="width:90%;">
+                    <label class="btn btn-outline-dark btn-sm" style="font-size:0.7em;" >
+                      <input type="radio" name="optionsM" id="option1M" autocomplete="off" checked> Easy
+                    </label>
+                    <label class="btn btn-outline-dark btn-sm" style="font-size:0.7em;" >
+                      <input type="radio" name="optionsM" id="option2M" autocomplete="off"> Medium
+                    </label>
+                    <label class="btn btn-outline-dark btn-sm active" style="font-size:0.7em;">
+                        <input type="radio" name="optionsM" id="option3M" autocomplete="off"> Hard
+                      </label>
+                    
+                </div>
+            </div>
+
+          </div>
+
+          <br>
+
+          <div class="d-flex" style="width:100%;">
+            <div class="d-flex align-items-center" style="width:40%;font-size:1.4em;font-weight:normal;font-family: 'Ubuntu', sans-serif;">
+              Coins
+            </div>
+            <div class="d-flex justify-content-end" style="width:60%;">
+              <mat-slider 
+                  thumbLabel
+                  tickInterval="100"
+                  min="0"
+                  max="10000"
+                  step="100"
+                  (change)='changeSlide($event)'
+                  value="3000"
+                  [displayWith]="formatLabel"
+                  >
+              </mat-slider>
+            </div>
+          </div>
+
+          <br>
+
+          <div class="d-flex" style="width:100%;">
+            <div class="d-flex justify-content-start align-items-center" style="width:40%;font-size:1.4em;font-weight:normal;font-family: 'Ubuntu', sans-serif;">
+              Target
+            </div>
+            <div class="d-flex justify-content-end" style="width:60%;padding:1%;">
+              <mat-form-field>
+                <mat-select>
+                  <mat-option *ngFor="let player of players" [value]="player">
+                    {{player}}
+                  </mat-option>
+                  
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>    
+          
+              <br>
+
+            <div class="d-flex justify-content-center align-items-center">
+                <input class="btn btn-primary btn-block" type="button" value="Submit">
+            </div>
+
+      </div>
+    </div>
+  </div>
+</div>  
