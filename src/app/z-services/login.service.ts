@@ -15,18 +15,23 @@ export class LoginService {
 
     isRegisteredUser(username: string) {
         if (this.users.includes(username)) {
-            return true;
+            return true; //groups data
         } else {
-            return false;
+            return false; //null groups
         }
     }
 
     setUserProfile(socialUser: SocialUser) {
-        this.user = new UserModel(null,
-            socialUser.email,
+
+        // groups = api call(socialUser.email)
+
+        this.user = new UserModel(socialUser.email,
             socialUser.firstName,
             socialUser.lastName,
-            'USER');
+            socialUser.email,
+            'USER', []);
+
+
     }
 
     getUserProfile() {

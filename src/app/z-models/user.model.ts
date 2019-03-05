@@ -1,26 +1,20 @@
+import {GroupModel} from './group.model';
+
 export class UserModel {
-    public userId: number;
     public userName: string;
     public firstName: string;
     public lastName: string;
     public emailId: string;
-    public referenceCd: string;
-    public totalCoins: number;
-    public totalLoan: number;
-    public effectiveCoins: number;
     public userRole: string;
-    public groups: string[];
+    public groups: GroupModel[];
 
 
-    constructor(userId: number, userName: string,
-                firstName: string, lastName: string,
-                userRole: string) {
-        this.userId = userId;
+    constructor(userName: string, firstName: string, lastName: string, emailId: string, userRole: string, groups: GroupModel[]) {
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.emailId = emailId;
         this.userRole = userRole;
+        this.groups = groups;
     }
-
-
 }

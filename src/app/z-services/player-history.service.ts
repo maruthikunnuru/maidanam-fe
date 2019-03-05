@@ -1,44 +1,44 @@
 import {Injectable} from '@angular/core';
+import {MatchModel} from '../z-models/match.model';
+import {TeamModel} from '../z-models/team.model';
+import {HistoryModel} from '../z-models/history.model';
+
 // import {Headers, Http} from '@angular/http';
-import {PlayerModel} from '../z-models/player.model';
-import {TeamStatsModel} from '../z-models/team-stats.model';
-import {ChallengeStatsModel} from '../z-models/challenge-stats.model';
-import {MatchStatsModel} from '../z-models/match-stats.model';
 
 @Injectable()
 export class PlayerHistoryService {
     constructor() {}
 
-    player: PlayerModel = new PlayerModel(
-        'Vinod Aripaka', 'JNTU', 1, 90, 2500, 1000, 500, 500 , 1500,
-        [ new TeamStatsModel('MI', 5),
-            new TeamStatsModel('CSK', 3),
-            new TeamStatsModel('KKR', 4),
-            new TeamStatsModel('SRH', 2),
-            new TeamStatsModel('RCB', 1),
-            new TeamStatsModel('RR', 4),
-            new TeamStatsModel('DD', 3),
-            new TeamStatsModel('KXIP', 2)
-        ],
-        [ new ChallengeStatsModel('Uma', 2),
-            new ChallengeStatsModel('Harish', 3),
-            new ChallengeStatsModel('Pradeep', 1),
-            new ChallengeStatsModel('Viswa', 0)
-        ],
-        [ new MatchStatsModel('CSK vs MI', 'MI', 1000),
-            new MatchStatsModel('RR vs RCB', 'RCB', 1000),
-            new MatchStatsModel('KXIP vs KKR', 'KKR', 500),
-            new MatchStatsModel('SRH vs DD', 'SRH', 700)
-        ]
-    );
+    private history: HistoryModel[] = [
+        new HistoryModel('vinod.aripaka@gmail.com', 'Vinod', 'Aripaka',
+            new MatchModel(1, 'R1', 'C',
+                new TeamModel(111, 'CSK'), new TeamModel(222, 'MI'),
+                new TeamModel(222, 'MI'),
+                '23th Mar', '15:00 IST', 'Won by 3 wickets', 'R', null, null, ''),
+            1000, 'BONUS'),
+        new HistoryModel('vinod.aripaka@gmail.com', 'Vinod', 'Aripaka',
+            new MatchModel(2, 'R1', 'C',
+                new TeamModel(333, 'RR'), new TeamModel(444, 'KXIP'),
+                new TeamModel(444, 'KXIP'),
+                '23th Mar', '20:00 IST', 'Won by 20 runs', 'R', null, null, ''),
+            500, 'BONUS'),
+        new HistoryModel('vinod.aripaka@gmail.com', 'Vinod', 'Aripaka',
+            new MatchModel(3, 'R1', 'C',
+                new TeamModel(555, 'RCB'), new TeamModel(666, 'DC'),
+                new TeamModel(555, 'RCB'),
+                '24th Mar', '15:00 IST', 'Won by 50 runs', 'R', null, null, ''),
+            800, 'BONUS'),
+        new HistoryModel('vinod.aripaka@gmail.com', 'Vinod', 'Aripaka',
+            new MatchModel(3, 'R1', 'C',
+                new TeamModel(777, 'SRH'), new TeamModel(888, 'KKR'),
+                new TeamModel(777, 'SRH'),
+                '24th Mar', '20:00 IST', 'Won by 3 wickets', 'R', null, null, ''),
+            1500, 'BONUS')
+    ];
 
-    // getUserCoinHistory(userId: number, groupId: number) {
-    //     const headers = new Headers({'userId': userId});
-    //     // return this.http.get('http://localhost:8080/groups/' + groupId + '/users/' + userId + '/userCoinHistory', {headers: headers});
-    // }
-    //
-    // getPlayerHistory(userId: number, groupId: number) {
-    //     const headers = new Headers({'userId': userId});
-    //     // return this.http.get('http://localhost:8080/groups/' + groupId + '/users/' + userId, {headers: headers});
-    // }
+    getPlayerHistory(userId: number, groupId: number) {
+        // const headers = new Headers({'userId': userId})
+        // return this.http.get('http://localhost:8080/groups/' + groupId + '/users/' + userId, {headers: headers});
+        return this.history.slice();
+    }
 }
