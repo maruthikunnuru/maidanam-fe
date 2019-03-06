@@ -8,7 +8,7 @@ import {MatTableModule} from '@angular/material/table';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { PredictionsComponent } from './predictions/predictions.component';
+import { PredictionsComponent } from './matches/predictions/predictions.component';
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 import { HomeComponent } from './home/home.component';
 import { FormsModule } from '@angular/forms';

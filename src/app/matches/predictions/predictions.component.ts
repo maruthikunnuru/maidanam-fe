@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {MatchModel} from '../z-models/match.model';
-import {MatchesService} from '../z-services/matches.service';
+import {MatchModel} from '../../z-models/match.model';
+import {MatchesService} from '../../z-services/matches.service';
 
 export interface PeriodicElement {
   player: string;
@@ -67,7 +67,7 @@ export class PredictionsComponent implements OnInit {
             }
         );
 
-    this.selectedMatch = this.matchesService.getMatchById(7, 111111);
+    this.selectedMatch = this.matchesService.getMatchById(this.matchId, 111111);
     console.log(this.selectedMatch);
   }
 
