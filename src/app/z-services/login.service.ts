@@ -5,7 +5,7 @@ import {UserModel} from '../z-models/user.model';
 @Injectable()
 export class LoginService {
 
-    user: UserModel;
+    public user: UserModel;
     private users: string[] = [
         'vinod.aripaka@gmail.com',
         'alurisankar@gmail.com'
@@ -30,8 +30,6 @@ export class LoginService {
             socialUser.lastName,
             socialUser.email,
             'USER', []);
-
-
     }
 
     getUserProfile() {

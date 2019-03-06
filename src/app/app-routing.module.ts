@@ -12,7 +12,12 @@ import {PlayerHistoryComponent} from './player-history/player-history.component'
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full'},
   { path: 'home', component: HomeComponent },
-  { path: 'matches', component: MatchesComponent },
+  { path: 'matches',
+    component: MatchesComponent,
+    children: [
+      { path: ':id/predictions', component: PredictionsComponent }
+    ]
+  },
   { path: 'predictions', component: PredictionsComponent },
   { path: 'scoreboard', component: ScoreboardComponent},
   { path: 'register', component: RegisterComponent},

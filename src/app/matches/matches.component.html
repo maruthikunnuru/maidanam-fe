@@ -60,11 +60,11 @@
 <div class="container-fluid">
   <div class="d-flex justify-content-center">
   <div class="btn-group  btn-group-toggle">
-      <label class="btn btn-outline-info" [ngClass] = "{'active':currentView}" style="width:80px;">
+      <label class="btn btn-outline-info" [ngClass] = "{'active':currentView}" style="width:80px; cursor: pointer;">
         <input type="radio" name="options" id="option1" checked (click)="changeView($event)" value="current"> Current
       </label>
     
-      <label class="btn btn-outline-info"  [ngClass] = "{'active':listView}" style="width:80px;">
+      <label class="btn btn-outline-info"  [ngClass] = "{'active':listView}" style="width:80px; cursor: pointer;">
         <input type="radio" name="options" id="option2" autocomplete="off" (click)="changeView($event)" value="all">All
       </label>
       

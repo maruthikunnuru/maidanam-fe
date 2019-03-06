@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {MatchModel} from "../../z-models/match.model";
 import {MatchesService} from "../../z-services/matches.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-list-view',
@@ -9,13 +10,21 @@ import {MatchesService} from "../../z-services/matches.service";
 })
 export class ListViewComponent implements OnInit {
 
-  constructor(private matchesService: MatchesService) { }
+  selectedMatch: MatchModel;
+
+  constructor(private matchesService: MatchesService,
+              private router: Router) { }
 
   allMatches: MatchModel[];
 
   ngOnInit() {
     this.allMatches = this.matchesService.getMatches(111111);
-    console.log(this.allMatches);
+  }
+
+  onMatchClick(matchId: number) {
+    this.selectedMatch = this.matchesService.getMatchById(matchId, 111111);
+    console.log(this.selectedMatch);
+    this.router.navigate(['/predictions']);
   }
 
 }
