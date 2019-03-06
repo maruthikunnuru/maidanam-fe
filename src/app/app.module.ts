@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { SocialLoginModule, AuthServiceConfig, LoginOpt, GoogleLoginProvider} from 'angularx-social-login';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSelectModule, MatSliderModule} from '@angular/material';
+import {MatTableModule} from '@angular/material/table';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -62,7 +63,8 @@ export function provideConfig() {
     AppRoutingModule,
     SocialLoginModule,
     MatSelectModule,
-    MatSliderModule
+    MatSliderModule,
+    MatTableModule
   ],
   providers: [
     {

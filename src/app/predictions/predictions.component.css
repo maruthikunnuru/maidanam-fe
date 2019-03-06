@@ -5,3 +5,7 @@
  .mat-slider-horizontal {
     width: 100%;
   }
+
+  td, span {
+    font-family: 'Ubuntu', sans-serif;
+  }
