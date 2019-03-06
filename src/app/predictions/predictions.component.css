@@ -3,7 +3,7 @@
  }
 
 .mat-slider-horizontal {
-width: 100%;
+    width: 100%;
 }
 
 .open-close-container {
@@ -23,3 +23,8 @@ width: 100%;
     font-family: 'Roboto Mono', monospace;
     font-family: 'Nova Mono', monospace;
 }
+
+td, span {
+    font-family: 'Ubuntu', sans-serif;
+}
+
