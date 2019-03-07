@@ -1,4 +1,5 @@
 import {TeamModel} from './team.model';
+import {OddsModel} from "./odds.model";
 
 export class MatchModel {
     public matchId: number;
@@ -11,12 +12,12 @@ export class MatchModel {
     public localTime: string;
     public matchResult: string;
     public resultType: string;
-    public oddsTeam1: TeamModel;
-    public oddsTeam2: TeamModel;
+    public oddsTeam1: OddsModel;
+    public oddsTeam2: OddsModel;
     public additionalInfo: string;
 
 
-    constructor(matchId: number, matchLevel: string, matchStatus: string, team1: TeamModel, team2: TeamModel, winner: TeamModel, localDate: string, localTime: string, matchResult: string, resultType: string, oddsTeam1: TeamModel, oddsTeam2: TeamModel, additionalInfo: string) {
+    constructor(matchId: number, matchLevel: string, matchStatus: string, team1: TeamModel, team2: TeamModel, winner: TeamModel, localDate: string, localTime: string, matchResult: string, resultType: string, oddsTeam1: OddsModel, oddsTeam2: OddsModel, additionalInfo: string) {
         this.matchId = matchId;
         this.matchLevel = matchLevel;
         this.matchStatus = matchStatus;

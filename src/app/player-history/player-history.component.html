@@ -18,56 +18,29 @@
       </div>
     </div>
   </div>
-  <!--<div class="table-responsive-sm">-->
-    <!--<table class="table table-borderless table-secondary">-->
-      <!--<tr>-->
-        <!--<td>-->
-          <!--<h4 style="color:blue" >Rank : {{player.rank}} </h4>-->
-        <!--</td>-->
-        <!--<td>-->
-          <!--<h6 style="color:blue">Coins : {{player.coins}} </h6>-->
-        <!--</td>-->
-        <!--<td>-->
-          <!--<h6 style="color:blue">Loan : {{player.loan}} </h6>-->
-        <!--</td>-->
-
-      <!--</tr>-->
-      <!--<tr>-->
-        <!--<td>-->
-          <!--<h4 style="color:blue" >Success : {{player.successRate}}% </h4>-->
-        <!--</td>-->
-        <!--<td>-->
-          <!--<h6 style="color:blue">Winners : {{player.winners}} </h6>-->
-        <!--</td>-->
-        <!--<td>-->
-          <!--<h6 style="color:blue">Bonus : {{player.bonus}} </h6>-->
-        <!--</td>-->
-        <!--<td>-->
-          <!--<h6 style="color:blue">Challenges : {{player.challenges}} </h6>-->
-        <!--</td>-->
-      <!--</tr>-->
-    <!--</table>-->
-  <!--</div>-->
-
   <hr>
   <div class="table-responsive-sm">
     <table class="table table-bordered table-warning">
       <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Match</th>
+        <th scope="col">Team1</th>
+        <th scope="col">Team2</th>
         <th scope="col">Winner</th>
-        <th scope="col">Coins Won</th>
-        <th scope="col">Win/Bonus/Challenge</th>
+        <th scope="col">Challenger</th>
+        <th scope="col">Total Coins Won</th>
+        <th scope="col">By Win/Margin/Challenge</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let ht of historyList; let i = index">
-        <td>{{i+1}}</td>
-        <td>{{ht.match.team1.teamName}} vs {{ht.match.team2.teamName}}</td>
-        <td>{{ht.match.winner.teamName}}</td>
-        <td>{{ht.coinMovement}}</td>
-        <td>{{ht.movementType}}</td>
+        <td><a role="link" (click)="onMatchClick(ht.prediction.match.matchId)" style="cursor: pointer; color: blue;">{{i+1}}</a></td>
+        <td>{{ht.prediction.match.team1.teamName}}</td>
+        <td>{{ht.prediction.match.team2.teamName}}</td>
+        <td>{{ht.prediction.match.winner.teamName}}</td>
+        <td>{{ht.prediction.challengedUser.firstName}} {{ht.prediction.challengedUser.lastName}}</td>
+        <td>{{ht.totalCoinsWon}}</td>
+        <td>{{ht.coinsWonByWin}} / {{ht.coinsWonByMargin}} / {{ht.coinsWonByChallenge}}</td>
       </tr>
       </tbody>
     </table>

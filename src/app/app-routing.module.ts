@@ -18,7 +18,8 @@ const appRoutes: Routes = [
   { path: 'register', component: RegisterComponent},
   { path: 'error', component: ErrorPageComponent},
   { path: 'groups', component: ManageGroupsComponent},
-  { path: 'player', component: PlayerHistoryComponent}
+  { path: 'history', component: PlayerHistoryComponent},
+  { path: 'history/:id/predictions', pathMatch: 'full', component: PredictionsComponent }
 ];
 
 @NgModule({

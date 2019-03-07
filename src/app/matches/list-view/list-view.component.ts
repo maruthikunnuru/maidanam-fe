@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {MatchModel} from "../../z-models/match.model";
 import {MatchesService} from "../../z-services/matches.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-list-view',
@@ -13,7 +13,7 @@ export class ListViewComponent implements OnInit {
   selectedMatch: MatchModel;
 
   constructor(private matchesService: MatchesService,
-              private router: Router) { }
+              private router: Router, private route: ActivatedRoute) { }
 
   allMatches: MatchModel[];
 
@@ -22,9 +22,7 @@ export class ListViewComponent implements OnInit {
   }
 
   onMatchClick(matchId: number) {
-    this.selectedMatch = this.matchesService.getMatchById(matchId, 111111);
-    console.log(this.selectedMatch);
-    this.router.navigate(['/predictions']);
+    this.router.navigate([matchId + '/predictions'], {relativeTo: this.route});
   }
 
 }

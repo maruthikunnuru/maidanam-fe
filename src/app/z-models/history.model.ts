@@ -1,22 +1,24 @@
-import {MatchModel} from './match.model';
+import {PredictionModel} from './prediction.model';
+import {UserModel} from "./user.model";
 
 export class HistoryModel {
 
-    public userName: string;
-    public firstName: string;
-    public lastName: string;
-    public match: MatchModel;
-    public coinMovement: number;
-    public movementType: string;
+    public user: UserModel;
+    public prediction: PredictionModel;
+    public totalCoinsWon: number;
+    public coinsWonByWin: number;
+    public coinsWonByMargin: number;
+    public coinsWonByChallenge: number;
 
 
-    constructor(userName: string, firstName: string, lastName: string, match: MatchModel, coinMovement: number, movementType: string) {
-        this.userName = userName;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.match = match;
-        this.coinMovement = coinMovement;
-        this.movementType = movementType;
+    constructor(user: UserModel, prediction: PredictionModel, totalCoinsWon: number,
+                coinsWonByWin: number, coinsWonByMargin: number, coinsWonByChallenge: number) {
+        this.user = user;
+        this.prediction = prediction;
+        this.totalCoinsWon = totalCoinsWon;
+        this.coinsWonByMargin = coinsWonByMargin;
+        this.coinsWonByWin = coinsWonByWin;
+        this.coinsWonByChallenge = coinsWonByChallenge;
     }
 }
 
