@@ -36,16 +36,16 @@ export class RegisterComponent implements OnInit {
           );
 
 
-      this.user = this.loginService.getUserProfile();
-      this.registeredUsers = this.loginService.getRegisteredUsers();
-
-      if (this.registeredUsers.includes(this.user.userName)) {
-        alert('You are already a registered User');
-
-      } else {
-        this.loginService.registerUser(this.user.userName, this.user.firstName, this.user.lastName, '12345');
-        alert('You are successfully registered into Maidanam');
-      }
+      // this.user = this.loginService.getUserProfile();
+      // this.registeredUsers = this.loginService.getRegisteredUsers();
+      //
+      // if (this.registeredUsers.includes(this.user.userName)) {
+      //   alert('You are already a registered User');
+      //
+      // } else {
+      //   this.loginService.registerUser(this.user.userName, this.user.firstName, this.user.lastName, '12345');
+      //   alert('You are successfully registered into Maidanam');
+      // }
       this.router.navigate(['/home']);
     } else {
       this.router.navigate(['/error']);
