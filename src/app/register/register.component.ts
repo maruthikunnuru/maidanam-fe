@@ -27,7 +27,14 @@ export class RegisterComponent implements OnInit {
     const value = form.value;
     const referralCode = value.refCode;
 
-    if(referralCode === '12345') {
+    if (referralCode === '12345') {
+
+      this.loginService.getGroupList()
+          .subscribe(
+              (response) => console.log(response),
+              (error) => console.log(error)
+          );
+
 
       this.user = this.loginService.getUserProfile();
       this.registeredUsers = this.loginService.getRegisteredUsers();

@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {SocialUser} from 'angularx-social-login';
 import {UserModel} from '../z-models/user.model';
-import {GroupModel} from "../z-models/group.model";
+import {GroupModel} from '../z-models/group.model';
+import {Headers, Http} from '@angular/http';
 
 @Injectable()
 export class LoginService {
@@ -12,7 +13,7 @@ export class LoginService {
         'alurisankar@gmail.com'
     ];
 
-    constructor() { }
+    constructor(private http: Http) { }
 
     isRegisteredUser(username: string): boolean {
         if (this.users.includes(username)) {
@@ -45,9 +46,9 @@ export class LoginService {
         return this.users.slice();
     }
 
-    // getGroupList(userName: string): GroupModel[] {
-    //     return null;
-    // }
+    getGroupList() {
+        return this.http.get('http://app-server.test.maidanam.com:8081/groups/');
+    }
 
     getUserList(groupId: number): GroupModel[] {
         return null;
