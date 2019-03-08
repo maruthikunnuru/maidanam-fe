@@ -47,7 +47,7 @@ export class LoginService {
     }
 
     getGroupList() {
-        return this.http.get('http://app-server.test.maidanam.com:8081/groups/');
+        return this.http.get('http://13.58.124.107:8081/groups/');
     }
 
     getUserList(groupId: number): GroupModel[] {
