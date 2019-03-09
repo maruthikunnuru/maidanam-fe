@@ -17,9 +17,9 @@ export class LoginService {
 
     isRegisteredUser(username: string): boolean {
         if (this.users.includes(username)) {
-            return true; //groups data
+            return true; // groups data
         } else {
-            return false; //null groups
+            return false; // null groups
         }
     }
 

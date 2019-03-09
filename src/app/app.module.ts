@@ -5,6 +5,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSelectModule, MatSliderModule} from '@angular/material';
 import {MatTableModule} from '@angular/material/table';
 import { HttpModule } from '@angular/http';
+import {MatStepperModule} from '@angular/material/stepper';
+import { MatFormFieldModule, MatInputModule } from '@angular/material';
+import {MatButtonModule} from '@angular/material/button';
+
+
+
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,7 +19,7 @@ import { HeaderComponent } from './header/header.component';
 import { PredictionsComponent } from './matches/predictions/predictions.component';
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 import { HomeComponent } from './home/home.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DropdownDirective } from './z-models/dropdown.directive';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { RegisterComponent } from './register/register.component';
@@ -66,7 +73,12 @@ export function provideConfig() {
     MatSelectModule,
     MatSliderModule,
     MatTableModule,
-    HttpModule
+    HttpModule,
+    MatStepperModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule
   ],
   providers: [
     {
