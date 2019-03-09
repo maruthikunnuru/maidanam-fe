@@ -1,3 +1,52 @@
+
+<mat-vertical-stepper [linear]="isLinear" [selectedIndex]=1 #stepper>
+  
+  
+  <mat-step [completed]=true>
+    <ng-template matStepLabel>Welcome Vinodh ! </ng-template>
+    Your Google Authentication is successful.
+    <div>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+  
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup" (ngSubmit)="onRegister(r)" #r="ngForm">
+      <ng-template matStepLabel>Enter Your Referral Code</ng-template>
+      <mat-form-field>
+        <input id="refCode" matInput placeholder="Referral Code" formControlName="secondCtrl" required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="thirdFormGroup">
+      <form [formGroup]="thirdFormGroup" (ngSubmit)="onRegister(r)" #r="ngForm">
+        <ng-template matStepLabel>Enter Your Display Name</ng-template>
+        <mat-form-field>
+          <input id="refCode" matInput placeholder="A Funky Name Please" formControlName="thirdCtrl" required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    Registration complete !
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-vertical-stepper>
+
+
+
+<!--
 <div class="container">
   <div class="row">
     <div class="col-xs-12">
@@ -18,3 +67,5 @@
     </div>
   </div>
 </div>
+
+-->

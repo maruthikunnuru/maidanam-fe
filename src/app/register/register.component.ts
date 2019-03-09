@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {NgForm} from '@angular/forms';
+import {NgForm, FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {LoginService} from '../z-services/login.service';
-import {UserModel} from "../z-models/user.model";
+import {UserModel} from '../z-models/user.model';
 
 @Component({
   selector: 'app-register',
@@ -13,25 +13,33 @@ export class RegisterComponent implements OnInit {
 
   @ViewChild('r') loginForm: NgForm;
 
+  isLinear = true;
+  secondFormGroup: FormGroup;
+  thirdFormGroup: FormGroup;
 
   user: UserModel;
   registeredUsers: string[];
 
   constructor(private router: Router,
-              private loginService: LoginService) { }
+              private loginService: LoginService,
+              private _formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.secondFormGroup = this._formBuilder.group({
+      secondCtrl: ['', Validators.required]
+    });
   }
 
   onRegister(form: NgForm) {
+    console.log(form);
     const value = form.value;
-    const referralCode = value.refCode;
+    // const referralCode = value.refCode;
+    const referralCode = value.secondCtrl;
 
     if (referralCode === '12345') {
-
       this.loginService.getGroupList()
           .subscribe(
-              (response) => console.log(response),
+             (response) => console.log(response),
               (error) => console.log(error)
           );
 
@@ -46,7 +54,8 @@ export class RegisterComponent implements OnInit {
       //   this.loginService.registerUser(this.user.userName, this.user.firstName, this.user.lastName, '12345');
       //   alert('You are successfully registered into Maidanam');
       // }
-      this.router.navigate(['/home']);
+      // below commented by Uma
+      // this.router.navigate(['/home']);
     } else {
       this.router.navigate(['/error']);
     }
