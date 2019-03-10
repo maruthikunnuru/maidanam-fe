@@ -1,18 +1,21 @@
 export class GroupModel {
     public groupId: number;
-    public userId: number;
     public groupName: string;
-    public defaultInd: boolean;
-    public groupCode: string;
-    public isActive: boolean;
+    public referenceCds: string;
+    public coinsToPurchase: number;
+    public coinsPrice: number;
+    public groupStatus: string;
+    public defaultCoins: number;
 
-
-    constructor(groupId: number, userId: number, groupName: string, defaultInd: boolean, groupCode: string, isActive: boolean) {
+    constructor(groupId: number, groupName: string, referenceCds: string,
+                coinsToPurchase: number, coinsPrice: number, groupStatus: string,
+                defaultCoins: number) {
         this.groupId = groupId;
-        this.userId = userId;
         this.groupName = groupName;
-        this.defaultInd = defaultInd;
-        this.groupCode = groupCode;
-        this.isActive = isActive;
+        this.referenceCds = referenceCds;
+        this.coinsToPurchase = coinsToPurchase;
+        this.coinsPrice = coinsPrice;
+        this.groupStatus = groupStatus;
+        this.defaultCoins = defaultCoins;
     }
 }

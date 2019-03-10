@@ -32,6 +32,8 @@ import { PlayerHistoryComponent } from './player-history/player-history.componen
 import { ScoreboardService} from './z-services/scoreboard.service';
 import { MatchesService} from './z-services/matches.service';
 import { PlayerHistoryService} from './z-services/player-history.service';
+import { AlertComponent } from './alert/alert.component';
+import {AuthGuard} from "./z-services/auth.guard";
 
 const googleLoginOptions: LoginOpt = {
   scope: 'profile email',
@@ -62,7 +64,8 @@ export function provideConfig() {
     MatchesComponent,
     CurrentViewComponent,
     ListViewComponent,
-    PlayerHistoryComponent
+    PlayerHistoryComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -88,7 +91,8 @@ export function provideConfig() {
     LoginService,
     ScoreboardService,
     MatchesService,
-    PlayerHistoryService
+    PlayerHistoryService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

@@ -1,47 +1,47 @@
 
-<mat-vertical-stepper [linear]="isLinear" [selectedIndex]=1 #stepper>
+<mat-vertical-stepper [linear]="isLinear" [selectedIndex]=1 #stepper *ngIf="loggedIn">
   
   
   <mat-step [completed]=true>
-    <ng-template matStepLabel>Welcome Vinodh ! </ng-template>
+    <ng-template matStepLabel><b>Welcome {{user.firstName}} {{user.lastName}}! </b></ng-template>
     Your Google Authentication is successful.
     <div>
       <button mat-button matStepperNext>Next</button>
     </div>
   </mat-step>
   
-  <mat-step [stepControl]="secondFormGroup">
-    <form [formGroup]="secondFormGroup" (ngSubmit)="onRegister(r)" #r="ngForm">
+  <mat-step [stepControl]="refFormGroup">
+    <form [formGroup]="refFormGroup" (ngSubmit)="checkRefCode()">
       <ng-template matStepLabel>Enter Your Referral Code</ng-template>
       <mat-form-field>
-        <input id="refCode" matInput placeholder="Referral Code" formControlName="secondCtrl" required>
+        <input id="refCode" matInput placeholder="Referral Code" formControlName="refCode" required>
       </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-button matStepperNext type="submit">Next</button>
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="thirdFormGroup">
-      <form [formGroup]="thirdFormGroup" (ngSubmit)="onRegister(r)" #r="ngForm">
+  <mat-step [stepControl]="dpFormGroup" *ngIf="validRef">
+      <form [formGroup]="dpFormGroup" (ngSubmit)="onRegister()">
         <ng-template matStepLabel>Enter Your Display Name</ng-template>
         <mat-form-field>
-          <input id="refCode" matInput placeholder="A Funky Name Please" formControlName="thirdCtrl" required>
+          <input id="displayName" matInput placeholder="A Funky Name Please" formControlName="displayName" required>
         </mat-form-field>
         <div>
           <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
+          <button mat-button matStepperNext type="submit">Submit</button>
         </div>
       </form>
   </mat-step>
-  <mat-step>
-    <ng-template matStepLabel>Done</ng-template>
-    Registration complete !
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
-    </div>
-  </mat-step>
+  <!--<mat-step>-->
+    <!--<ng-template matStepLabel>Done</ng-template>-->
+    <!--Registration complete !-->
+    <!--<div>-->
+      <!--<button mat-button matStepperPrevious>Back</button>-->
+      <!--<button mat-button (click)="stepper.reset()">Reset</button>-->
+    <!--</div>-->
+  <!--</mat-step>-->
 </mat-vertical-stepper>
 
 

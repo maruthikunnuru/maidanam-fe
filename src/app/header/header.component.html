@@ -62,13 +62,14 @@
     <img src="assets/images/Sumo.jpeg" width="60" height="55">
   </a>
   <form class="form-inline">
-    <button class="btn white" type="button" (click)="signInWithGoogle()">
+    <button class="btn white" (click)="signInWithGoogle()" *ngIf="!loggedIn">
       <a>
         <div class="left">
           <img class="rounded" width="150px" alt="Google &quot;G&quot; Logo" src="assets/images/Google1.png"/>
         </div>
       </a>
     </button>
+    <button class="btn white" (click)="signOut()" *ngIf="loggedIn">Sign Out</button>
 </form>
 </nav>
 

@@ -13,7 +13,7 @@ export class PlayerHistoryService {
     constructor() {}
 
     private history: HistoryModel[] = [
-        new HistoryModel(new UserModel('vinod.aripaka@gmail.com', 'Vinod', 'Aripaka','vinod.aripaka@gmail.com', 'ADMIN'),
+        new HistoryModel(new UserModel('vinod.aripaka@gmail.com', 'Vinod', 'Aripaka','vinod.aripaka@gmail.com', '12345', 'Vinod','ADMIN'),
             new PredictionModel(900, 111111, 123456,
                 new MatchModel(1, 'R1', 'C',
                     new TeamModel(111, 'CSK'),
@@ -22,9 +22,9 @@ export class PlayerHistoryService {
                 '23th Mar', '15:00 IST', 'Won by 3 wickets', 'R',
                 new OddsModel(1.5, 2, 1, 1.5), new OddsModel(1.33, 1.5, 2, 1), ''),
                  1000, new TeamModel(222, 'MI'), 'E',
-                new UserModel('alurisankar@gmail.com', 'Uma', 'Sankar', 'alurisankar@gmail.com', 'USER')),
+                new UserModel('alurisankar@gmail.com', 'Uma', 'Sankar', 'alurisankar@gmail.com', '12345', 'Sankar','USER')),
             1000, 200, 300, 500),
-        new HistoryModel(new UserModel('vinod.aripaka@gmail.com', 'Vinod', 'Aripaka', 'vinod.aripaka@gmail.com', 'ADMIN'),
+        new HistoryModel(new UserModel('vinod.aripaka@gmail.com', 'Vinod', 'Aripaka', 'vinod.aripaka@gmail.com', '12345', 'Vinod','ADMIN'),
             new PredictionModel(901, 111111, 123456,
                 new MatchModel(1, 'R1', 'C',
                     new TeamModel(333, 'RR'),
@@ -33,9 +33,9 @@ export class PlayerHistoryService {
                     '23th Mar', '15:00 IST', 'Won by 50 runs', 'R',
                     new OddsModel(1.5, 2, 1, 1.5), new OddsModel(1.33, 1.5, 2, 1), ''),
                  1000, new TeamModel(444, 'SRH'), 'H',
-                new UserModel('harish.addanki@gmail.com', 'Harish', 'Chandrakanth', 'harish.addanki@gmail.com', 'ADMIN')),
+                new UserModel('harish.addanki@gmail.com', 'Harish', 'Chandrakanth', 'harish.addanki@gmail.com', '12345', 'Harish','ADMIN')),
             -1000, -200, -300, -500),
-        new HistoryModel(new UserModel('vinod.aripaka@gmail.com', 'Vinod', 'Aripaka', 'vinod.aripaka@gmail.com', 'ADMIN'),
+        new HistoryModel(new UserModel('vinod.aripaka@gmail.com', 'Vinod', 'Aripaka', 'vinod.aripaka@gmail.com', '12345', 'Vinod','ADMIN'),
             new PredictionModel(901, 111111, 123456,
                 new MatchModel(1, 'R1', 'C',
                     new TeamModel(555, 'KXIP'),
@@ -44,9 +44,9 @@ export class PlayerHistoryService {
                     '23th Mar', '15:00 IST', 'Won by 1 wicket', 'R',
                     new OddsModel(1.5, 2, 1, 1.5), new OddsModel(1.33, 1.5, 2, 1), ''),
                  1000, new TeamModel(555, 'KKR'), 'M',
-                new UserModel('maruti.kunnuru@gmail.com', 'Maruti', 'Kunnuru', 'maruti.kunnuru@gmail.com', 'USER')),
+                new UserModel('maruti.kunnuru@gmail.com', 'Maruti', 'Kunnuru', 'maruti.kunnuru@gmail.com', '12345', 'Maruti','USER')),
             -200, 200, 100, -500),
-        new HistoryModel(new UserModel('vinod.aripaka@gmail.com', 'Vinod', 'Aripaka', 'vinod.aripaka@gmail.com', 'ADMIN'),
+        new HistoryModel(new UserModel('vinod.aripaka@gmail.com', 'Vinod', 'Aripaka', 'vinod.aripaka@gmail.com', '12345', 'Vinod','ADMIN'),
             new PredictionModel(903, 111111, 123456,
                 new MatchModel(1, 'R1', 'C',
                     new TeamModel(777, 'DC'),
@@ -55,7 +55,7 @@ export class PlayerHistoryService {
                     '23th Mar', '15:00 IST', 'Won by 15 runs', 'R',
                     new OddsModel(1.5, 2, 1, 1.5), new OddsModel(1.33, 1.5, 2, 1), ''),
                 1000, new TeamModel(777, 'DC'), 'E',
-                new UserModel( 'alurisankar@gmail.com', 'Uma', 'Sankar', 'alurisankar@gmail.com', 'USER')),
+                new UserModel( 'alurisankar@gmail.com', 'Uma', 'Sankar', 'alurisankar@gmail.com', '12345', 'Sankar','USER')),
             500, 400, 200, -100)
     ];
 
