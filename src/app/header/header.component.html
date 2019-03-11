@@ -61,7 +61,11 @@
   <a class="navbar-brand" routerLink="/">
     <img src="assets/images/Sumo.jpeg" width="60" height="55">
   </a>
+  <div style="color: darkred" *ngIf="loggedIn">
+    Welcome !! {{ socialUser.name }}
+  </div>
   <form class="form-inline">
+
     <button class="btn white" (click)="signInWithGoogle()" *ngIf="!loggedIn">
       <a>
         <div class="left">

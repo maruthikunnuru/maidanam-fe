@@ -13,23 +13,35 @@
 
   <form (ngSubmit)="onJoin(j)" #j="ngForm">
     <div class="row" *ngIf=joinMode>
-      <div class="col-sm-5">
-          <label for="groupCode1">Enter Group Code to join:</label>&nbsp;
-          <input type="text" id="groupCode1" class="form-control" name="groupCode" ngModel required>&nbsp;
-          <br>
-          <button type="submit" class="btn btn-success" [disabled]="!j.valid">Save</button>
+      <div class="col-sm-7">
+          <label for="groupRefCd">Enter Group Referral Code to join:</label>&nbsp;
+          <input type="text" id="groupRefCd" class="form-control" name="groupRefCd" ngModel required>&nbsp;
+        <div  class="alert alert-danger" *ngIf="isJoinedErr">
+          Failed !
+        </div>
+        <div  class="alert alert-success" *ngIf="isJoined">
+          Success !
+        </div>
+        <br>
+        <button type="submit" class="btn btn-success" [disabled]="!j.valid">Join</button>
       </div>
     </div>
   </form>
 
   <form (ngSubmit)="onCreate(c)" #c="ngForm">
     <div class="row" *ngIf=createMode>
-      <div class="col-sm-5">
+      <div class="col-sm-7">
         <div class="form-group">
-          <label for="groupCode2">Enter Group Name to create:</label>&nbsp;
-          <input type="text" id="groupCode2" class="form-control" name="groupCode" ngModel required>&nbsp;
+          <label for="groupName">Enter Group Name to create:</label>&nbsp;
+          <input type="text" id="groupName" class="form-control" name="groupName" ngModel required>&nbsp;
+          <div  class="alert alert-danger" *ngIf="isCreatedErr">
+            Failed !
+          </div>
+          <div  class="alert alert-success" *ngIf="isCreated">
+            Success !
+          </div>
           <br>
-          <button type="submit" class="btn btn-success" [disabled]="!c.valid">Save</button>
+          <button type="submit" class="btn btn-success" [disabled]="!c.valid">Create</button>
         </div>
       </div>
     </div>

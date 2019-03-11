@@ -41,9 +41,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
                     console.log(response);
 
                     if (response.statusCode === 'Y') {
-                       alert('Welcome back ' + this.socialUser.name);
+                       // alert('Welcome back ' + this.socialUser.name);
                       // this.alertService.success('Registration successful', true);
-                      this.router.navigate(['/home']);
+                      // this.router.navigate(['/home']);
                     } else {
                        alert('Hey ' + this.socialUser.name + '. You are not a registered User !!');
                       // this.alertService.success('Hey ' + this.socialUser.name + '. You are not a registered User !!', true);

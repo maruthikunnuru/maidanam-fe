@@ -6,12 +6,12 @@ import {ResponseModel} from '../z-models/response.model';
 import {BehaviorSubject, Observable} from 'rxjs';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import {UserGroupModel} from "../z-models/usergroup.model";
+import {UserGroupModel} from '../z-models/usergroup.model';
+import {AppConstants} from '../app-constants';
+import {GroupModel} from "../z-models/group.model";
 
 @Injectable()
 export class LoginService {
-
-    baseUrl = 'http://13.58.124.107:8081';
 
     user: UserModel;
 
@@ -42,7 +42,7 @@ export class LoginService {
 
     getGroupList(username: string): Observable<ResponseModel> {
         const headers = new Headers({'X-USER-NAME': username});
-        return this.http.get(this.baseUrl + '/groups/',{headers: headers})
+        return this.http.get(AppConstants.API_ENDPOINT + '/groups/',{headers: headers})
             .map(
                 (response: Response) => {
                     return <ResponseModel>response.json();
@@ -50,14 +50,14 @@ export class LoginService {
             )
             .catch(
                 (error: Response) => {
-                    return Observable.throw('Something went wrong');
+                    return Observable.throw('Something went wrong with getGroupList');
                 }
             );
     }
 
     validateReferralCode(username: string, refCode: string): Observable<ResponseModel> {
         const headers = new Headers({'X-USER-NAME': username});
-        return this.http.get(this.baseUrl + '/groups/ref/' + refCode + '/', {headers: headers})
+        return this.http.get(AppConstants.API_ENDPOINT + '/groups/ref/' + refCode + '/', {headers: headers})
             .map(
                 (response: Response) => {
                     return <ResponseModel>response.json();
@@ -65,14 +65,14 @@ export class LoginService {
             )
             .catch(
                 (error: Response) => {
-                    return Observable.throw('Something went wrong');
+                    return Observable.throw('Something went wrong with validateReferralCode');
                 }
             );
     }
 
     getUsersByGroupId(username: string, groupId: number): Observable<ResponseModel> {
         const headers = new Headers({'X-USER-NAME': username});
-        return this.http.get(this.baseUrl + '/groups/' + groupId + '/users/', {headers: headers})
+        return this.http.get(AppConstants.API_ENDPOINT + '/groups/' + groupId + '/users/', {headers: headers})
             .map(
                 (response: Response) => {
                     return <ResponseModel>response.json();
@@ -80,7 +80,7 @@ export class LoginService {
             )
             .catch(
                 (error: Response) => {
-                    return Observable.throw('Something went wrong');
+                    return Observable.throw('Something went wrong with getUsersByGroupId');
                 }
             );
     }
@@ -88,9 +88,9 @@ export class LoginService {
     registerUser(user: UserModel): Observable<ResponseModel> {
         const headers = new Headers({'X-USER-NAME': user.userName});
         const userGroup: UserGroupModel = new UserGroupModel(null, user.userName, user.firstName, user.lastName, user.displayName,
-            user.emailId, null, null, user.referralCode, null, null, null, user.userRole);
-
-        return this.http.post(this.baseUrl + '/groups/user/', userGroup,{headers: headers})
+            user.emailId, -1, null, user.referralCode, null, null, null, user.userRole);
+        console.log(userGroup);
+        return this.http.post(AppConstants.API_ENDPOINT + '/groups/user/', userGroup, {headers: headers})
             .map(
                 (response: Response) => {
                     return <ResponseModel>response.json();
@@ -98,7 +98,37 @@ export class LoginService {
             )
             .catch(
                 (error: Response) => {
-                    return Observable.throw('Something went wrong');
+                    return Observable.throw('Something went wrong with registerUser');
+                }
+            );
+    }
+
+    joinGroup(user: UserModel): Observable<ResponseModel> {
+        const headers = new Headers({'X-USER-NAME': user.userName});
+        return this.http.post(AppConstants.API_ENDPOINT + '/groups/user/' + user.referralCode + '/', null, {headers: headers})
+            .map(
+                (response: Response) => {
+                    return <ResponseModel>response.json();
+                }
+            )
+            .catch(
+                (error: Response) => {
+                    return Observable.throw('Something went wrong with joinGroup');
+                }
+            );
+    }
+
+    createGroup(username: string, group: GroupModel): Observable<ResponseModel> {
+        const headers = new Headers({'X-USER-NAME': username});
+        return this.http.post(AppConstants.API_ENDPOINT + '/groups/', group, {headers: headers})
+            .map(
+                (response: Response) => {
+                    return <ResponseModel>response.json();
+                }
+            )
+            .catch(
+                (error: Response) => {
+                    return Observable.throw('Something went wrong with joinGroup');
                 }
             );
     }

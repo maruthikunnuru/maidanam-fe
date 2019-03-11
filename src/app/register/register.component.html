@@ -1,71 +1,67 @@
+<!--<div @progressOut *ngIf="incomingView" class="align-middle d-flex-column justify-content-center align-items-center" style="height:100%;">-->
+  <!--<div>-->
+    <!--Lets Set You Up..-->
+  <!--</div>-->
+  <!--<div>-->
+    <!--<div class="spinner-grow text-primary" role="status">-->
+      <!--<span class="sr-only">Loading...</span>-->
+    <!--</div>-->
+    <!--<div class="spinner-grow text-secondary" role="status">-->
+      <!--<span class="sr-only">Loading...</span>-->
+    <!--</div>-->
+    <!--<div class="spinner-grow text-success" role="status">-->
+      <!--<span class="sr-only">Loading...</span>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
 
-<mat-vertical-stepper [linear]="isLinear" [selectedIndex]=1 #stepper *ngIf="loggedIn">
+<!--<div @registerIn *ngIf="registerView">-->
+  <div class="d-block d-md-none">
+    <mat-vertical-stepper [linear]="isLinear" [selectedIndex]=1 #stepper *ngIf="loggedIn">
+      <mat-step [completed]=true>
+        <ng-template matStepLabel><b>Welcome {{user.firstName}} {{user.lastName}}! </b></ng-template>
+        Your Google Authentication is successful.
+        <div>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </mat-step>
   
-  
-  <mat-step [completed]=true>
-    <ng-template matStepLabel><b>Welcome {{user.firstName}} {{user.lastName}}! </b></ng-template>
-    Your Google Authentication is successful.
-    <div>
-      <button mat-button matStepperNext>Next</button>
-    </div>
-  </mat-step>
-  
-  <mat-step [stepControl]="refFormGroup">
-    <form [formGroup]="refFormGroup" (ngSubmit)="checkRefCode()">
-      <ng-template matStepLabel>Enter Your Referral Code</ng-template>
-      <mat-form-field>
-        <input id="refCode" matInput placeholder="Referral Code" formControlName="refCode" required>
-      </mat-form-field>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext type="submit">Next</button>
-      </div>
-    </form>
-  </mat-step>
-  <mat-step [stepControl]="dpFormGroup" *ngIf="validRef">
-      <form [formGroup]="dpFormGroup" (ngSubmit)="onRegister()">
-        <ng-template matStepLabel>Enter Your Display Name</ng-template>
-        <mat-form-field>
-          <input id="displayName" matInput placeholder="A Funky Name Please" formControlName="displayName" required>
-        </mat-form-field>
+      <mat-step [stepControl]="refFormGroup">
+        <form [formGroup]="refFormGroup" (ngSubmit)="checkRefCode()">
+          <ng-template matStepLabel>Referral Code</ng-template>
+          <mat-form-field>
+            <input id="refCode" matInput placeholder="Referral Code" formControlName="refCodeCtrl" required>
+          </mat-form-field>
+          <div>
+            <div  class="alert alert-danger" *ngIf="validRef"> 
+              Invalid Referral Code ! 
+            </div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext type="submit">Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="dpFormGroup">
+          <form [formGroup]="dpFormGroup" (ngSubmit)="onRegister()">
+            <ng-template matStepLabel>Display Name</ng-template>
+            <mat-form-field>
+              <input id="displayName" matInput placeholder="A Funky One Please" formControlName="displayName" required>
+            </mat-form-field>
+            <div>
+              <button mat-button matStepperPrevious>Back</button>
+              <button mat-button matStepperNext type="submit">Submit</button>
+            </div>
+          </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        Registration complete !
         <div>
           <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext type="submit">Submit</button>
+          <button mat-button (click)="stepper.reset()">Reset</button>
         </div>
-      </form>
-  </mat-step>
-  <!--<mat-step>-->
-    <!--<ng-template matStepLabel>Done</ng-template>-->
-    <!--Registration complete !-->
-    <!--<div>-->
-      <!--<button mat-button matStepperPrevious>Back</button>-->
-      <!--<button mat-button (click)="stepper.reset()">Reset</button>-->
-    <!--</div>-->
-  <!--</mat-step>-->
-</mat-vertical-stepper>
+      </mat-step>
+    </mat-vertical-stepper>
+  <!--</div>-->
 
 
-
-<!--
-<div class="container">
-  <div class="row">
-    <div class="col-xs-12">
-      <form (ngSubmit)="onRegister(r)" #r="ngForm">
-        <div class="row">
-          <div class="col-sm-6 form-group">
-            <label for="refcode">Enter Your Referral Code to Register</label>
-            <input type="text" id="refCode" class="form-control" name="refCode" ngModel required>
-          </div>
-        </div>
-        <br><br>
-        <div class="row">
-          <div class="col-xs-12">
-            &nbsp;<button class="btn btn-primary" type="submit" [disabled]="!r.valid">Register</button>&nbsp;
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
--->
