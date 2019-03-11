@@ -63,7 +63,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   signOut(): void {
     if (this.loggedIn) {
-      // confirm('Do you want to signout Mr.' + this.loginService.getUserProfile().firstName);
+      confirm('Do you want to signout Mr.' + this.socialUser.name);
       this.authService.signOut();
       this.loginService.logout();
       this.router.navigate(['/home']);
