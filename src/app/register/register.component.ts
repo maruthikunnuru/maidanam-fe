@@ -4,9 +4,11 @@ import {Router} from '@angular/router';
 import {LoginService} from '../z-services/login.service';
 import {UserModel} from '../z-models/user.model';
 import {Subscription} from 'rxjs';
-import { MatStep, MatStepper } from '@angular/material';
+import {MatStepper} from '@angular/material';
 import {AlertService} from '../z-services/alert.service';
 import { trigger, transition, style, animate, keyframes } from '@angular/animations';
+import {SocialUser} from 'angularx-social-login';
+import {GroupModel} from '../z-models/group.model';
 
 @Component({
     selector: 'app-register',
@@ -53,12 +55,13 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isLinear = true;
   user: UserModel;
+  socialUser: SocialUser;
   refSubscription: Subscription;
   dpSubscription: Subscription;
-  currentUserSubscription: Subscription;
+  currentSocialUserSubscription: Subscription;
   validRef: boolean;
   loggedIn: boolean;
-  groupId: number;
+  refGroup: GroupModel;
 
   incomingView = true;
   registerView = false;
@@ -72,27 +75,27 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
               private alertService: AlertService) { }
 
   ngOnInit() {
-    this.currentUserSubscription = this.loginService.currentUser
-        .subscribe(
-            (res) => {
-              this.user = res;
-              this.loggedIn = (this.user != null);
+        this.currentSocialUserSubscription = this.loginService.currentSocialUser
+            .subscribe(
+                (res) => {
+                  this.socialUser = res;
+                  this.loggedIn = (this.socialUser != null);
 
-              if (!this.loggedIn) {
-                this.router.navigate(['/home']);
-              }
-            },
-            (error) => console.log(error)
-        );
+                  if (!this.loggedIn) {
+                    this.router.navigate(['/home']);
+                  }
+                },
+                (error) => console.log(error)
+            );
 
-    this.refFormGroup = this.formBuilder.group({
-      refCodeCtrl: ['', Validators.required]
-    });
+        this.refFormGroup = this.formBuilder.group({
+          refCodeCtrl: ['', Validators.required]
+        });
 
-    this.dpFormGroup = this.formBuilder.group({
-      displayName: ['', [Validators.required, Validators.minLength(2)]]
-    });
-  }
+        this.dpFormGroup = this.formBuilder.group({
+          displayName: ['', [Validators.required, Validators.minLength(2)]]
+        });
+   }
 
     ngAfterViewInit() {
         this.incomingView = false;
@@ -103,8 +106,10 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
         const displayNm = this.dpFormGroup.value.displayName;
         const refCd = this.refFormGroup.value.refCodeCtrl;
 
-        this.user.referralCode = refCd;
-        this.user.displayName = displayNm;
+        this.user = new UserModel(null, this.socialUser.email, this.socialUser.firstName,
+            this.socialUser.lastName, displayNm, this.socialUser.email, this.refGroup.groupId,
+            this.refGroup, refCd, null, null, null, null);
+
         console.log(this.user);
         if (displayNm) {
           this.dpSubscription = this.loginService.registerUser(this.user)
@@ -114,7 +119,9 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
                       alert('Registration Failed');
                     } else {
                       alert('Registration Successful');
-                      this.router.navigate(['/groups']);
+                      this.user = response.result as UserModel;
+                      this.loginService.setUser(this.user);
+                      this.router.navigate(['/matches']);
                     }
                   },
                   (error) => console.log(error)
@@ -136,6 +143,8 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.stepper.selectedIndex = 1;  
                 } else {
                     this.validRef = false;
+                    this.refGroup = <GroupModel>response.result;
+                    console.log(this.refGroup);
                 }
               },
               (error) => console.log(error)
@@ -144,10 +153,10 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-     // this.refSubscription.unsubscribe();
-     // this.dpSubscription.unsubscribe();
-    this.currentUserSubscription.unsubscribe();
-    this.loginService.logout();
+     this.refSubscription.unsubscribe();
+     this.dpSubscription.unsubscribe();
+     this.currentSocialUserSubscription.unsubscribe();
+     this.loginService.logout();
   }
 }
 

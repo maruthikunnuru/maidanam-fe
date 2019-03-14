@@ -5,7 +5,7 @@ import {UserModel} from '../z-models/user.model';
 import {Router} from '@angular/router';
 import {LoginService} from '../z-services/login.service';
 import {AlertService} from '../z-services/alert.service';
-import {GroupModel} from "../z-models/group.model";
+import {GroupModel} from '../z-models/group.model';
 
 @Component({
   selector: 'app-manage-groups',
@@ -37,9 +37,9 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
             (res) => {
               this.user = res;
               this.loggedIn = (this.user != null);
-              // if (!this.loggedIn) {
-              //   this.router.navigate(['/home']);
-              // }
+              if (!this.loggedIn) {
+                this.router.navigate(['/home']);
+              }
             },
             (error) => console.log(error)
         );
@@ -59,7 +59,9 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
     const gRefCode = form.value.groupRefCd;
     console.log(gRefCode);
     console.log('userName->' + this.user.userName);
-    this.user.referralCode = gRefCode;
+    console.log('userId->' + this.user.userId);
+
+    this.user.referenceCd = gRefCode;
     if (gRefCode) {
       this.joinGpSubscription = this.loginService.joinGroup(this.user)
           .subscribe((response) => {
@@ -70,7 +72,6 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
                 } else {
                   this.isJoinedErr = false;
                   this.isJoined = true;
-                  // this.router.navigate(['/groups']);
                 }
               },
               (error) => console.log(error)
@@ -81,10 +82,10 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
   onCreate(form: NgForm) {
     const gName = form.value.groupName;
     alert(gName);
-    const group: GroupModel = new GroupModel(null, gName, gName + '123',
-        1000, 1.5, 'ACTIVE', 100);
+    const group: GroupModel = new GroupModel(null, gName, null,
+        0, 1, 'ACTIVE', 1700);
     if (gName) {
-      this.createGpSubscription = this.loginService.createGroup(this.user.userName, group)
+      this.createGpSubscription = this.loginService.createGroup(this.user.userName, this.user.userId, group)
           .subscribe((response) => {
                 console.log(response);
                 if (response.statusCode === 'N') {
@@ -93,7 +94,6 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
                 } else {
                   this.isCreated = true;
                   this.isCreatedErr = false;
-                  // this.router.navigate(['/groups']);
                 }
               },
               (error) => console.log(error)
@@ -104,8 +104,7 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.currentUserSubscription.unsubscribe();
-    this.joinGpSubscription.unsubscribe();
-    this.createGpSubscription.unsubscribe();
-    this.loginService.logout();
+    // this.joinGpSubscription.unsubscribe();
+    // this.createGpSubscription.unsubscribe();
   }
 }

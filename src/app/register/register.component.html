@@ -19,7 +19,7 @@
   <div class="d-block d-md-none">
     <mat-vertical-stepper [linear]="isLinear" [selectedIndex]=1 #stepper *ngIf="loggedIn">
       <mat-step [completed]=true>
-        <ng-template matStepLabel><b>Welcome {{user.firstName}} {{user.lastName}}! </b></ng-template>
+        <ng-template matStepLabel><b>Welcome {{socialUser.firstName}} {{socialUser.lastName}}! </b></ng-template>
         Your Google Authentication is successful.
         <div>
           <button mat-button matStepperNext>Next</button>

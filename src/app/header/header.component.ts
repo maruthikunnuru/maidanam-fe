@@ -3,8 +3,10 @@ import {AuthService, GoogleLoginProvider, SocialUser} from 'angularx-social-logi
 import {Router} from '@angular/router';
 import {LoginService} from '../z-services/login.service';
 import {Observable, Subscription} from 'rxjs';
-import {ResponseModel} from "../z-models/response.model";
-import {AlertService} from "../z-services/alert.service";
+import {ResponseModel} from '../z-models/response.model';
+import {AlertService} from '../z-services/alert.service';
+import {GroupModel} from '../z-models/group.model';
+import {UserModel} from '../z-models/user.model';
 
 @Component({
   selector: 'app-header',
@@ -13,10 +15,13 @@ import {AlertService} from "../z-services/alert.service";
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  private socialUser: SocialUser;
-  private loggedIn: boolean;
+  socialUser: SocialUser;
+  user: UserModel;
+  loggedIn: boolean;
+  groups: GroupModel[];
   userSubscription: Subscription;
   groupSubscription: Subscription;
+  userGroupSubscription: Subscription;
 
   constructor(private router: Router,
               private authService: AuthService,
@@ -34,19 +39,40 @@ export class HeaderComponent implements OnInit, OnDestroy {
         console.log('loggedIn--->' + this.loggedIn);
 
         if (this.loggedIn) {
-          this.loginService.setUser(this.socialUser);
-
           this.groupSubscription = this.loginService.getGroupList(this.socialUser.email)
               .subscribe((response) => {
-                    console.log(response);
+                    // console.log(response);
 
                     if (response.statusCode === 'Y') {
-                       // alert('Welcome back ' + this.socialUser.name);
-                      // this.alertService.success('Registration successful', true);
-                      // this.router.navigate(['/home']);
+                      this.groups = response.result as GroupModel[];
+
+                      this.loginService.setGroups(this.groups);
+                      console.log(this.groups.map( gp => gp.groupName));
+                      const firstGroupId = this.groups[0].groupId;
+                      console.log('firstGroupId->' + firstGroupId);
+
+                      this.userGroupSubscription = this.loginService.getUsersByGroupId(this.socialUser.email, firstGroupId)
+                          .subscribe( (res) => {
+                                // console.log(res);
+
+                                if (res.statusCode === 'Y') {
+                                  const userList = res.result as UserModel[];
+                                  // console.log('UserList -->' + JSON.stringify(userList));
+
+                                  this.user = userList.filter(usr => usr.emailId === this.socialUser.email)[0];
+                                  console.log('Final User -->' + JSON.stringify(this.user));
+                                  this.loginService.setUser(this.user);
+                                  this.router.navigate(['/matches']);
+                                } else {
+                                   console.log('Error in getUsersByGroup');
+                                }
+                              },
+                              (error) => console.log(error)
+                          );
+
                     } else {
-                       alert('Hey ' + this.socialUser.name + '. You are not a registered User !!');
-                      // this.alertService.success('Hey ' + this.socialUser.name + '. You are not a registered User !!', true);
+                      this.loginService.setSocialUser(this.socialUser);
+                      // alert('Hey ' + this.socialUser.name + '. You are not a registered User !!');
                       this.router.navigate(['/register']);
                     }
                   },

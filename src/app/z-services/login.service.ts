@@ -6,43 +6,63 @@ import {ResponseModel} from '../z-models/response.model';
 import {BehaviorSubject, Observable} from 'rxjs';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import {UserGroupModel} from '../z-models/usergroup.model';
 import {AppConstants} from '../app-constants';
-import {GroupModel} from "../z-models/group.model";
+import {GroupModel} from '../z-models/group.model';
 
 @Injectable()
 export class LoginService {
 
-    user: UserModel;
-
     private currentUserSubject: BehaviorSubject<UserModel>;
     public currentUser: Observable<UserModel>;
+
+    private currentSocialUserSubject: BehaviorSubject<SocialUser>;
+    public currentSocialUser: Observable<SocialUser>;
+
+    private currentUserGroupsSubject: BehaviorSubject<GroupModel[]>;
+    public currentUserGroups: Observable<GroupModel[]>;
 
     constructor(private http: Http) {
         this.currentUserSubject = new BehaviorSubject<UserModel>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
+
+        this.currentSocialUserSubject = new BehaviorSubject<SocialUser>(JSON.parse(localStorage.getItem('currentSocialUser')));
+        this.currentSocialUser = this.currentSocialUserSubject.asObservable();
+
+        this.currentUserGroupsSubject = new BehaviorSubject<GroupModel[]>(JSON.parse(localStorage.getItem('currentUserGroups')));
+        this.currentUserGroups = this.currentUserGroupsSubject.asObservable();
     }
 
-    setUser(socialUser: SocialUser) {
+    setUser(user: UserModel) {
+        const currentUser = JSON.stringify(user);
+        localStorage.setItem('currentUser', currentUser);
+        this.currentUserSubject.next(user);
+    }
 
-        this.user = new UserModel(
-            socialUser.email, socialUser.firstName,
-            socialUser.lastName, socialUser.email,
-            null, null, null);
+    setSocialUser(socialUser: SocialUser) {
+        const currentSocialUser = JSON.stringify(socialUser);
+        localStorage.setItem('currentSocialUser', currentSocialUser);
+        this.currentSocialUserSubject.next(socialUser);
+    }
 
-        localStorage.setItem('currentUser', JSON.stringify(this.user));
-        this.currentUserSubject.next(this.user);
+    setGroups(groups: GroupModel[]) {
+        const currentUserGroups = JSON.stringify(groups);
+        localStorage.setItem('currentUserGroups', currentUserGroups);
+        this.currentUserGroupsSubject.next(groups);
     }
 
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
+
+        // remove user groups from local storage to log user out
+        localStorage.removeItem('currentUserGroups');
+        this.currentUserGroupsSubject.next(null);
     }
 
     getGroupList(username: string): Observable<ResponseModel> {
         const headers = new Headers({'X-USER-NAME': username});
-        return this.http.get(AppConstants.API_ENDPOINT + '/groups/',{headers: headers})
+        return this.http.get(AppConstants.API_ENDPOINT + '/groups/', {headers: headers})
             .map(
                 (response: Response) => {
                     return <ResponseModel>response.json();
@@ -87,10 +107,7 @@ export class LoginService {
 
     registerUser(user: UserModel): Observable<ResponseModel> {
         const headers = new Headers({'X-USER-NAME': user.userName});
-        const userGroup: UserGroupModel = new UserGroupModel(null, user.userName, user.firstName, user.lastName, user.displayName,
-            user.emailId, -1, null, user.referralCode, null, null, null, user.userRole);
-        console.log(userGroup);
-        return this.http.post(AppConstants.API_ENDPOINT + '/groups/user/', userGroup, {headers: headers})
+        return this.http.post(AppConstants.API_ENDPOINT + '/groups/user/', user, {headers: headers})
             .map(
                 (response: Response) => {
                     return <ResponseModel>response.json();
@@ -104,8 +121,11 @@ export class LoginService {
     }
 
     joinGroup(user: UserModel): Observable<ResponseModel> {
-        const headers = new Headers({'X-USER-NAME': user.userName});
-        return this.http.post(AppConstants.API_ENDPOINT + '/groups/user/' + user.referralCode + '/', null, {headers: headers})
+        const headers = new Headers();
+        headers.append('X-USER-NAME', user.userName);
+        headers.append('X-USER-ID', String(user.userId));
+
+        return this.http.post(AppConstants.API_ENDPOINT + '/groups/user/' + user.referenceCd + '/', null, {headers: headers})
             .map(
                 (response: Response) => {
                     return <ResponseModel>response.json();
@@ -118,8 +138,10 @@ export class LoginService {
             );
     }
 
-    createGroup(username: string, group: GroupModel): Observable<ResponseModel> {
-        const headers = new Headers({'X-USER-NAME': username});
+    createGroup(username: string, userId: number, group: GroupModel): Observable<ResponseModel> {
+        const headers = new Headers();
+        headers.append('X-USER-NAME', username);
+        headers.append('X-USER-ID', String(userId));
         return this.http.post(AppConstants.API_ENDPOINT + '/groups/', group, {headers: headers})
             .map(
                 (response: Response) => {
@@ -128,7 +150,7 @@ export class LoginService {
             )
             .catch(
                 (error: Response) => {
-                    return Observable.throw('Something went wrong with joinGroup');
+                    return Observable.throw('Something went wrong with createGroup');
                 }
             );
     }

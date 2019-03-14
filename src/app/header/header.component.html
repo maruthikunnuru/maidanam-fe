@@ -1,5 +1,5 @@
 <!--  Header - Before Login-->
-<!--
+
 <nav class="navbar navbar-expand-lg navbar-light" style="background:darkorange;padding:0px;">
   <a class="navbar-brand" routerLink="/">
     <img src="assets/images/Sumo.jpeg" width="60" height="55">
@@ -19,8 +19,12 @@
       <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" routerLink="/history"><b>My History</b></a>
       </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/groups"><b>Manage Groups</b></a>
+      </li>
     </ul>
   </div>
+<!--
   <form class="form-inline">
     <ul class="nav navbar-nav navbar-brand" *ngIf=loggedIn>
     <li style="color: darkred">
@@ -52,15 +56,14 @@
     </ul>
   </form>
 </nav>
-
 -->
 
 <!--  Header - Before Login-->
 
 <nav class="navbar navbar-light" style="background:darkorange;padding:0px;">
-  <a class="navbar-brand" routerLink="/">
-    <img src="assets/images/Sumo.jpeg" width="60" height="55">
-  </a>
+  <!--<a class="navbar-brand" routerLink="/">-->
+    <!--<img src="assets/images/Sumo.jpeg" width="60" height="55">-->
+  <!--</a>-->
   <div style="color: darkred" *ngIf="loggedIn">
     Welcome !! {{ socialUser.name }}
   </div>
@@ -99,29 +102,29 @@
           <!--<li routerLinkActive="active"><a routerLink="/scoreboard">Scoreboard</a></li>-->
         <!--</ul>-->
 
-        <!--<ul class="nav navbar-nav navbar-right">-->
-          <!--<ul class="nav navbar-nav navbar-brand" *ngIf=loggedIn>-->
-            <!--<li style="color: green">-->
-              <!--Welcome !! {{ loginService.getUserProfile().displayName }}-->
-            <!--</li>-->
-          <!--</ul>-->
-          <!--<li class="dropdown" appDropdown>-->
-            <!--<a style="cursor: pointer;" class="navbar-toggler" role="button"><span class="navbar-toggler-icon"></span></a>-->
-            <!--<ul class="dropdown-menu">-->
-              <!--<li routerLinkActive="active">-->
-                <!--<button class="btn white" type="button" (click)="signInWithGoogle()">-->
-                  <!--<a style="text-transform:none">-->
-                    <!--<div class="left">-->
-                      <!--<img width="180px" alt="Google &quot;G&quot; Logo" src="assets/images/Google1.png"/>-->
-                    <!--</div>-->
-                  <!--</a>-->
-                <!--</button>-->
-              <!--<li routerLinkActive="active"><a routerLink="/register" style="cursor: pointer;">Register</a></li>-->
-              <!--<li routerLinkActive="active"><a routerLink="/groups" style="cursor: pointer;">Manage Groups</a></li>-->
-              <!--<li *ngIf=loggedIn><a style="cursor: pointer;" (click)="signOut()">Sign Out</a></li>-->
-            <!--</ul>-->
-          <!--</li>-->
-        <!--</ul>-->
+        <!--&lt;!&ndash;<ul class="nav navbar-nav navbar-right">&ndash;&gt;-->
+          <!--&lt;!&ndash;<ul class="nav navbar-nav navbar-brand" *ngIf=loggedIn>&ndash;&gt;-->
+            <!--&lt;!&ndash;<li style="color: green">&ndash;&gt;-->
+              <!--&lt;!&ndash;Welcome !! {{ user.displayName }}&ndash;&gt;-->
+            <!--&lt;!&ndash;</li>&ndash;&gt;-->
+          <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+          <!--&lt;!&ndash;<li class="dropdown" appDropdown>&ndash;&gt;-->
+            <!--&lt;!&ndash;<a style="cursor: pointer;" class="navbar-toggler" role="button"><span class="navbar-toggler-icon"></span></a>&ndash;&gt;-->
+            <!--&lt;!&ndash;<ul class="dropdown-menu">&ndash;&gt;-->
+              <!--&lt;!&ndash;<li routerLinkActive="active">&ndash;&gt;-->
+                <!--&lt;!&ndash;<button class="btn white" type="button" (click)="signInWithGoogle()">&ndash;&gt;-->
+                  <!--&lt;!&ndash;<a style="text-transform:none">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="left">&ndash;&gt;-->
+                      <!--&lt;!&ndash;<img width="180px" alt="Google &quot;G&quot; Logo" src="assets/images/Google1.png"/>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                  <!--&lt;!&ndash;</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;</button>&ndash;&gt;-->
+              <!--&lt;!&ndash;<li routerLinkActive="active"><a routerLink="/register" style="cursor: pointer;">Register</a></li>&ndash;&gt;-->
+              <!--&lt;!&ndash;<li routerLinkActive="active"><a routerLink="/groups" style="cursor: pointer;">Manage Groups</a></li>&ndash;&gt;-->
+              <!--&lt;!&ndash;<li *ngIf=loggedIn><a style="cursor: pointer;" (click)="signOut()">Sign Out</a></li>&ndash;&gt;-->
+            <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+          <!--&lt;!&ndash;</li>&ndash;&gt;-->
+        <!--&lt;!&ndash;</ul>&ndash;&gt;-->
       <!--</div>-->
     <!--&lt;!&ndash;</div>&ndash;&gt;-->
   <!--&lt;!&ndash;</div>&ndash;&gt;-->

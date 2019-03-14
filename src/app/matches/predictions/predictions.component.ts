@@ -1,7 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {MatchModel} from '../../z-models/match.model';
 import {MatchesService} from '../../z-services/matches.service';
+import {Subscription} from 'rxjs';
+import {UserModel} from '../../z-models/user.model';
+import {LoginService} from '../../z-services/login.service';
+import {GroupModel} from '../../z-models/group.model';
+import {PredictionsService} from '../../z-services/predictions.service';
+import {PredictionModel} from '../../z-models/prediction.model';
 
 export interface PeriodicElement {
   player: string;
@@ -23,12 +29,21 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: './predictions.component.html',
   styleUrls: ['./predictions.component.css']
 })
-export class PredictionsComponent implements OnInit {
+export class PredictionsComponent implements OnInit, OnDestroy {
 
   players: string[] = [ 'Harish', 'Pradi', 'Vinodh', 'Maruthi'];
   slideValue = 0;
   matchId: number;
   selectedMatch: MatchModel;
+  currentMatchPrediction: PredictionModel;
+  matchSubscription: Subscription;
+  predictionSubscription: Subscription;
+  currentUserSubscription: Subscription;
+  currentUserGroupsSubscription: Subscription;
+  user: UserModel;
+  groups: GroupModel[];
+  loggedIn: boolean;
+  showOthersPredictions = false;
 
   displayedColumns: string[] = ['player', 'prediction', 'challenged', 'coins'];
   dataSource = ELEMENT_DATA;
@@ -54,7 +69,9 @@ export class PredictionsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private matchesService: MatchesService) { }
+              private loginService: LoginService,
+              private matchesService: MatchesService,
+              private predictionService: PredictionsService) { }
 
   ngOnInit() {
     console.log('Inside predictions');
@@ -67,8 +84,66 @@ export class PredictionsComponent implements OnInit {
             }
         );
 
-    this.selectedMatch = this.matchesService.getMatchById(this.matchId, 111111);
-    console.log(this.selectedMatch);
+    this.currentUserSubscription = this.loginService.currentUser
+        .subscribe(
+            (res) => {
+              this.user = res;
+              this.loggedIn = (this.user != null);
+
+              if (!this.loggedIn) {
+                this.router.navigate(['/home']);
+              }
+            },
+            (error) => console.log(error)
+        );
+
+    this.currentUserGroupsSubscription = this.loginService.currentUserGroups
+        .subscribe(
+        (res) => {
+              this.groups = res;
+              this.loggedIn = (this.user != null);
+            },
+          (error) => console.log(error)
+        );
+
+    this.matchSubscription = this.matchesService.getMatchById(this.matchId, this.user.userName)
+        .subscribe((response) => {
+              if (response.statusCode === 'N') {
+                alert('No Match Data Available');
+              } else {
+                this.selectedMatch = response.result as MatchModel;
+                console.log(this.selectedMatch.localDate);
+              }
+            },
+            (error) => console.log(error)
+        );
+
+      this.predictionSubscription = this.predictionService.getPredictions(this.matchId,
+                                                                          this.user.groupId,
+                                                                          this.user.userId,
+                                                                          this.user.userName)
+          .subscribe((response) => {
+                  if (response.statusCode === 'N') {
+                      // alert('No Predictions Available');
+                  } else {
+                      this.currentMatchPrediction = response.result as PredictionModel;
+                      console.log(this.currentMatchPrediction);
+
+
+                      if(this.currentMatchPrediction.match.matchStatus !== 'SCHEDULED') {
+                          this.showOthersPredictions = true;
+                      }
+                  }
+              },
+              (error) => console.log(error)
+          );
+  }
+
+  ngOnDestroy(): void {
+      this.currentUserSubscription.unsubscribe();
+      this.currentUserGroupsSubscription.unsubscribe();
+      this.matchSubscription.unsubscribe();
+      this.predictionSubscription.unsubscribe();
   }
 
 }

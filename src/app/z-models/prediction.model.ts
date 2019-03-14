@@ -5,23 +5,34 @@ import {UserModel} from './user.model';
 export class PredictionModel {
     public predictionId: number;
     public userId: number;
-    public groupId: number;
+    public user: UserModel;
+    public matchId: number;
     public match: MatchModel;
     public coinsAtPlay: number;
-    public winnerChosen: TeamModel;
-    public marginChosen: string;
+    public winnerId: number;
+    public winner: TeamModel;
+    public margin: string;
+    public challengedUserId: number;
     public challengedUser: UserModel;
+    public updatedCount: number;
+    public lastUpdatedTs: Date;
 
-
-    constructor(predictionId: number, userId: number, groupId: number, match: MatchModel,
-                coinsAtPlay: number, winnerChosen: TeamModel, marginChosen: string, challengedUser: UserModel) {
+    constructor(predictionId: number, userId: number, user: UserModel, matchId: number,
+                match: MatchModel, coinsAtPlay: number, winnerId: number, winner: TeamModel,
+                margin: string, challengedUserId: number, challengedUser: UserModel,
+                updatedCount: number, lastUpdatedTs: Date) {
         this.predictionId = predictionId;
         this.userId = userId;
-        this.groupId = groupId;
+        this.user = user;
+        this.matchId = matchId;
         this.match = match;
         this.coinsAtPlay = coinsAtPlay;
-        this.winnerChosen = winnerChosen;
-        this.marginChosen = marginChosen;
+        this.winnerId = winnerId;
+        this.winner = winner;
+        this.margin = margin;
+        this.challengedUserId = challengedUserId;
         this.challengedUser = challengedUser;
+        this.updatedCount = updatedCount;
+        this.lastUpdatedTs = lastUpdatedTs;
     }
 }

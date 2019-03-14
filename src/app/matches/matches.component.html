@@ -43,14 +43,13 @@
     <div class="d-flex justify-content-end">
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              JNTU
+              Select a Group
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="#">JNTU</a>
-              <a class="dropdown-item" href="#">Family</a>
-              <a class="dropdown-item" href="#">Office</a>
+              <div *ngFor="let gp of groups">
+              <a class="dropdown-item" href="#">{{gp.groupName}}</a>
+              </div>
             </div>
-        </div>
     </div>
 </div>
 

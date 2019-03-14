@@ -25,6 +25,7 @@ import { ErrorPageComponent } from './error-page/error-page.component';
 import { RegisterComponent } from './register/register.component';
 import { ManageGroupsComponent } from './manage-groups/manage-groups.component';
 import { LoginService} from './z-services/login.service';
+import { PredictionsService} from './z-services/predictions.service';
 import { MatchesComponent } from './matches/matches.component';
 import { CurrentViewComponent } from './matches/current-view/current-view.component';
 import { ListViewComponent } from './matches/list-view/list-view.component';
@@ -33,7 +34,7 @@ import { ScoreboardService} from './z-services/scoreboard.service';
 import { MatchesService} from './z-services/matches.service';
 import { PlayerHistoryService} from './z-services/player-history.service';
 import { AlertComponent } from './alert/alert.component';
-import {AuthGuard} from "./z-services/auth.guard";
+import {AuthGuard} from './z-services/auth.guard';
 
 const googleLoginOptions: LoginOpt = {
   scope: 'profile email',
@@ -92,6 +93,7 @@ export function provideConfig() {
     ScoreboardService,
     MatchesService,
     PlayerHistoryService,
+    PredictionsService,
     AuthGuard
   ],
   bootstrap: [AppComponent]
