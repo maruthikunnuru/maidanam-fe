@@ -28,14 +28,14 @@ export class PredictionsService {
             );
     }
 
-    submitPredictions(matchId: number, groupId: number, userId: number,
-                      username: string, prediction: PredictionModel): Observable<ResponseModel> {
+    submitPredictions(userId: number, username: string,
+                      prediction: PredictionModel): Observable<ResponseModel> {
 
         const headers = new Headers()
         headers.append('X-USER-NAME', username);
         headers.append('X-USER-ID', String(userId));
 
-        return this.http.post(AppConstants.API_ENDPOINT + '/predictions/groups/' + groupId + '/matches/' + matchId + '/', prediction,
+        return this.http.post(AppConstants.API_ENDPOINT + '/predictions/', prediction,
             {headers: headers})
             .map(
                 (response: Response) => {

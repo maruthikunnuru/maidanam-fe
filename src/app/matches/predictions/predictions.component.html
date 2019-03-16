@@ -22,7 +22,7 @@
     <div class="row no-gutters open-close-container col-sm-8 col-md-6 col-lg-4 mx-auto">
         <div class="d-flex-column" style="width:100%;">
             <div>
-                <p style="font-weight:normal;font-family: 'Ubuntu', sans-serif;" class="text-center">{{selectedMatch.localDate | date }} &nbsp; {{selectedMatch.localTime}} {{selectedMatch.maidanam.timeZone}}</p>
+                <p style="font-weight:normal;font-family: 'Ubuntu', sans-serif;" class="text-center">{{selectedMatch.localDate | date }}  {{selectedMatch.localTime}} {{selectedMatch.maidanam.timeZone}}</p>
             </div>
 
             <div class="d-flex justify-content-around">
@@ -41,24 +41,30 @@
         <h4  class="text-center">Predictions</h4>
       </div>
       <br>
-
+     <form (ngSubmit)="submitPrediction()" #p="ngForm">
       <div class="d-flex-column justify-content-around">
         <div class="d-flex" style="width:100%;">
           <div class="align-self-start" style="width:40%;font-size:1.4em;font-weight:normal;font-family: 'Ubuntu', sans-serif;">
             Winner
           </div>
-          <div class="d-flex justify-content-end" style="width:60%;">
+          <div class="d-flex justify-content-end" style="width:60%;" >
               <div class="btn-group btn-group-toggle" data-toggle="buttons" style="width:90%;">
-                  <label class="btn btn-outline-success btn-sm" >
-                    <input type="radio" name="options" id="option1" autocomplete="off"> {{selectedMatch.team1.teamName}}
+                  <label class="btn btn-outline-success btn-sm" [ngClass]="selectedMatch.team1.teamName == currentUserPrediction.winner.teamName ? 'active' : ''">
+                    <input type="radio" name="winner"
+                           [value]="selectedMatch.team1.teamId"
+                           [(ngModel)]="selectedMatch.team1.teamId"
+                           autocomplete="off" required>
+                      {{selectedMatch.team1.teamName}}
                   </label>
-                  <label class="btn btn-outline-success btn-sm"  >
-                    <input type="radio" name="options" id="option2" autocomplete="off"> {{selectedMatch.team2.teamName}}
+                  <label class="btn btn-outline-success btn-sm" [ngClass]="selectedMatch.team2.teamName == currentUserPrediction.winner.teamName ? 'active' : ''">
+                    <input type="radio" name="winner"
+                           [value]="selectedMatch.team2.teamId"
+                           [(ngModel)]="selectedMatch.team2.teamId"
+                           autocomplete="off" required>
+                      {{selectedMatch.team2.teamName}}
                   </label>
-                  
               </div>
           </div>
-
         </div>
 
         <br>
@@ -68,20 +74,25 @@
               Margin
               <i class="material-icons">
                   info
-                  </i> 
+                  </i>
             </div>
             <div class="d-flex justify-content-end" style="width:60%;padding:1%;">
-                <div class="btn-group btn-group-toggle" data-toggle="buttons" style="width:90%;">
-                    <label class="btn btn-outline-dark btn-sm" style="font-size:0.7em;" >
-                      <input type="radio" name="optionsM" id="option1M" autocomplete="off"> Easy
+                <div class="btn-group btn-group-toggle" data-toggle="buttons" style="width:90%;" >
+                    <label class="btn btn-outline-dark btn-sm" style="font-size:0.7em;" [ngClass]="currentUserPrediction.margin == 'EASY' ? 'active' : ''">
+                      <input type="radio" name="marginOption"
+                             value="EASY" [(ngModel)]="currentUserPrediction.margin"
+                             autocomplete="off" required> EASY
                     </label>
-                    <label class="btn btn-outline-dark btn-sm" style="font-size:0.7em;" >
-                      <input type="radio" name="optionsM" id="option2M" autocomplete="off"> Medium
+                    <label class="btn btn-outline-dark btn-sm" style="font-size:0.7em;" [ngClass]="currentUserPrediction.margin == 'MEDIUM' ? 'active' : ''">
+                        <input type="radio" name="marginOption"
+                               value="MEDIUM" [(ngModel)]="currentUserPrediction.margin"
+                               autocomplete="off" required> MEDIUM
                     </label>
-                    <label class="btn btn-outline-dark btn-sm" style="font-size:0.7em;">
-                        <input type="radio" name="optionsM" id="option3M" autocomplete="off"> Hard
-                      </label>
-                    
+                    <label class="btn btn-outline-dark btn-sm" style="font-size:0.7em;" [ngClass]="currentUserPrediction.margin == 'HARD' ? 'active' : ''">
+                        <input type="radio" name="marginOption"
+                               value="HARD" [ngModel]="currentUserPrediction.margin"
+                               autocomplete="off" required> HARD
+                    </label>
                 </div>
             </div>
 
@@ -94,16 +105,14 @@
               Coins
             </div>
             <div class="d-flex justify-content-end" style="width:60%;">
-              <mat-slider 
-                  thumbLabel
-                  tickInterval="100"
-                  min="0"
-                  max="10000"
-                  step="100"
+              <mat-slider thumbLabel tickInterval="100"
+                  min="0" max="{{user.totalCoins}}"
+                  step="100" name="coinsInvested"
                   (change)='changeSlide($event)'
-                  value="3000"
+                  [value]="currentUserPrediction.coinsAtPlay"
+                  [(ngModel)]="currentUserPrediction.coinsAtPlay"
                   [displayWith]="formatLabel"
-                  >
+                  required>
               </mat-slider>
             </div>
           </div>
@@ -116,9 +125,9 @@
             </div>
             <div class="d-flex justify-content-end" style="width:60%;padding:1%;">
               <mat-form-field>
-                <mat-select>
-                  <mat-option *ngFor="let player of players" [value]="player">
-                    {{player}}
+                <mat-select name="targetUser" [(ngModel)]="currentUserPrediction.challengedUserId">
+                  <mat-option *ngFor="let player of targetList" [value]="player.userId">
+                    {{player.displayName}}
                   </mat-option>
                   
                 </mat-select>
@@ -129,10 +138,11 @@
               <br>
 
             <div class="d-flex justify-content-center align-items-center">
-                <input class="btn btn-primary btn-block" type="button" value="Submit">
+                <button class="btn btn-primary btn-block" type="submit">Submit</button>
             </div>
 
       </div>
+     </form>
       <br>
 
       <!--<div *ngIf="showOthersPredictions">-->

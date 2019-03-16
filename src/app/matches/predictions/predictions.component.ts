@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {MatchModel} from '../../z-models/match.model';
 import {MatchesService} from '../../z-services/matches.service';
@@ -8,6 +8,7 @@ import {LoginService} from '../../z-services/login.service';
 import {GroupModel} from '../../z-models/group.model';
 import {PredictionsService} from '../../z-services/predictions.service';
 import {PredictionModel} from '../../z-models/prediction.model';
+import {NgForm} from '@angular/forms';
 
 export interface PeriodicElement {
   player: string;
@@ -31,19 +32,28 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class PredictionsComponent implements OnInit, OnDestroy {
 
-  players: string[] = [ 'Harish', 'Pradi', 'Vinodh', 'Maruthi'];
   slideValue = 0;
   matchId: number;
   selectedMatch: MatchModel;
-  currentMatchPrediction: PredictionModel;
+  predictions: PredictionModel[];
+  currentUserPrediction: PredictionModel;
+  userPredictionToSubmit: PredictionModel;
   matchSubscription: Subscription;
-  predictionSubscription: Subscription;
+  getPredictionSubscription: Subscription;
+  submitPredictionSubscription: Subscription;
   currentUserSubscription: Subscription;
   currentUserGroupsSubscription: Subscription;
   user: UserModel;
   groups: GroupModel[];
   loggedIn: boolean;
   showOthersPredictions = false;
+  targetSubscription: Subscription;
+  targetList: UserModel[];
+
+  @ViewChild('p') predictionForm: NgForm;
+  oddsEnum: string[] = ['EASY', 'MEDIUM', 'HARD'];
+  teamsEnum: string[];
+
 
   displayedColumns: string[] = ['player', 'prediction', 'challenged', 'coins'];
   dataSource = ELEMENT_DATA;
@@ -91,7 +101,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
               this.loggedIn = (this.user != null);
 
               if (!this.loggedIn) {
-                this.router.navigate(['/home']);
+                // this.router.navigate(['/home']);
               }
             },
             (error) => console.log(error)
@@ -111,14 +121,27 @@ export class PredictionsComponent implements OnInit, OnDestroy {
               if (response.statusCode === 'N') {
                 alert('No Match Data Available');
               } else {
-                this.selectedMatch = response.result as MatchModel;
-                console.log(this.selectedMatch.localDate);
+                this.selectedMatch = <MatchModel>response.result;
+                this.teamsEnum = [this.selectedMatch.team1.teamName, this.selectedMatch.team2.teamName];
+                console.log(JSON.parse(this.selectedMatch.additionalInfo));
               }
             },
             (error) => console.log(error)
         );
 
-      this.predictionSubscription = this.predictionService.getPredictions(this.matchId,
+      this.targetSubscription = this.loginService.getUsersByGroupId(this.user.userName, this.user.groupId)
+          .subscribe((resp) => {
+                  if (resp.statusCode === 'N') {
+                      alert('No User Data Available');
+                  } else {
+                      this.targetList = resp.result as UserModel[];
+                      console.log(this.targetList);
+                  }
+              },
+              (error) => console.log(error)
+          );
+
+      this.getPredictionSubscription = this.predictionService.getPredictions(this.matchId,
                                                                           this.user.groupId,
                                                                           this.user.userId,
                                                                           this.user.userName)
@@ -126,12 +149,17 @@ export class PredictionsComponent implements OnInit, OnDestroy {
                   if (response.statusCode === 'N') {
                       // alert('No Predictions Available');
                   } else {
-                      this.currentMatchPrediction = response.result as PredictionModel;
-                      console.log(this.currentMatchPrediction);
+                      this.predictions = <PredictionModel[]>response.result;
+                      console.log(this.predictions);
 
+                      if (this.predictions.length > 0) {
 
-                      if(this.currentMatchPrediction.match.matchStatus !== 'SCHEDULED') {
-                          this.showOthersPredictions = true;
+                          this.currentUserPrediction = this.predictions.filter( pred => pred.userId === this.user.userId)[0];
+                          console.log(this.currentUserPrediction);
+
+                          if (this.currentUserPrediction.match.matchStatus !== 'SCHEDULED') {
+                              this.showOthersPredictions = true;
+                          }
                       }
                   }
               },
@@ -139,11 +167,45 @@ export class PredictionsComponent implements OnInit, OnDestroy {
           );
   }
 
+  submitPrediction() {
+   console.log(this.predictionForm.value);
+
+   this.userPredictionToSubmit = this.currentUserPrediction;
+
+   this.userPredictionToSubmit.margin = this.predictionForm.value.marginOption != null ?
+       this.predictionForm.value.marginOption : this.userPredictionToSubmit.margin;
+   this.userPredictionToSubmit.challengedUserId = this.predictionForm.value.targetUser != null ?
+       this.predictionForm.value.targetUser : this.userPredictionToSubmit.challengedUserId;
+   this.userPredictionToSubmit.winnerId = this.predictionForm.value.winner != null ?
+       this.predictionForm.value.winner : this.userPredictionToSubmit.winnerId;
+   this.userPredictionToSubmit.coinsAtPlay = this.predictionForm.value.coinsInvested != null ?
+       this.predictionForm.value.coinsInvested : this.userPredictionToSubmit.coinsAtPlay;
+
+   this.userPredictionToSubmit.challengedUser = null;
+   this.userPredictionToSubmit.winner = null;
+
+   console.log(this.userPredictionToSubmit);
+
+   this.submitPredictionSubscription = this.predictionService.submitPredictions(this.user.userId,
+       this.user.userName, this.userPredictionToSubmit)
+       .subscribe((resps) => {
+               console.log(resps);
+               if (resps.statusCode === 'N') {
+                   alert('Prediction Submission Failed');
+               } else {
+                   alert('Prediction Submitted Successfully');
+               }
+           },
+           (error) => console.log(error)
+       );
+  }
+
   ngOnDestroy(): void {
       this.currentUserSubscription.unsubscribe();
       this.currentUserGroupsSubscription.unsubscribe();
       this.matchSubscription.unsubscribe();
-      this.predictionSubscription.unsubscribe();
+      this.getPredictionSubscription.unsubscribe();
+      // this.submitPredictionSubscription.unsubscribe();
   }
 
 }
