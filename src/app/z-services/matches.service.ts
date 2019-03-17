@@ -46,6 +46,7 @@ export class MatchesService {
 
     getMatches(username: string): Observable<ResponseModel> {
         const headers = new Headers({'X-USER-NAME': username});
+
         return this.http.get(AppConstants.API_ENDPOINT + '/matches/', {headers: headers})
             .map(
                 (response: Response) => {
