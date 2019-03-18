@@ -32,6 +32,7 @@ import { MatchesService} from './z-services/matches.service';
 import { PlayerHistoryService} from './z-services/player-history.service';
 import { AlertComponent } from './alert/alert.component';
 import {AuthGuard} from './z-services/auth.guard';
+import {AppConstants} from './app-constants';
 
 const googleLoginOptions: LoginOpt = {
   scope: 'profile email',
@@ -40,7 +41,7 @@ const googleLoginOptions: LoginOpt = {
 const config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
-    provider: new GoogleLoginProvider('515718912201-5iisnrp83m8d31t1l80c898h3g5v22n4.apps.googleusercontent.com', googleLoginOptions)
+    provider: new GoogleLoginProvider(AppConstants.GOOGLE_KEY, googleLoginOptions)
   }
 ]);
 
