@@ -27,7 +27,6 @@ import { MatchesComponent } from './matches/matches.component';
 import { CurrentViewComponent } from './matches/current-view/current-view.component';
 import { ListViewComponent } from './matches/list-view/list-view.component';
 import { PlayerHistoryComponent } from './player-history/player-history.component';
-import { ScoreboardService} from './z-services/scoreboard.service';
 import { MatchesService} from './z-services/matches.service';
 import { PlayerHistoryService} from './z-services/player-history.service';
 import { AlertComponent } from './alert/alert.component';
@@ -88,7 +87,6 @@ export function provideConfig() {
       useFactory: provideConfig
     },
     LoginService,
-    ScoreboardService,
     MatchesService,
     PlayerHistoryService,
     PredictionsService,

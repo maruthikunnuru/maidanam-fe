@@ -196,6 +196,10 @@ export class PredictionsComponent implements OnInit, OnDestroy {
   submitPrediction() {
    console.log(this.predictionForm);
 
+   this.predictionForm.value.marginOption = 'HARD';
+   this.predictionForm.value.winnerId = this.selectedMatch.team1Id;
+
+
    this.userPredictionToSubmit = this.currentUserPrediction;
 
    this.userPredictionToSubmit.margin = this.predictionForm.value.marginOption != null ?
