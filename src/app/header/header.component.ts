@@ -2,9 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService, GoogleLoginProvider, SocialUser} from 'angularx-social-login';
 import {Router} from '@angular/router';
 import {LoginService} from '../z-services/login.service';
-import {Observable, Subscription} from 'rxjs';
-import {ResponseModel} from '../z-models/response.model';
-import {AlertService} from '../z-services/alert.service';
+import {Subscription} from 'rxjs';
 import {GroupModel} from '../z-models/group.model';
 import {UserModel} from '../z-models/user.model';
 
@@ -25,8 +23,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private authService: AuthService,
-              private loginService: LoginService,
-              private alertService: AlertService) { }
+              private loginService: LoginService) { }
 
   ngOnInit() {
     if (!this.loggedIn) {
@@ -62,7 +59,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
                                   this.user = userList.filter(usr => usr.emailId === this.socialUser.email)[0];
                                   console.log('Final User -->' + JSON.stringify(this.user));
                                   this.loginService.setUser(this.user);
-                                  this.router.navigate(['/matches']);
+                                  // this.router.navigate(['/matches']);
                                 } else {
                                    console.log('Error in getUsersByGroup');
                                 }

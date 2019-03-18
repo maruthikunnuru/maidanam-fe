@@ -9,21 +9,8 @@ import {GroupModel} from '../../z-models/group.model';
 import {PredictionsService} from '../../z-services/predictions.service';
 import {PredictionModel} from '../../z-models/prediction.model';
 import {NgForm} from '@angular/forms';
-
-export interface PeriodicElement {
-  player: string;
-  prediction: string;
-  challenged: string;
-  coins: number;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {player: 'Harish', prediction: 'CSK (Medium)', challenged: 'Maruthi', coins: 700},
-  {player: 'Vinodh', prediction: 'MI  (Hard)', challenged: 'Harish', coins: 800},
-  {player: 'Pradi', prediction: 'MI  (Easy)', challenged: 'Vinodh', coins: 500},
-  {player: 'Maruthi', prediction: 'CSK  (Medium)', challenged: 'Harish', coins: 1200},
-  {player: 'Uma', prediction: 'CSK (Hard)', challenged: 'Maruthi', coins: 600},
-  ];
+import {group} from '@angular/animations';
+import {PredTableInterface} from '../../z-models/pred-table.interface';
 
 @Component({
   selector: 'app-predictions',
@@ -49,6 +36,8 @@ export class PredictionsComponent implements OnInit, OnDestroy {
   showOthersPredictions = false;
   targetSubscription: Subscription;
   targetList: UserModel[];
+  isTeam1WinnerPredicted = false;
+  isTeam2WinnerPredicted = false;
 
   @ViewChild('p') predictionForm: NgForm;
   oddsEnum: string[] = ['EASY', 'MEDIUM', 'HARD'];
@@ -56,7 +45,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
 
 
   displayedColumns: string[] = ['player', 'prediction', 'challenged', 'coins'];
-  dataSource = ELEMENT_DATA;
+  dataSource: PredTableInterface[] = [];
 
 
   changeSlide(slideEvent: any) {
@@ -99,7 +88,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
             (res) => {
               this.user = res;
               this.loggedIn = (this.user != null);
-
+              console.log(this.user);
               if (!this.loggedIn) {
                 // this.router.navigate(['/home']);
               }
@@ -123,6 +112,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
               } else {
                 this.selectedMatch = <MatchModel>response.result;
                 this.teamsEnum = [this.selectedMatch.team1.teamName, this.selectedMatch.team2.teamName];
+                console.log(this.selectedMatch);
                 console.log(JSON.parse(this.selectedMatch.additionalInfo));
               }
             },
@@ -131,11 +121,14 @@ export class PredictionsComponent implements OnInit, OnDestroy {
 
       this.targetSubscription = this.loginService.getUsersByGroupId(this.user.userName, this.user.groupId)
           .subscribe((resp) => {
+                  console.log(resp);
                   if (resp.statusCode === 'N') {
                       alert('No User Data Available');
                   } else {
                       this.targetList = resp.result as UserModel[];
                       console.log(this.targetList);
+                      this.targetList = this.targetList.filter( usr => usr.userName !== this.user.userName);
+                      console.log(console.log(this.targetList));
                   }
               },
               (error) => console.log(error)
@@ -160,6 +153,39 @@ export class PredictionsComponent implements OnInit, OnDestroy {
                           if (this.currentUserPrediction.match.matchStatus !== 'SCHEDULED') {
                               this.showOthersPredictions = true;
                           }
+                          console.log(this.showOthersPredictions);
+
+                          this.predictions.forEach(pred => {
+                              console.log('Inside dataSource..');
+
+                              if (pred.predictionId !== null && typeof pred.predictionId !== 'undefined') {
+                                  const element: PredTableInterface = {
+                                      player: pred.user.displayName,
+                                      prediction: pred.winner.teamName + ' ( ' + pred.margin + ' ) ',
+                                      challenged: pred.challengedUser.displayName,
+                                      coins: pred.coinsAtPlay
+                                  };
+                                  this.dataSource.push(element);
+                                  this.dataSource = [...this.dataSource];
+
+                                  console.log(this.dataSource);
+                              }
+                          });
+
+                          if (this.currentUserPrediction.predictionId) {
+                              if (this.currentUserPrediction.winner.teamName) {
+                                  if (this.currentUserPrediction.match.team1.teamName === this.currentUserPrediction.winner.teamName) {
+                                      this.isTeam1WinnerPredicted = true;
+                                  }
+
+                                  if (this.currentUserPrediction.match.team2.teamName === this.currentUserPrediction.winner.teamName) {
+                                      this.isTeam2WinnerPredicted = true;
+                                  }
+                              }
+                          }
+                          console.log(this.isTeam1WinnerPredicted);
+                          console.log(this.isTeam2WinnerPredicted);
+
                       }
                   }
               },
@@ -168,7 +194,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
   }
 
   submitPrediction() {
-   console.log(this.predictionForm.value);
+   console.log(this.predictionForm);
 
    this.userPredictionToSubmit = this.currentUserPrediction;
 
@@ -200,12 +226,31 @@ export class PredictionsComponent implements OnInit, OnDestroy {
        );
   }
 
+  onSelectGroup(groupid: number, groupObj: GroupModel) {
+    console.log(groupid);
+    console.log(groupObj);
+
+    this.user.groupId = groupid;
+    this.user.group = groupObj;
+    this.loginService.setUser(this.user);
+    this.router.navigateByUrl('/home', {skipLocationChange: true}).then(()=>
+        this.router.navigate(['matches/' + this.matchId + '/predictions']));
+  }
+
   ngOnDestroy(): void {
       this.currentUserSubscription.unsubscribe();
       this.currentUserGroupsSubscription.unsubscribe();
       this.matchSubscription.unsubscribe();
       this.getPredictionSubscription.unsubscribe();
       // this.submitPredictionSubscription.unsubscribe();
+  }
+
+  checkNull(something: string) {
+    if(something === null && typeof something === 'undefined') {
+        return '';
+    } else {
+        return something;
+    }
   }
 
 }

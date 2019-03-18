@@ -48,7 +48,7 @@ export class MatchesComponent implements OnInit, OnDestroy {
               (res) => {
                   this.user = res;
                   this.loggedIn = (this.user != null);
-
+                  console.log(this.user);
                   if (!this.loggedIn) {
                       this.router.navigate(['/home']);
                   }
@@ -83,6 +83,17 @@ export class MatchesComponent implements OnInit, OnDestroy {
 
   private delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  onSelectGroup(groupid: number, group: GroupModel) {
+      console.log(groupid);
+      console.log(group);
+
+      this.user.groupId = groupid;
+      this.user.group = group;
+      this.loginService.setUser(this.user);
+      this.router.navigateByUrl('/home', {skipLocationChange: true}).then(()=>
+          this.router.navigate(['/matches']));
   }
 
 

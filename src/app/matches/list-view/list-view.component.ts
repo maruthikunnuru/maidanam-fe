@@ -18,6 +18,7 @@ export class ListViewComponent implements OnInit {
   matchSubscription: Subscription;
   user: UserModel;
   loggedIn: boolean;
+  matchClass: string;
 
   constructor(private matchesService: MatchesService,
               private loginService: LoginService,
@@ -55,6 +56,16 @@ export class ListViewComponent implements OnInit {
 
   onMatchClick(matchId: number) {
     this.router.navigate([matchId + '/predictions'], {relativeTo: this.route});
+  }
+
+  getMatchClass(match: MatchModel) {
+      if (match.matchStatus === 'RESULT' || match.matchStatus === 'ARCHIVED' ) {
+          return 'open-close-list-past';
+      } else if (match.matchStatus === 'PROGRESS' ) {
+          return 'open-close-list-current';
+      } else if (match.matchStatus === 'SCHEDULED' ) {
+          return 'open-close-list-future';
+      }
   }
 
 }
