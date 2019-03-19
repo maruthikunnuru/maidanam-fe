@@ -20,6 +20,9 @@ import {PredTableInterface} from '../../z-models/pred-table.interface';
 export class PredictionsComponent implements OnInit, OnDestroy {
 
   slideValue = 0;
+  selectedWinnerId: number;
+  selectedMargin: string;
+
   matchId: number;
   selectedMatch: MatchModel;
   predictions: PredictionModel[];
@@ -53,6 +56,15 @@ export class PredictionsComponent implements OnInit, OnDestroy {
     console.log(slideEvent);
   }
 
+  selectWinner(winnerid: any) {
+      this.selectedWinnerId = winnerid;
+      console.log(winnerid);
+  }
+
+  selectMargin(margin: any) {
+    this.selectedMargin = margin;
+    console.log(margin);
+  }
 
   formatLabel(value: number | null) {
     if (!value) {
@@ -194,10 +206,10 @@ export class PredictionsComponent implements OnInit, OnDestroy {
   }
 
   submitPrediction() {
-   console.log(this.predictionForm);
+   this.predictionForm.value.marginOption = this.selectedMargin;
+   this.predictionForm.value.winner = this.selectedWinnerId;
 
-   this.predictionForm.value.marginOption = 'HARD';
-   this.predictionForm.value.winnerId = this.selectedMatch.team1Id;
+   console.log(this.predictionForm);
 
 
    this.userPredictionToSubmit = this.currentUserPrediction;
