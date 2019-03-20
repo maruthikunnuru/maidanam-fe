@@ -50,19 +50,23 @@
           </div>
           <div class="d-flex justify-content-end" style="width:60%;" >
               <div class="btn-group btn-group-toggle" data-toggle="buttons" style="width:90%;">
-                  <label class="btn btn-outline-success btn-sm" [ngClass]="isTeam1WinnerPredicted ? 'active' : ''" (click)="selectWinner(currentUserPrediction.match.team1Id)">
+                  <label class="btn btn-outline-success btn-sm" [ngClass]="isTeam1WinnerPredicted ? 'active' : ''"
+                         (click)="selectWinner(currentUserPrediction.match.team1Id)">
                     <input type="radio" id="team1" name="winner"
                            value="{{currentUserPrediction.match.team1Id}}"
                            ngModel
                            autocomplete="off" required >
                       {{selectedMatch.team1.teamName}}
+                      <p style="color: darkred" *ngIf="selectedWinnerId===currentUserPrediction.match.team1Id">{{team1odds.winOdds}}x</p>
                   </label>
-                  <label class="btn btn-outline-success btn-sm" [ngClass]="isTeam2WinnerPredicted ? 'active' : ''" (click)="selectWinner(currentUserPrediction.match.team2Id)">
+                  <label class="btn btn-outline-success btn-sm" [ngClass]="isTeam2WinnerPredicted ? 'active' : ''"
+                         (click)="selectWinner(currentUserPrediction.match.team2Id)">
                     <input type="radio" id="team2" name="winner"
                          value="{{currentUserPrediction.match.team2Id}}"
                          ngModel
                          autocomplete="off" required>
                       {{selectedMatch.team2.teamName}}
+                      <p style="color: darkred" *ngIf="selectedWinnerId===currentUserPrediction.match.team2Id">{{team2odds.winOdds}}x</p>
                   </label>
               </div>
           </div>
@@ -78,24 +82,30 @@
                   </i>
             </div>
             <div class="d-flex justify-content-end" style="width:60%;padding:1%;">
-                <div class="btn-group btn-group-toggle" data-toggle="buttons" style="width:90%;" >
+                <div class="btn-group btn-group-toggle" data-toggle="buttons" style="width:90%;">
                     <label class="btn btn-outline-dark btn-sm" style="font-size:0.7em;"
                            [ngClass]="currentUserPrediction.margin === 'EASY' ? 'active' : ''"
                            (click)="selectMargin('EASY')">
                       <input type="radio" name="marginOption" value="EASY" ngModel
                              autocomplete="off" required> EASY
+                        <p style="color: red" *ngIf="selectedWinnerId===currentUserPrediction.match.team1Id">{{team1odds.easyOdds}}x</p>
+                        <p style="color: red" *ngIf="selectedWinnerId===currentUserPrediction.match.team2Id">{{team2odds.easyOdds}}x</p>
                     </label>
                     <label class="btn btn-outline-dark btn-sm" style="font-size:0.7em;"
                            [ngClass]="currentUserPrediction.margin === 'MEDIUM' ? 'active' : ''"
                            (click)="selectMargin('MEDIUM')">
                         <input type="radio" name="marginOption" value="MEDIUM" ngModel
                                autocomplete="off" required > MEDIUM
+                        <p style="color: red" *ngIf="selectedWinnerId===currentUserPrediction.match.team1Id">{{team1odds.mediumOdds}}x</p>
+                        <p style="color: red" *ngIf="selectedWinnerId===currentUserPrediction.match.team2Id">{{team2odds.mediumOdds}}x</p>
                     </label>
                     <label class="btn btn-outline-dark btn-sm" style="font-size:0.7em;"
                            [ngClass]="currentUserPrediction.margin === 'HARD' ? 'active' : ''"
                            (click)="selectMargin('HARD')">
                         <input type="radio" name="marginOption" value="HARD" ngModel
                                autocomplete="off" required > HARD
+                        <p style="color: red" *ngIf="selectedWinnerId===currentUserPrediction.match.team1Id">{{team1odds.hardOdds}}x</p>
+                        <p style="color: red" *ngIf="selectedWinnerId===currentUserPrediction.match.team2Id">{{team2odds.hardOdds}}x</p>
                     </label>
                 </div>
             </div>
@@ -109,9 +119,9 @@
               Coins
             </div>
             <div class="d-flex justify-content-end" style="width:60%;">
-              <mat-slider thumbLabel tickInterval="100"
+              <mat-slider thumbLabel tickInterval="10"
                   min="0" max="{{user.totalCoins}}"
-                  step="100" name="coinsInvested"
+                  step="10" name="coinsInvested"
                   (change)='changeSlide($event)'
                   [value]="currentUserPrediction.coinsAtPlay"
                   [(ngModel)]="currentUserPrediction.coinsAtPlay"

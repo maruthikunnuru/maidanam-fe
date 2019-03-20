@@ -11,6 +11,7 @@ import {PredictionModel} from '../../z-models/prediction.model';
 import {NgForm} from '@angular/forms';
 import {group} from '@angular/animations';
 import {PredTableInterface} from '../../z-models/pred-table.interface';
+import {OddsModel} from '../../z-models/odds.model';
 
 @Component({
   selector: 'app-predictions',
@@ -41,8 +42,14 @@ export class PredictionsComponent implements OnInit, OnDestroy {
   targetList: UserModel[];
   isTeam1WinnerPredicted = false;
   isTeam2WinnerPredicted = false;
+  easyOdds: string;
+  mediumOdds: string;
+  hardOdds: string;
+  winOdds: string;
+  team1odds: OddsModel;
+  team2odds: OddsModel;
 
-  @ViewChild('p') predictionForm: NgForm;
+    @ViewChild('p') predictionForm: NgForm;
   oddsEnum: string[] = ['EASY', 'MEDIUM', 'HARD'];
   teamsEnum: string[];
 
@@ -59,6 +66,25 @@ export class PredictionsComponent implements OnInit, OnDestroy {
   selectWinner(winnerid: any) {
       this.selectedWinnerId = winnerid;
       console.log(winnerid);
+
+      let oddsInfo = this.currentUserPrediction.match.additionalInfo;
+      oddsInfo = oddsInfo.replace(/"/g, '');
+      oddsInfo = oddsInfo.replace(/{/g, '');
+      oddsInfo = oddsInfo.replace(/}/g, '');
+      oddsInfo = oddsInfo.replace(/,/g, ':');
+      const oddsArr = oddsInfo.split(':');
+      console.log(oddsArr);
+
+      if (oddsArr.length === 15 && oddsArr[1] === String(this.currentUserPrediction.match.team1Id)
+          && oddsArr[8] === String(this.currentUserPrediction.match.team2Id) ){
+          this.team1odds = new OddsModel(this.currentUserPrediction.match.oddsTeam1,
+                                        oddsArr[3], oddsArr[5], oddsArr[7]);
+          this.team2odds = new OddsModel(this.currentUserPrediction.match.oddsTeam2,
+              oddsArr[10], oddsArr[12], oddsArr[14]);
+      }
+      console.log(this.team1odds);
+      console.log(this.team2odds);
+
   }
 
   selectMargin(margin: any) {
@@ -212,34 +238,34 @@ export class PredictionsComponent implements OnInit, OnDestroy {
    console.log(this.predictionForm);
 
 
-   this.userPredictionToSubmit = this.currentUserPrediction;
-
-   this.userPredictionToSubmit.margin = this.predictionForm.value.marginOption != null ?
-       this.predictionForm.value.marginOption : this.userPredictionToSubmit.margin;
-   this.userPredictionToSubmit.challengedUserId = this.predictionForm.value.targetUser != null ?
-       this.predictionForm.value.targetUser : this.userPredictionToSubmit.challengedUserId;
-   this.userPredictionToSubmit.winnerId = this.predictionForm.value.winner != null ?
-       this.predictionForm.value.winner : this.userPredictionToSubmit.winnerId;
-   this.userPredictionToSubmit.coinsAtPlay = this.predictionForm.value.coinsInvested != null ?
-       this.predictionForm.value.coinsInvested : this.userPredictionToSubmit.coinsAtPlay;
-
-   this.userPredictionToSubmit.challengedUser = null;
-   this.userPredictionToSubmit.winner = null;
-
-   console.log(this.userPredictionToSubmit);
-
-   this.submitPredictionSubscription = this.predictionService.submitPredictions(this.user.userId,
-       this.user.userName, this.userPredictionToSubmit)
-       .subscribe((resps) => {
-               console.log(resps);
-               if (resps.statusCode === 'N') {
-                   alert('Prediction Submission Failed');
-               } else {
-                   alert('Prediction Submitted Successfully');
-               }
-           },
-           (error) => console.log(error)
-       );
+   // this.userPredictionToSubmit = this.currentUserPrediction;
+   //
+   // this.userPredictionToSubmit.margin = this.predictionForm.value.marginOption != null ?
+   //     this.predictionForm.value.marginOption : this.userPredictionToSubmit.margin;
+   // this.userPredictionToSubmit.challengedUserId = this.predictionForm.value.targetUser != null ?
+   //     this.predictionForm.value.targetUser : this.userPredictionToSubmit.challengedUserId;
+   // this.userPredictionToSubmit.winnerId = this.predictionForm.value.winner != null ?
+   //     this.predictionForm.value.winner : this.userPredictionToSubmit.winnerId;
+   // this.userPredictionToSubmit.coinsAtPlay = this.predictionForm.value.coinsInvested != null ?
+   //     this.predictionForm.value.coinsInvested : this.userPredictionToSubmit.coinsAtPlay;
+   //
+   // this.userPredictionToSubmit.challengedUser = null;
+   // this.userPredictionToSubmit.winner = null;
+   //
+   // console.log(this.userPredictionToSubmit);
+   //
+   // this.submitPredictionSubscription = this.predictionService.submitPredictions(this.user.userId,
+   //     this.user.userName, this.userPredictionToSubmit)
+   //     .subscribe((resps) => {
+   //             console.log(resps);
+   //             if (resps.statusCode === 'N') {
+   //                 alert('Prediction Submission Failed');
+   //             } else {
+   //                 alert('Prediction Submitted Successfully');
+   //             }
+   //         },
+   //         (error) => console.log(error)
+   //     );
   }
 
   onSelectGroup(groupid: number, groupObj: GroupModel) {
