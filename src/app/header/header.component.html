@@ -2,7 +2,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light" style="background:darkorange;padding:0px;">
   <a class="navbar-brand" routerLink="/">
-    <img src="assets/images/Sumo.jpeg" width="60" height="55">
+    <img src="assets/images/Sumo.jpeg" width="50" height="45">
   </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
           aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation" *ngIf=loggedIn>
@@ -19,8 +19,11 @@
       <!--<li class="nav-item" routerLinkActive="active">-->
         <!--<a class="nav-link" routerLink="/history"><b>My History</b></a>-->
       <!--</li>-->
+      <!--<li class="nav-item" routerLinkActive="active">-->
+        <!--<a class="nav-link" routerLink="/groups"><b>Manage Groups</b></a>-->
+      <!--</li>-->
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" routerLink="/groups"><b>Manage Groups</b></a>
+        <a class="nav-link" routerLink="/faq"><b>FAQs</b></a>
       </li>
     </ul>
   </div>
@@ -66,6 +69,7 @@
   <!--</a>-->
   <div style="color: darkred" *ngIf="loggedIn">
     Welcome !! {{ socialUser.name }}
+    <a href="{{socialUser.name}}"></a>
   </div>
   <form class="form-inline">
 
@@ -76,7 +80,9 @@
         </div>
       </a>
     </button>
-    <button class="btn white" (click)="signOut()" *ngIf="loggedIn">Sign Out</button>
+    <button class="btn white" (click)="signOut()" *ngIf="loggedIn">
+      <img class="rounded" width="30px" src="assets/images/signout3.png"/>
+    </button>
 </form>
 </nav>
 

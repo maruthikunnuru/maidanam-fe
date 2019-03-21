@@ -32,6 +32,7 @@ import { PlayerHistoryService} from './z-services/player-history.service';
 import { AlertComponent } from './alert/alert.component';
 import {AuthGuard} from './z-services/auth.guard';
 import {AppConstants} from './app-constants';
+import { FaqComponent } from './faq/faq.component';
 
 const googleLoginOptions: LoginOpt = {
   scope: 'profile email',
@@ -63,7 +64,8 @@ export function provideConfig() {
     CurrentViewComponent,
     ListViewComponent,
     PlayerHistoryComponent,
-    AlertComponent
+    AlertComponent,
+    FaqComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,19 @@
+p {
+    color: darkslategrey;
+    font-size: 1em;
+}
+
+/**{*/
+    /*font-family: 'Titillium Web', sans-serif;*/
+    /*font-family: 'Roboto Mono', monospace;*/
+    /*font-family: 'Nova Mono', monospace;*/
+/*}*/
+
+h5 {
+    color: darkblue;
+    font-size: 1.5em;
+}
+
+h6 {
+    color: green;
+}

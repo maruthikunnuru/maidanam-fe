@@ -12,6 +12,7 @@ import {NgForm} from '@angular/forms';
 import {group} from '@angular/animations';
 import {PredTableInterface} from '../../z-models/pred-table.interface';
 import {OddsModel} from '../../z-models/odds.model';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-predictions',
@@ -42,21 +43,13 @@ export class PredictionsComponent implements OnInit, OnDestroy {
   targetList: UserModel[];
   isTeam1WinnerPredicted = false;
   isTeam2WinnerPredicted = false;
-  easyOdds: string;
-  mediumOdds: string;
-  hardOdds: string;
-  winOdds: string;
   team1odds: OddsModel;
   team2odds: OddsModel;
 
-    @ViewChild('p') predictionForm: NgForm;
-  oddsEnum: string[] = ['EASY', 'MEDIUM', 'HARD'];
-  teamsEnum: string[];
-
+  @ViewChild('p') predictionForm: NgForm;
 
   displayedColumns: string[] = ['player', 'prediction', 'challenged', 'coins'];
   dataSource: PredTableInterface[] = [];
-
 
   changeSlide(slideEvent: any) {
     this.slideValue = slideEvent.value;
@@ -87,6 +80,10 @@ export class PredictionsComponent implements OnInit, OnDestroy {
 
   }
 
+  goBack() {
+      this.location.back();
+  }
+
   selectMargin(margin: any) {
     this.selectedMargin = margin;
     console.log(margin);
@@ -108,7 +105,8 @@ export class PredictionsComponent implements OnInit, OnDestroy {
               private router: Router,
               private loginService: LoginService,
               private matchesService: MatchesService,
-              private predictionService: PredictionsService) { }
+              private predictionService: PredictionsService,
+              private location: Location) { }
 
   ngOnInit() {
     console.log('Inside predictions');
@@ -149,7 +147,6 @@ export class PredictionsComponent implements OnInit, OnDestroy {
                 alert('No Match Data Available');
               } else {
                 this.selectedMatch = <MatchModel>response.result;
-                this.teamsEnum = [this.selectedMatch.team1.teamName, this.selectedMatch.team2.teamName];
                 console.log(this.selectedMatch);
                 console.log(JSON.parse(this.selectedMatch.additionalInfo));
               }
@@ -238,34 +235,34 @@ export class PredictionsComponent implements OnInit, OnDestroy {
    console.log(this.predictionForm);
 
 
-   // this.userPredictionToSubmit = this.currentUserPrediction;
-   //
-   // this.userPredictionToSubmit.margin = this.predictionForm.value.marginOption != null ?
-   //     this.predictionForm.value.marginOption : this.userPredictionToSubmit.margin;
-   // this.userPredictionToSubmit.challengedUserId = this.predictionForm.value.targetUser != null ?
-   //     this.predictionForm.value.targetUser : this.userPredictionToSubmit.challengedUserId;
-   // this.userPredictionToSubmit.winnerId = this.predictionForm.value.winner != null ?
-   //     this.predictionForm.value.winner : this.userPredictionToSubmit.winnerId;
-   // this.userPredictionToSubmit.coinsAtPlay = this.predictionForm.value.coinsInvested != null ?
-   //     this.predictionForm.value.coinsInvested : this.userPredictionToSubmit.coinsAtPlay;
-   //
-   // this.userPredictionToSubmit.challengedUser = null;
-   // this.userPredictionToSubmit.winner = null;
-   //
-   // console.log(this.userPredictionToSubmit);
-   //
-   // this.submitPredictionSubscription = this.predictionService.submitPredictions(this.user.userId,
-   //     this.user.userName, this.userPredictionToSubmit)
-   //     .subscribe((resps) => {
-   //             console.log(resps);
-   //             if (resps.statusCode === 'N') {
-   //                 alert('Prediction Submission Failed');
-   //             } else {
-   //                 alert('Prediction Submitted Successfully');
-   //             }
-   //         },
-   //         (error) => console.log(error)
-   //     );
+   this.userPredictionToSubmit = this.currentUserPrediction;
+
+   this.userPredictionToSubmit.margin = this.predictionForm.value.marginOption != null ?
+       this.predictionForm.value.marginOption : this.userPredictionToSubmit.margin;
+   this.userPredictionToSubmit.challengedUserId = this.predictionForm.value.targetUser != null ?
+       this.predictionForm.value.targetUser : this.userPredictionToSubmit.challengedUserId;
+   this.userPredictionToSubmit.winnerId = this.predictionForm.value.winner != null ?
+       this.predictionForm.value.winner : this.userPredictionToSubmit.winnerId;
+   this.userPredictionToSubmit.coinsAtPlay = this.predictionForm.value.coinsInvested != null ?
+       this.predictionForm.value.coinsInvested : this.userPredictionToSubmit.coinsAtPlay;
+
+   this.userPredictionToSubmit.challengedUser = null;
+   this.userPredictionToSubmit.winner = null;
+
+   console.log(this.userPredictionToSubmit);
+
+   this.submitPredictionSubscription = this.predictionService.submitPredictions(this.user.userId,
+       this.user.userName, this.userPredictionToSubmit)
+       .subscribe((resps) => {
+               console.log(resps);
+               if (resps.statusCode === 'N') {
+                   alert('Prediction Submission Failed');
+               } else {
+                   alert('Prediction Submitted Successfully');
+               }
+           },
+           (error) => console.log(error)
+       );
   }
 
   onSelectGroup(groupid: number, groupObj: GroupModel) {
@@ -285,14 +282,6 @@ export class PredictionsComponent implements OnInit, OnDestroy {
       this.matchSubscription.unsubscribe();
       this.getPredictionSubscription.unsubscribe();
       // this.submitPredictionSubscription.unsubscribe();
-  }
-
-  checkNull(something: string) {
-    if(something === null && typeof something === 'undefined') {
-        return '';
-    } else {
-        return something;
-    }
   }
 
 }
