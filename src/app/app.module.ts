@@ -29,10 +29,10 @@ import { ListViewComponent } from './matches/list-view/list-view.component';
 import { PlayerHistoryComponent } from './player-history/player-history.component';
 import { MatchesService} from './z-services/matches.service';
 import { PlayerHistoryService} from './z-services/player-history.service';
-import { AlertComponent } from './alert/alert.component';
 import {AuthGuard} from './z-services/auth.guard';
 import {AppConstants} from './app-constants';
 import { FaqComponent } from './faq/faq.component';
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 
 const googleLoginOptions: LoginOpt = {
   scope: 'profile email',
@@ -64,7 +64,6 @@ export function provideConfig() {
     CurrentViewComponent,
     ListViewComponent,
     PlayerHistoryComponent,
-    AlertComponent,
     FaqComponent
   ],
   imports: [
@@ -81,7 +80,8 @@ export function provideConfig() {
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    Ng4LoadingSpinnerModule.forRoot()
   ],
   providers: [
     {

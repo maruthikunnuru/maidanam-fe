@@ -81,7 +81,6 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
 
   onCreate(form: NgForm) {
     const gName = form.value.groupName;
-    alert(gName);
     const group: GroupModel = new GroupModel(null, gName, null,
         0, 1, 'ACTIVE', 1700);
     if (gName) {

@@ -18,10 +18,10 @@ const appRoutes: Routes = [
   { path: 'matches/:id/predictions', pathMatch: 'full', component: PredictionsComponent },
   { path: 'scoreboard', component: ScoreboardComponent},
   { path: 'register', component: RegisterComponent, canActivate: [AuthGuard]},
-  { path: 'error', component: ErrorPageComponent},
+  // { path: 'error', component: ErrorPageComponent},
   // { path: 'groups', component: ManageGroupsComponent, canActivate: [AuthGuard]},
-  { path: 'history', component: PlayerHistoryComponent},
-  { path: 'history/:id/predictions', pathMatch: 'full', component: PredictionsComponent },
+  // { path: 'history', component: PlayerHistoryComponent},
+  // { path: 'history/:id/predictions', pathMatch: 'full', component: PredictionsComponent },
   { path: 'faq', pathMatch: 'full', component: FaqComponent }
 ];
 

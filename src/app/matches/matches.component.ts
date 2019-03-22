@@ -17,10 +17,10 @@ import {ActivatedRoute, Router} from '@angular/router';
             style(
               {transform: 'translateX(-100%)'}
             ) ,
-            animate(250, style({transform: 'translateX(0)'}))
+            animate(150, style({transform: 'translateX(0)'}))
         ]),
         transition(':leave', [
-            animate(250,
+            animate(150,
               style({transform: 'scale(0,0)'})
             )
         ])

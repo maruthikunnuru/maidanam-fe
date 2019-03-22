@@ -42,12 +42,9 @@ export class ListViewComponent implements OnInit {
 
     this.matchSubscription = this.matchesService.getMatches('aripakavinodh@gmail.com')
         .subscribe((response) => {
-              // console.log(response);
               if (response.statusCode === 'N') {
-                alert('No Match Data Available');
               } else {
                 this.allMatches = response.result as MatchModel[];
-                // console.log(this.allMatches);
               }
             },
             (error) => console.log(error)

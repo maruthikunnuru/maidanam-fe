@@ -1,6 +1,6 @@
 .open-close-list-past {
-    border: 1px solid #cb3d12;
-    background: #ffffff;
+    border: 1px solid blue;
+    background: gray;
     margin: 1.5em 0em;
     padding: 0px 0px 0px 0px;
     color: #000000;
@@ -11,8 +11,8 @@
   }
 
   .open-close-list-current {
-    border: 1px solid #e0dd12;
-    background: #ffffff;
+    border: 1px solid blue;
+    background: orange;
     margin: 1.5em 0em;
     padding: 0px 0px 0px 0px;
     color: #000000;
@@ -23,8 +23,8 @@
   }
 
   .open-close-list-future {
-    border: 1px solid #729d39;
-    background: #ffffff;
+    border: 1px solid blue;
+    background: mediumseagreen;
     margin: 1.5em 0em;
     padding: 0px 0px 0px 0px;
     color: #000000;

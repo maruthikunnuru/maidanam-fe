@@ -59,7 +59,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
                                   this.user = userList.filter(usr => usr.emailId === this.socialUser.email)[0];
                                   console.log('Final User -->' + JSON.stringify(this.user));
                                   this.loginService.setUser(this.user);
-                                  // this.router.navigate(['/matches']);
+                                  this.router.navigate(['/matches']);
                                 } else {
                                    console.log('Error in getUsersByGroup');
                                 }
@@ -69,7 +69,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
                     } else {
                       this.loginService.setSocialUser(this.socialUser);
-                      // alert('Hey ' + this.socialUser.name + '. You are not a registered User !!');
                       this.router.navigate(['/register']);
                     }
                   },

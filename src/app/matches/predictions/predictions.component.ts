@@ -13,6 +13,7 @@ import {group} from '@angular/animations';
 import {PredTableInterface} from '../../z-models/pred-table.interface';
 import {OddsModel} from '../../z-models/odds.model';
 import { Location } from '@angular/common';
+import {Ng4LoadingSpinnerService} from 'ng4-loading-spinner';
 
 @Component({
   selector: 'app-predictions',
@@ -45,8 +46,14 @@ export class PredictionsComponent implements OnInit, OnDestroy {
   isTeam2WinnerPredicted = false;
   team1odds: OddsModel;
   team2odds: OddsModel;
+  selectWinnerFlag = false;
+  selectMarginFlag = false;
+    submitFail = false;
+    submitPass = false;
+    errorMessage: string;
 
-  @ViewChild('p') predictionForm: NgForm;
+
+    @ViewChild('p') predictionForm: NgForm;
 
   displayedColumns: string[] = ['player', 'prediction', 'challenged', 'coins'];
   dataSource: PredTableInterface[] = [];
@@ -56,8 +63,19 @@ export class PredictionsComponent implements OnInit, OnDestroy {
     console.log(slideEvent);
   }
 
+    getMatchClass(match: MatchModel) {
+        if (match.matchStatus === 'RESULT' || match.matchStatus === 'ARCHIVED' ) {
+            return 'open-close-list-past';
+        } else if (match.matchStatus === 'PROGRESS' ) {
+            return 'open-close-list-current';
+        } else if (match.matchStatus === 'SCHEDULED' ) {
+            return 'open-close-list-future';
+        }
+    }
+
   selectWinner(winnerid: any) {
       this.selectedWinnerId = winnerid;
+      this.selectWinnerFlag = false;
       console.log(winnerid);
 
       let oddsInfo = this.currentUserPrediction.match.additionalInfo;
@@ -86,6 +104,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
 
   selectMargin(margin: any) {
     this.selectedMargin = margin;
+    this.selectMarginFlag = false;
     console.log(margin);
   }
 
@@ -106,7 +125,8 @@ export class PredictionsComponent implements OnInit, OnDestroy {
               private loginService: LoginService,
               private matchesService: MatchesService,
               private predictionService: PredictionsService,
-              private location: Location) { }
+              private location: Location,
+              private spinnerService: Ng4LoadingSpinnerService) { }
 
   ngOnInit() {
     console.log('Inside predictions');
@@ -126,7 +146,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
               this.loggedIn = (this.user != null);
               console.log(this.user);
               if (!this.loggedIn) {
-                // this.router.navigate(['/home']);
+                 this.router.navigate(['/home']);
               }
             },
             (error) => console.log(error)
@@ -144,7 +164,6 @@ export class PredictionsComponent implements OnInit, OnDestroy {
     this.matchSubscription = this.matchesService.getMatchById(this.matchId, this.user.userName)
         .subscribe((response) => {
               if (response.statusCode === 'N') {
-                alert('No Match Data Available');
               } else {
                 this.selectedMatch = <MatchModel>response.result;
                 console.log(this.selectedMatch);
@@ -169,13 +188,14 @@ export class PredictionsComponent implements OnInit, OnDestroy {
               (error) => console.log(error)
           );
 
+      this.spinnerService.show();
       this.getPredictionSubscription = this.predictionService.getPredictions(this.matchId,
                                                                           this.user.groupId,
                                                                           this.user.userId,
                                                                           this.user.userName)
           .subscribe((response) => {
+                  this.spinnerService.hide();
                   if (response.statusCode === 'N') {
-                      // alert('No Predictions Available');
                   } else {
                       this.predictions = <PredictionModel[]>response.result;
                       console.log(this.predictions);
@@ -188,7 +208,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
                           if (this.currentUserPrediction.match.matchStatus !== 'SCHEDULED') {
                               this.showOthersPredictions = true;
                           }
-                          console.log(this.showOthersPredictions);
+                          console.log('showOthersPredictions-->' + this.showOthersPredictions);
 
                           this.predictions.forEach(pred => {
                               console.log('Inside dataSource..');
@@ -229,11 +249,24 @@ export class PredictionsComponent implements OnInit, OnDestroy {
   }
 
   submitPrediction() {
-   this.predictionForm.value.marginOption = this.selectedMargin;
-   this.predictionForm.value.winner = this.selectedWinnerId;
+
+   if (this.selectedWinnerId || this.currentUserPrediction.winnerId) {
+       this.selectWinnerFlag = false;
+       this.predictionForm.value.winner = this.selectedWinnerId;
+   } else {
+       this.selectWinnerFlag = true;
+       return;
+   }
+
+   if (this.selectedMargin || this.currentUserPrediction.margin) {
+       this.selectMarginFlag = false;
+       this.predictionForm.value.marginOption = this.selectedMargin;
+   } else {
+       this.selectMarginFlag = true;
+       return;
+   }
 
    console.log(this.predictionForm);
-
 
    this.userPredictionToSubmit = this.currentUserPrediction;
 
@@ -251,14 +284,19 @@ export class PredictionsComponent implements OnInit, OnDestroy {
 
    console.log(this.userPredictionToSubmit);
 
+   this.spinnerService.show();
    this.submitPredictionSubscription = this.predictionService.submitPredictions(this.user.userId,
        this.user.userName, this.userPredictionToSubmit)
        .subscribe((resps) => {
+               this.spinnerService.hide();
                console.log(resps);
                if (resps.statusCode === 'N') {
-                   alert('Prediction Submission Failed');
+                   this.submitFail = true;
+                   this.submitPass = false;
+                   this.errorMessage = resps.validationErrors[0];
                } else {
-                   alert('Prediction Submitted Successfully');
+                   this.submitFail = false;
+                   this.submitPass = true;
                }
            },
            (error) => console.log(error)

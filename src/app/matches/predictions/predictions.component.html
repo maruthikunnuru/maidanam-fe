@@ -18,12 +18,16 @@
         </div>
     </div>
 </div>
-<p>{{user.totalCoins}} <img src="assets/images/coins.jpg" width="30" height="20"> </p>
+<p>{{currentUserPrediction.user.totalCoins}}
+    <img src="assets/images/coins.jpg" width="30" height="20">
+</p>
 <div class="container-fluid">
-    <div class="row no-gutters open-close-container col-sm-8 col-md-6 col-lg-4 mx-auto">
+    <div class="row no-gutters open-close-container col-sm-8 col-md-6 col-lg-4 mx-auto" [ngClass]="getMatchClass(selectedMatch)">
         <div class="d-flex-column" style="width:100%;">
             <div>
-                <p style="font-weight:normal;font-family: 'Ubuntu', sans-serif;" class="text-center">{{selectedMatch.localDate | date }}    {{selectedMatch.localTime}} {{selectedMatch.maidanam.timeZone}}</p>
+                <p style="font-weight:normal;font-family: 'Ubuntu', sans-serif;" class="text-center">
+                    {{selectedMatch.localDate | date }} {{selectedMatch.localTime}} {{selectedMatch.maidanam.timeZone}}
+                </p>
             </div>
 
             <div class="d-flex justify-content-around">
@@ -47,10 +51,34 @@
       <br>
      <form (ngSubmit)="submitPrediction()" #p="ngForm">
       <div class="d-flex-column justify-content-around">
+
+          <div class="d-flex" style="width:100%;">
+              <div class="d-flex align-items-center" style="width:40%;font-size:1.4em;font-weight:normal;font-family: 'Ubuntu', sans-serif;">
+                  Coins<a routerLink="/faq"><img class="rounded" width="20px" src="assets/images/ques.png"/></a>
+              </div>
+              <div class="d-flex justify-content-end" style="width:60%;">
+                  <mat-slider thumbLabel tickInterval="10"
+                              min="0"
+                              max="{{currentUserPrediction.user.totalCoins}}"
+                              step="10"
+                              name="coinsInvested"
+                              (change)='changeSlide($event)'
+                              [value]="currentUserPrediction.coinsAtPlay"
+                              [(ngModel)]="currentUserPrediction.coinsAtPlay"
+                              [displayWith]="formatLabel"
+                              required [disabled]="showOthersPredictions">
+                  </mat-slider>
+              </div>
+          </div>
+
+          <br>
+
+
         <div class="d-flex" style="width:100%;">
           <div class="align-self-start" style="width:40%;font-size:1.4em;font-weight:normal;font-family: 'Ubuntu', sans-serif;">
               Winner<a routerLink="/faq"><img class="rounded" width="20px" src="assets/images/ques.png"/></a>
           </div>
+
           <div class="d-flex justify-content-end" style="width:60%;" >
               <div class="btn-group btn-group-toggle" data-toggle="buttons" style="width:90%;">
                   <label class="btn btn-outline-success btn-sm" [ngClass]="isTeam1WinnerPredicted ? 'active' : ''"
@@ -58,7 +86,7 @@
                     <input type="radio" id="team1" name="winner"
                            value="{{currentUserPrediction.match.team1Id}}"
                            ngModel
-                           autocomplete="off" required >{{selectedMatch.team1.teamName}}
+                           autocomplete="off" >{{selectedMatch.team1.teamName}}
                       <p style="color: darkred" *ngIf="selectedWinnerId===currentUserPrediction.match.team1Id">{{team1odds.winOdds}}x</p>
                   </label>
                   <label class="btn btn-outline-success btn-sm" [ngClass]="isTeam2WinnerPredicted ? 'active' : ''"
@@ -66,14 +94,14 @@
                     <input type="radio" id="team2" name="winner"
                          value="{{currentUserPrediction.match.team2Id}}"
                          ngModel
-                         autocomplete="off" required>{{selectedMatch.team2.teamName}}
+                         autocomplete="off" >{{selectedMatch.team2.teamName}}
                       <p style="color: darkred" *ngIf="selectedWinnerId===currentUserPrediction.match.team2Id">{{team2odds.winOdds}}x</p>
                   </label>
               </div>
           </div>
         </div>
-
-        <br>
+          <p *ngIf="selectWinnerFlag" style="font-size: 0.8em; color: red;">*select winner</p>
+          <br>
 
         <div class="d-flex" style="width:100%;">
             <div class="d-flex justify-content-start align-items-center" style="width:40%;font-size:1.4em;font-weight:normal;font-family: 'Ubuntu', sans-serif;">
@@ -85,7 +113,7 @@
                            [ngClass]="currentUserPrediction.margin === 'EASY' ? 'active' : ''"
                            (click)="selectMargin('EASY')">
                       <input type="radio" name="marginOption" value="EASY" ngModel
-                             autocomplete="off" required>
+                             autocomplete="off" >
                         <p style="color: red" *ngIf="selectedWinnerId===currentUserPrediction.match.team1Id">{{team1odds.easyOdds}}x</p>
                         <p style="color: red" *ngIf="selectedWinnerId===currentUserPrediction.match.team2Id">{{team2odds.easyOdds}}x</p>
                         EASY
@@ -94,7 +122,7 @@
                            [ngClass]="currentUserPrediction.margin === 'MEDIUM' ? 'active' : ''"
                            (click)="selectMargin('MEDIUM')">
                         <input type="radio" name="marginOption" value="MEDIUM" ngModel
-                               autocomplete="off" required >
+                               autocomplete="off"  >
                         <p style="color: red" *ngIf="selectedWinnerId===currentUserPrediction.match.team1Id">{{team1odds.mediumOdds}}x</p>
                         <p style="color: red" *ngIf="selectedWinnerId===currentUserPrediction.match.team2Id">{{team2odds.mediumOdds}}x</p>
                         MEDIUM
@@ -103,44 +131,27 @@
                            [ngClass]="currentUserPrediction.margin === 'HARD' ? 'active' : ''"
                            (click)="selectMargin('HARD')">
                         <input type="radio" name="marginOption" value="HARD" ngModel
-                               autocomplete="off" required >
+                               autocomplete="off"  >
                         <p style="color: red" *ngIf="selectedWinnerId===currentUserPrediction.match.team1Id">{{team1odds.hardOdds}}x</p>
                         <p style="color: red" *ngIf="selectedWinnerId===currentUserPrediction.match.team2Id">{{team2odds.hardOdds}}x</p>
                         HARD
                     </label>
                 </div>
             </div>
-
           </div>
-
+          <p *ngIf="selectMarginFlag" style="font-size: 0.8em; color: red;">*select margin</p>
           <br>
 
-          <div class="d-flex" style="width:100%;">
-            <div class="d-flex align-items-center" style="width:40%;font-size:1.4em;font-weight:normal;font-family: 'Ubuntu', sans-serif;">
-              Coins<a routerLink="/faq"><img class="rounded" width="20px" src="assets/images/ques.png"/></a>
-            </div>
-            <div class="d-flex justify-content-end" style="width:60%;">
-              <mat-slider thumbLabel tickInterval="10"
-                  min="0" max="{{user.totalCoins}}"
-                  step="10" name="coinsInvested"
-                  (change)='changeSlide($event)'
-                  [value]="currentUserPrediction.coinsAtPlay"
-                  [(ngModel)]="currentUserPrediction.coinsAtPlay"
-                  [displayWith]="formatLabel"
-                  required>
-              </mat-slider>
-            </div>
-          </div>
 
-          <br>
 
           <div class="d-flex" style="width:100%;">
             <div class="d-flex justify-content-start align-items-center" style="width:40%;font-size:1.4em;font-weight:normal;font-family: 'Ubuntu', sans-serif;">
               Fasak<a routerLink="/faq"><img class="rounded" width="20px" src="assets/images/ques.png"/></a>
             </div>
             <div class="d-flex justify-content-end" style="width:60%;padding:1%;">
-              <mat-form-field>
-                <mat-select name="targetUser" [(ngModel)]="currentUserPrediction.challengedUserId" >
+              <mat-form-field >
+                <mat-select name="targetUser" [(ngModel)]="currentUserPrediction.challengedUserId"
+                            [disabled]="showOthersPredictions">
                   <mat-option *ngFor="let player of targetList" [value]="player.userId">
                     {{player.displayName}}
                   </mat-option>
@@ -149,12 +160,20 @@
               </mat-form-field>
             </div>
           </div>
-
+          <div  class="alert alert-danger text-danger" *ngIf="submitFail">
+              Submission Failed !!
+              <br>
+              <p style="font-size: 0.8em; color: black"> <i>{{errorMessage}}</i></p>
+          </div>
+          <div  class="alert alert-success" *ngIf="submitPass">
+              Submitted Successfully !
+          </div>
               <br>
 
             <div class="d-flex justify-content-center align-items-center">
-                <button class="btn btn-primary btn-block" type="submit" >Submit</button>
+                <button class="btn btn-primary btn-block" type="submit" [disabled]="!p.valid || showOthersPredictions">Submit</button>
             </div>
+
 
       </div>
          <br>
