@@ -13,41 +13,41 @@ import {GroupModel} from '../z-models/group.model';
 @Component({
     selector: 'app-register',
     templateUrl: './register.component.html',
-    styleUrls: ['./register.component.css'],
-    animations: [
-        trigger ('registerIn', [
-
-            transition(':enter', [
-                style(
-                    {transform: 'translateX(-100%)'}
-                ) ,
-                animate('3.2s', keyframes([
-                        style({transform: 'translateX(-100%)', offset: 0}),
-                        style({transform: 'translateX(-100%)', offset: 0.95}),
-                        style({transform: 'translateX(0%)', offset: 1})
-                    ])
-                )
-
-            ])
-        ]),
-        trigger ('progressOut', [
-
-            transition(':leave', [
-                animate('3s', keyframes([
-                    style({transform: 'translateX(0%)', offset: 0}),
-                    style({transform: 'translateX(0%)', offset: 0.9}),
-                    style({transform: 'translateX(100%)', offset: 1})
-
-                ]))
-                /*
-                  animate(2000,
-                    style({transform: 'translateX(100%)'})
-                  )
-                */
-            ])
-
-        ])
-    ]
+    styleUrls: ['./register.component.css']
+    // animations: [
+    //     trigger ('registerIn', [
+    //
+    //         transition(':enter', [
+    //             style(
+    //                 {transform: 'translateX(-100%)'}
+    //             ) ,
+    //             animate('3.2s', keyframes([
+    //                     style({transform: 'translateX(-100%)', offset: 0}),
+    //                     style({transform: 'translateX(-100%)', offset: 0.95}),
+    //                     style({transform: 'translateX(0%)', offset: 1})
+    //                 ])
+    //             )
+    //
+    //         ])
+    //     ]),
+    //     trigger ('progressOut', [
+    //
+    //         transition(':leave', [
+    //             animate('3s', keyframes([
+    //                 style({transform: 'translateX(0%)', offset: 0}),
+    //                 style({transform: 'translateX(0%)', offset: 0.9}),
+    //                 style({transform: 'translateX(100%)', offset: 1})
+    //
+    //             ]))
+    //             /*
+    //               animate(2000,
+    //                 style({transform: 'translateX(100%)'})
+    //               )
+    //             */
+    //         ])
+    //
+    //     ])
+    // ]
 })
 export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
 
@@ -71,8 +71,7 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(private router: Router,
               private loginService: LoginService,
-              private formBuilder: FormBuilder,
-              private alertService: AlertService) { }
+              private formBuilder: FormBuilder) { }
 
   ngOnInit() {
         this.currentSocialUserSubscription = this.loginService.currentSocialUser
@@ -142,6 +141,7 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
                     // this.refFormGroup.value.refCodeCtrl.setErrors({'refvalid': true}); 
                     this.stepper.selectedIndex = 1;  
                 } else {
+                    this.stepper.selectedIndex = 2;
                     this.validRef = false;
                     this.refGroup = <GroupModel>response.result;
                     console.log(this.refGroup);

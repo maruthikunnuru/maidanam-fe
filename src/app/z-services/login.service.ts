@@ -22,6 +22,10 @@ export class LoginService {
     public currentUserGroups: Observable<GroupModel[]>;
 
     constructor(private http: Http) {
+
+        const userObj: UserModel = JSON.parse(localStorage.getItem('currentUser'));
+        this.setUser(userObj);
+
         this.currentUserSubject = new BehaviorSubject<UserModel>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
 
@@ -33,9 +37,23 @@ export class LoginService {
     }
 
     setUser(user: UserModel) {
-        const currentUser = JSON.stringify(user);
-        localStorage.setItem('currentUser', currentUser);
-        this.currentUserSubject.next(user);
+        if (user !== null) {
+            this.getUsersByUserId(user)
+                .subscribe((response) => {
+                        const userResponse = response.result as UserModel;
+                        if (response.statusCode === 'Y') {
+                            const currentUser = JSON.stringify(userResponse);
+                            localStorage.setItem('currentUser', currentUser);
+                            this.currentUserSubject.next(userResponse);
+                        } else {
+                            const currentUser = JSON.stringify(user);
+                            localStorage.setItem('currentUser', currentUser);
+                            this.currentUserSubject.next(user);
+                        }
+                    },
+                    (error) => console.log(error)
+                );
+        }
     }
 
     setSocialUser(socialUser: SocialUser) {
@@ -86,6 +104,21 @@ export class LoginService {
             .catch(
                 (error: Response) => {
                     return Observable.throw('Something went wrong with validateReferralCode');
+                }
+            );
+    }
+
+    getUsersByUserId(user: UserModel): Observable<ResponseModel> {
+        const headers = new Headers({'X-USER-NAME': user.userName});
+        return this.http.get(AppConstants.API_ENDPOINT + '/groups/' + user.groupId + '/users/' + user.userId + '/', {headers: headers})
+            .map(
+                (response: Response) => {
+                    return <ResponseModel>response.json();
+                }
+            )
+            .catch(
+                (error: Response) => {
+                    return Observable.throw('Something went wrong with getUsersByGroupId');
                 }
             );
     }

@@ -59,7 +59,7 @@
               <div class="d-flex justify-content-end" style="width:60%;">
                   <mat-slider thumbLabel tickInterval="10"
                               min="0"
-                              max="{{currentUserPrediction.user.totalCoins}}"
+                              max="{{maxCoins}}"
                               step="10"
                               name="coinsInvested"
                               (change)='changeSlide($event)'

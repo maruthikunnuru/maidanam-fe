@@ -51,6 +51,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
     submitFail = false;
     submitPass = false;
     errorMessage: string;
+    maxCoins: number;
 
 
     @ViewChild('p') predictionForm: NgForm;
@@ -209,6 +210,11 @@ export class PredictionsComponent implements OnInit, OnDestroy {
                               this.showOthersPredictions = true;
                           }
                           console.log('showOthersPredictions-->' + this.showOthersPredictions);
+
+                          this.maxCoins = Math.max(this.currentUserPrediction.user.totalCoins
+                              - this.currentUserPrediction.user.totalCoinsAtPlay + this.currentUserPrediction.coinsAtPlay,
+                              this.currentUserPrediction.coinsAtPlay);
+                          console.log('maxCoins -->' + this.maxCoins);
 
                           this.predictions.forEach(pred => {
                               console.log('Inside dataSource..');
