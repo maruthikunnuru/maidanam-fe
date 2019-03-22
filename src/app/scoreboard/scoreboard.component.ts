@@ -40,7 +40,7 @@ export class ScoreboardComponent implements OnInit, OnDestroy {
               this.loggedIn = (this.user != null);
 
               if (!this.loggedIn) {
-                 // this.router.navigate(['/home']);
+                  this.router.navigate(['/home']);
               }
             },
             (error) => console.log(error)
@@ -50,7 +50,7 @@ export class ScoreboardComponent implements OnInit, OnDestroy {
         .subscribe(
             (res) => {
               this.groups = res;
-              this.loggedIn = (this.user != null);
+              // this.loggedIn = (this.user != null);
             },
             (error) => console.log(error)
         );
@@ -59,7 +59,7 @@ export class ScoreboardComponent implements OnInit, OnDestroy {
         .subscribe((resp) => {
               console.log(resp);
               if (resp.statusCode === 'N') {
-                alert('No User Data Available');
+                alert('No Scores Available');
               } else {
                 this.scoresList = resp.result as UserModel[];
                 console.log(this.scoresList);

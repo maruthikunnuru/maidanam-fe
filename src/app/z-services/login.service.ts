@@ -23,8 +23,8 @@ export class LoginService {
 
     constructor(private http: Http) {
 
-        const userObj: UserModel = JSON.parse(localStorage.getItem('currentUser'));
-        this.setUser(userObj);
+        // const userObj: UserModel = JSON.parse(localStorage.getItem('currentUser'));
+        // this.setUser(userObj);
 
         this.currentUserSubject = new BehaviorSubject<UserModel>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
@@ -37,23 +37,26 @@ export class LoginService {
     }
 
     setUser(user: UserModel) {
-        if (user !== null) {
-            this.getUsersByUserId(user)
-                .subscribe((response) => {
-                        const userResponse = response.result as UserModel;
-                        if (response.statusCode === 'Y') {
-                            const currentUser = JSON.stringify(userResponse);
-                            localStorage.setItem('currentUser', currentUser);
-                            this.currentUserSubject.next(userResponse);
-                        } else {
-                            const currentUser = JSON.stringify(user);
-                            localStorage.setItem('currentUser', currentUser);
-                            this.currentUserSubject.next(user);
-                        }
-                    },
-                    (error) => console.log(error)
-                );
-        }
+        // if (user !== null) {
+        //     this.getUsersByUserId(user)
+        //         .subscribe((response) => {
+        //                 const userResponse = response.result as UserModel;
+        //                 if (response.statusCode === 'Y') {
+        //                     const currentUser = JSON.stringify(userResponse);
+        //                     localStorage.setItem('currentUser', currentUser);
+        //                     this.currentUserSubject.next(userResponse);
+        //                 } else {
+        //                     const currentUser = JSON.stringify(user);
+        //                     localStorage.setItem('currentUser', currentUser);
+        //                     this.currentUserSubject.next(user);
+        //                 }
+        //             },
+        //             (error) => console.log(error)
+        //         );
+        // }
+        const currentUser = JSON.stringify(user);
+        localStorage.setItem('currentUser', currentUser);
+        this.currentUserSubject.next(user);
     }
 
     setSocialUser(socialUser: SocialUser) {

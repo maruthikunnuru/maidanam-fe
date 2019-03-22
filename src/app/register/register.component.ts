@@ -49,7 +49,7 @@ import {GroupModel} from '../z-models/group.model';
     //     ])
     // ]
 })
-export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
+export class RegisterComponent implements OnInit, OnDestroy {
 
   @ViewChild('stepper') stepper: MatStepper;
 
@@ -92,14 +92,10 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
         });
 
         this.dpFormGroup = this.formBuilder.group({
-          displayName: ['', [Validators.required, Validators.minLength(2)]]
+          displayName: ['', [Validators.required, Validators.minLength(5)]]
         });
    }
 
-    ngAfterViewInit() {
-        this.incomingView = false;
-        this.registerView = true;
-    }
 
     onRegister() {
         const displayNm = this.dpFormGroup.value.displayName;

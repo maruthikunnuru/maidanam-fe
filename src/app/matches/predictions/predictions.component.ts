@@ -157,7 +157,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
         .subscribe(
         (res) => {
               this.groups = res;
-              this.loggedIn = (this.user != null);
+             // this.loggedIn = (this.user != null);
             },
           (error) => console.log(error)
         );
