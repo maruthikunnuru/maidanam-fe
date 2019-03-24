@@ -5,7 +5,7 @@ import {LoginService} from '../z-services/login.service';
 import {Subscription} from 'rxjs';
 import {GroupModel} from '../z-models/group.model';
 import {ScoresTableInterface} from '../z-models/scores-table.interface';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {MatSort, MatTableDataSource} from '@angular/material';
 
 @Component({
   selector: 'app-scoreboard',
@@ -26,7 +26,6 @@ export class ScoreboardComponent implements OnInit, AfterViewInit, OnDestroy {
   scores: ScoresTableInterface[] = [];
   dataSource: MatTableDataSource<ScoresTableInterface>;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(private route: ActivatedRoute,
@@ -67,7 +66,6 @@ export class ScoreboardComponent implements OnInit, AfterViewInit, OnDestroy {
                 console.log(this.scoresList);
 
                 if (this.scoresList.length > 0) {
-                  // this.scoresList = this.scoresList.sort( scr => scr.effectiveCoins).reverse();
                   this.scoresList.forEach((score, index) => {
                     console.log('Inside dataSource..');
                       const element: ScoresTableInterface = {
@@ -92,17 +90,13 @@ export class ScoreboardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-      this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
   }
 
-    applyFilter(filterValue: string) {
+  applyFilter(filterValue: string) {
         this.dataSource.filter = filterValue.trim().toLowerCase();
 
-        if (this.dataSource.paginator) {
-            this.dataSource.paginator.firstPage();
-        }
-    }
+  }
 
   onSelectGroup(groupid: number, group: GroupModel) {
     console.log(groupid);
