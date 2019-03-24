@@ -3,4 +3,5 @@ export interface PredTableInterface {
     prediction: string;
     challenged: string;
     coins: number;
+    validFasak: boolean;
 }

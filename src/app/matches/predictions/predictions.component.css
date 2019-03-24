@@ -51,3 +51,12 @@
 td, span {
     font-family: 'Ubuntu', sans-serif;
 }
+
+th.mat-header-cell {
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: bold;
+    font-size: 1em;
+    color: blue;
+    background-color: lightskyblue;
+
+}

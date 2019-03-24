@@ -14,13 +14,16 @@ export class PredictionModel {
     public margin: string;
     public challengedUserId: number;
     public challengedUser: UserModel;
+    public validFasak: boolean;
     public updatedCount: number;
     public lastUpdatedTs: Date;
 
-    constructor(predictionId: number, userId: number, user: UserModel, matchId: number,
-                match: MatchModel, coinsAtPlay: number, winnerId: number, winner: TeamModel,
-                margin: string, challengedUserId: number, challengedUser: UserModel,
-                updatedCount: number, lastUpdatedTs: Date) {
+
+    constructor(predictionId: number, userId: number, user: UserModel,
+                matchId: number, match: MatchModel, coinsAtPlay: number,
+                winnerId: number, winner: TeamModel, margin: string,
+                challengedUserId: number, challengedUser: UserModel,
+                validFasak: boolean, updatedCount: number, lastUpdatedTs: Date) {
         this.predictionId = predictionId;
         this.userId = userId;
         this.user = user;
@@ -32,6 +35,7 @@ export class PredictionModel {
         this.margin = margin;
         this.challengedUserId = challengedUserId;
         this.challengedUser = challengedUser;
+        this.validFasak = validFasak;
         this.updatedCount = updatedCount;
         this.lastUpdatedTs = lastUpdatedTs;
     }

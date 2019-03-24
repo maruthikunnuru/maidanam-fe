@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {MatchModel} from '../../z-models/match.model';
 import {MatchesService} from '../../z-services/matches.service';
@@ -14,13 +14,14 @@ import {PredTableInterface} from '../../z-models/pred-table.interface';
 import {OddsModel} from '../../z-models/odds.model';
 import { Location } from '@angular/common';
 import {Ng4LoadingSpinnerService} from 'ng4-loading-spinner';
+import {MatSort, MatTableDataSource} from '@angular/material';
 
 @Component({
   selector: 'app-predictions',
   templateUrl: './predictions.component.html',
   styleUrls: ['./predictions.component.css']
 })
-export class PredictionsComponent implements OnInit, OnDestroy {
+export class PredictionsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   slideValue = 0;
   selectedWinnerId: number;
@@ -48,31 +49,32 @@ export class PredictionsComponent implements OnInit, OnDestroy {
   team2odds: OddsModel;
   selectWinnerFlag = false;
   selectMarginFlag = false;
-    submitFail = false;
-    submitPass = false;
-    errorMessage: string;
-    maxCoins: number;
+  submitFail = false;
+  submitPass = false;
+  errorMessage: string;
+  maxCoins: number;
 
-
-    @ViewChild('p') predictionForm: NgForm;
+  @ViewChild('p') predictionForm: NgForm;
+  @ViewChild(MatSort) sort: MatSort;
 
   displayedColumns: string[] = ['player', 'prediction', 'challenged', 'coins'];
-  dataSource: PredTableInterface[] = [];
+  predictionList: PredTableInterface[] = [];
+  dataSource: MatTableDataSource<PredTableInterface>;
 
   changeSlide(slideEvent: any) {
     this.slideValue = slideEvent.value;
     console.log(slideEvent);
   }
 
-    getMatchClass(match: MatchModel) {
-        if (match.matchStatus === 'RESULT' || match.matchStatus === 'ARCHIVED' ) {
-            return 'open-close-list-past';
-        } else if (match.matchStatus === 'PROGRESS' ) {
-            return 'open-close-list-current';
-        } else if (match.matchStatus === 'SCHEDULED' ) {
-            return 'open-close-list-future';
-        }
+  getMatchClass(match: MatchModel) {
+    if (match.matchStatus === 'RESULT' || match.matchStatus === 'ARCHIVED' ) {
+        return 'open-close-list-past';
+    } else if (match.matchStatus === 'PROGRESS' ) {
+        return 'open-close-list-current';
+    } else if (match.matchStatus === 'SCHEDULED' ) {
+        return 'open-close-list-future';
     }
+  }
 
   selectWinner(winnerid: any) {
       this.selectedWinnerId = winnerid;
@@ -88,7 +90,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
       console.log(oddsArr);
 
       if (oddsArr.length === 15 && oddsArr[1] === String(this.currentUserPrediction.match.team1Id)
-          && oddsArr[8] === String(this.currentUserPrediction.match.team2Id) ){
+          && oddsArr[8] === String(this.currentUserPrediction.match.team2Id) ) {
           this.team1odds = new OddsModel(this.currentUserPrediction.match.oddsTeam1,
                                         oddsArr[3], oddsArr[5], oddsArr[7]);
           this.team2odds = new OddsModel(this.currentUserPrediction.match.oddsTeam2,
@@ -162,17 +164,17 @@ export class PredictionsComponent implements OnInit, OnDestroy {
           (error) => console.log(error)
         );
 
-    this.matchSubscription = this.matchesService.getMatchById(this.matchId, this.user.userName)
-        .subscribe((response) => {
-              if (response.statusCode === 'N') {
-              } else {
-                this.selectedMatch = <MatchModel>response.result;
-                console.log(this.selectedMatch);
-                console.log(JSON.parse(this.selectedMatch.additionalInfo));
-              }
-            },
-            (error) => console.log(error)
-        );
+    // this.matchSubscription = this.matchesService.getMatchById(this.matchId, this.user.userName)
+    //     .subscribe((response) => {
+    //           if (response.statusCode === 'N') {
+    //           } else {
+    //             this.selectedMatch = <MatchModel>response.result;
+    //             console.log(this.selectedMatch);
+    //             console.log(JSON.parse(this.selectedMatch.additionalInfo));
+    //           }
+    //         },
+    //         (error) => console.log(error)
+    //     );
 
       this.targetSubscription = this.loginService.getUsersByGroupId(this.user.userName, this.user.groupId)
           .subscribe((resp) => {
@@ -224,14 +226,16 @@ export class PredictionsComponent implements OnInit, OnDestroy {
                                       player: pred.user.displayName,
                                       prediction: pred.winner.teamName + ' ( ' + pred.margin + ' ) ',
                                       challenged: pred.challengedUser.displayName,
-                                      coins: pred.coinsAtPlay
+                                      coins: pred.coinsAtPlay,
+                                      validFasak: pred.validFasak
                                   };
-                                  this.dataSource.push(element);
-                                  this.dataSource = [...this.dataSource];
+                                  this.predictionList.push(element);
+                                  this.predictionList = [...this.predictionList];
 
-                                  console.log(this.dataSource);
+                                  console.log(this.predictionList);
                               }
                           });
+                          this.dataSource = new MatTableDataSource(this.predictionList);
 
                           if (this.currentUserPrediction.predictionId) {
                               if (this.currentUserPrediction.winner.teamName) {
@@ -252,6 +256,10 @@ export class PredictionsComponent implements OnInit, OnDestroy {
               },
               (error) => console.log(error)
           );
+  }
+
+  ngAfterViewInit(): void {
+      this.dataSource.sort = this.sort;
   }
 
   submitPrediction() {
@@ -316,14 +324,14 @@ export class PredictionsComponent implements OnInit, OnDestroy {
     this.user.groupId = groupid;
     this.user.group = groupObj;
     this.loginService.setUser(this.user);
-    this.router.navigateByUrl('/home', {skipLocationChange: true}).then(()=>
+    this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() =>
         this.router.navigate(['matches/' + this.matchId + '/predictions']));
   }
 
   ngOnDestroy(): void {
       this.currentUserSubscription.unsubscribe();
       this.currentUserGroupsSubscription.unsubscribe();
-      this.matchSubscription.unsubscribe();
+      // this.matchSubscription.unsubscribe();
       this.getPredictionSubscription.unsubscribe();
       // this.submitPredictionSubscription.unsubscribe();
   }

@@ -1,9 +1,15 @@
  <div class="container-fluid" *ngFor="let match of currentMatches; let i = index">
      <a role="button" (click)="onMatchClick(match.matchId)" style="cursor: pointer">
-       <div class="row no-gutters open-close-container col-sm-8 col-md-6 col-lg-4 mx-auto">
+       <div class="row no-gutters col-sm-8 col-md-6 col-lg-4 mx-auto" [ngClass]="getMatchClass(match)">
         <div class="d-flex-column" style="width:100%;">
           <div>
-            <p style="font-weight:normal;font-family: 'Ubuntu', sans-serif;" class="text-center">{{match.localDate | date }}<br>{{match.localTime}} {{match.maidanam.timeZone}}</p>
+            <p style="font-weight:normal;font-family: 'Ubuntu', sans-serif;" class="text-center">
+                {{match.localDate | date }} {{match.localTime}} {{match.maidanam.timeZone}}
+            </p>
+            <p style="font-weight:normal;font-family: 'Ubuntu', sans-serif; font-size: 0.7em" class="text-center">
+                {{match.maidanam.maidanamName}}
+                <br> {{match.maidanam.location}} , {{match.maidanam.country}}
+            </p>
           </div>
 
           <div class="d-flex justify-content-around">

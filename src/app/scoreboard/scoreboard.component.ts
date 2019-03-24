@@ -1,17 +1,18 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UserModel} from '../z-models/user.model';
 import {LoginService} from '../z-services/login.service';
 import {Subscription} from 'rxjs';
 import {GroupModel} from '../z-models/group.model';
 import {ScoresTableInterface} from '../z-models/scores-table.interface';
+import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 
 @Component({
   selector: 'app-scoreboard',
   templateUrl: './scoreboard.component.html',
   styleUrls: ['./scoreboard.component.css']
 })
-export class ScoreboardComponent implements OnInit, OnDestroy {
+export class ScoreboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   currentUserSubscription: Subscription;
   currentUserGroupsSubscription: Subscription;
@@ -22,16 +23,17 @@ export class ScoreboardComponent implements OnInit, OnDestroy {
   groups: GroupModel[];
 
   displayedColumns: string[] = ['rank', 'player', 'score', 'coins', 'loan'];
-  dataSource: ScoresTableInterface[] = [];
+  scores: ScoresTableInterface[] = [];
+  dataSource: MatTableDataSource<ScoresTableInterface>;
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private loginService: LoginService) { }
 
   ngOnInit() {
-   // this.scores = this.scoreService.getScoreboard(111111, 111);
-
     console.log('Inside Scoreboard');
     this.currentUserSubscription = this.loginService.currentUser
         .subscribe(
@@ -65,7 +67,7 @@ export class ScoreboardComponent implements OnInit, OnDestroy {
                 console.log(this.scoresList);
 
                 if (this.scoresList.length > 0) {
-                  this.scoresList = this.scoresList.sort( scr => scr.effectiveCoins).reverse();
+                  // this.scoresList = this.scoresList.sort( scr => scr.effectiveCoins).reverse();
                   this.scoresList.forEach((score, index) => {
                     console.log('Inside dataSource..');
                       const element: ScoresTableInterface = {
@@ -75,11 +77,12 @@ export class ScoreboardComponent implements OnInit, OnDestroy {
                         coins: score.totalCoins,
                         loan: score.totalLoan
                       };
-                      this.dataSource.push(element);
-                      this.dataSource = [...this.dataSource];
+                      this.scores.push(element);
+                      this.scores = [...this.scores];
 
-                      console.log(this.dataSource);
+                      console.log(this.scores);
                   });
+                  this.dataSource = new MatTableDataSource(this.scores);
                 }
               }
             },
@@ -87,6 +90,19 @@ export class ScoreboardComponent implements OnInit, OnDestroy {
         );
 
   }
+
+  ngAfterViewInit(): void {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+  }
+
+    applyFilter(filterValue: string) {
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+
+        if (this.dataSource.paginator) {
+            this.dataSource.paginator.firstPage();
+        }
+    }
 
   onSelectGroup(groupid: number, group: GroupModel) {
     console.log(groupid);

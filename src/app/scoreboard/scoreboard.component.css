@@ -3,3 +3,12 @@
     font-family: 'Roboto Mono', monospace;
     font-family: 'Nova Mono', monospace;
 }
+
+th.mat-header-cell {
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: bold;
+    font-size: 1em;
+    color: blue;
+    background-color: lightskyblue;
+
+}

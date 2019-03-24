@@ -56,7 +56,8 @@ export class CurrentViewComponent implements OnInit, OnDestroy {
                 this.allMatches = response.result as MatchModel[];
 
                 if (this.allMatches !== null) {
-                  this.currentMatches = this.allMatches.filter(match => match.matchStatus === 'SCHEDULED').slice(0, 2);
+                  this.currentMatches = this.allMatches.filter(match => match.matchStatus === 'SCHEDULED'
+                      || match.matchStatus === 'PROGRESS').slice(0, 2);
                 }
 
               }
@@ -70,6 +71,16 @@ export class CurrentViewComponent implements OnInit, OnDestroy {
     this.router.navigate([matchId + '/predictions'], {relativeTo: this.route});
     // this.router.navigate(['/predictions']);
   }
+
+    getMatchClass(match: MatchModel) {
+        if (match.matchStatus === 'RESULT' || match.matchStatus === 'ARCHIVED' ) {
+            return 'open-close-list-past';
+        } else if (match.matchStatus === 'PROGRESS' ) {
+            return 'open-close-list-current';
+        } else if (match.matchStatus === 'SCHEDULED' ) {
+            return 'open-close-list-future';
+        }
+    }
 
   ngOnDestroy() {
       this.currentUserSubscription.unsubscribe();

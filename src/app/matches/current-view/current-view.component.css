@@ -1,11 +1,35 @@
-.open-close-container {
+.open-close-list-past {
     border: 1px solid blue;
-    background: orange;
+    background: gray;
     margin: 1.5em 0em;
-    padding: 0px 0px 15px 0px;
+    padding: 0px 0px 0px 0px;
     color: #000000;
     font-weight: bold;
     font-size: 20px;
     border-radius: 0.5em;
-    box-shadow: 0px 0px 8px 2px orange;
-  }
+    box-shadow: 0px 0px 8px 2px #cb3d12;
+}
+
+.open-close-list-current {
+    border: 1px solid blue;
+    background: orange;
+    margin: 1.5em 0em;
+    padding: 0px 0px 0px 0px;
+    color: #000000;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 0.5em;
+    box-shadow: 0px 0px 8px 2px #e0dd12;
+}
+
+.open-close-list-future {
+    border: 1px solid blue;
+    background: limegreen;
+    margin: 1.5em 0em;
+    padding: 0px 0px 0px 0px;
+    color: #000000;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 0.5em;
+    box-shadow: 0px 0px 8px 2px #729d39;
+}

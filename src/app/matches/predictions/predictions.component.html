@@ -19,21 +19,26 @@
     </div>
 </div>
 <p>{{currentUserPrediction.user.totalCoins}}
-    <img src="assets/images/coins.jpg" width="30" height="20">
+    <img src="assets/images/coins.jpg" width="30" height="20">&nbsp;
+    <a class="btn btn-warning" href="mailto:maidanam.in@gmail.com?subject=Need Coins"> + BUY MORE </a>
 </p>
 <div class="container-fluid">
-    <div class="row no-gutters open-close-container col-sm-8 col-md-6 col-lg-4 mx-auto" [ngClass]="getMatchClass(selectedMatch)">
+    <div class="row no-gutters open-close-container col-sm-8 col-md-6 col-lg-4 mx-auto" [ngClass]="getMatchClass(currentUserPrediction.match)">
         <div class="d-flex-column" style="width:100%;">
             <div>
                 <p style="font-weight:normal;font-family: 'Ubuntu', sans-serif;" class="text-center">
-                    {{selectedMatch.localDate | date }} {{selectedMatch.localTime}} {{selectedMatch.maidanam.timeZone}}
+                    {{currentUserPrediction.match.localDate | date }} {{currentUserPrediction.match.localTime}} {{currentUserPrediction.match.maidanam.timeZone}}
+                </p>
+                <p style="font-weight:normal;font-family: 'Ubuntu', sans-serif; font-size: 0.7em" class="text-center">
+                    {{currentUserPrediction.match.maidanam.maidanamName}}
+                    <br> {{currentUserPrediction.match.maidanam.location}} , {{currentUserPrediction.match.maidanam.country}}
                 </p>
             </div>
 
             <div class="d-flex justify-content-around">
-                <img class="img-fluid rounded" [src]="'assets/images/' + selectedMatch.team1.teamName + '.jpg'" style="max-height: 80px;border-radius:15px;box-shadow:0px 0px 5px 1px #dddddd;">
+                <img class="img-fluid rounded" [src]="'assets/images/' + currentUserPrediction.match.team1.teamName + '.jpg'" style="max-height: 50px;border-radius:15px;box-shadow:0px 0px 5px 1px #dddddd;">
                 <p style="font-weight:normal;font-family: 'Ubuntu', sans-serif;" class="align-self-center">vs</p>
-                <img class="img-fluid rounded" [src]="'assets/images/' + selectedMatch.team2.teamName + '.jpg'" style="max-height: 80px;border-radius:15px;box-shadow:0px 0px 5px 1px #dddddd;">
+                <img class="img-fluid rounded" [src]="'assets/images/' + currentUserPrediction.match.team2.teamName + '.jpg'" style="max-height: 50px;border-radius:15px;box-shadow:0px 0px 5px 1px #dddddd;">
             </div>
         </div>
     </div>
@@ -53,10 +58,11 @@
       <div class="d-flex-column justify-content-around">
 
           <div class="d-flex" style="width:100%;">
-              <div class="d-flex align-items-center" style="width:40%;font-size:1.4em;font-weight:normal;font-family: 'Ubuntu', sans-serif;">
+              <div class="d-flex align-items-center" style="width:100%;font-size:1.4em;font-weight:normal;font-family: 'Ubuntu', sans-serif;">
                   Coins<a routerLink="/faq"><img class="rounded" width="20px" src="assets/images/ques.png"/></a>
               </div>
-              <div class="d-flex justify-content-end" style="width:60%;">
+              <div class="d-flex justify-content-end" style="width:200%;">
+                  <p style="color: deeppink;">{{currentUserPrediction.coinsAtPlay || 0}}/{{maxCoins || 0}}</p>
                   <mat-slider thumbLabel tickInterval="10"
                               min="0"
                               max="{{maxCoins}}"
@@ -81,20 +87,24 @@
 
           <div class="d-flex justify-content-end" style="width:60%;" >
               <div class="btn-group btn-group-toggle" data-toggle="buttons" style="width:90%;">
-                  <label class="btn btn-outline-success btn-sm" [ngClass]="isTeam1WinnerPredicted ? 'active' : ''"
+                  <label class="btn btn-outline-success btn-sm"
+                         *ngIf="!showOthersPredictions || isTeam1WinnerPredicted"
+                         [ngClass]="isTeam1WinnerPredicted ? 'active' : ''"
                          (click)="selectWinner(currentUserPrediction.match.team1Id)">
                     <input type="radio" id="team1" name="winner"
                            value="{{currentUserPrediction.match.team1Id}}"
-                           ngModel
-                           autocomplete="off" >{{selectedMatch.team1.teamName}}
+                           ngModel [disabled]="showOthersPredictions"
+                           autocomplete="off" >{{currentUserPrediction.match.team1.teamName}}
                       <p style="color: darkred" *ngIf="selectedWinnerId===currentUserPrediction.match.team1Id">{{team1odds.winOdds}}x</p>
                   </label>
-                  <label class="btn btn-outline-success btn-sm" [ngClass]="isTeam2WinnerPredicted ? 'active' : ''"
+                  <label class="btn btn-outline-success btn-sm"
+                         *ngIf="!showOthersPredictions || isTeam2WinnerPredicted"
+                         [ngClass]="isTeam2WinnerPredicted ? 'active' : ''"
                          (click)="selectWinner(currentUserPrediction.match.team2Id)">
                     <input type="radio" id="team2" name="winner"
                          value="{{currentUserPrediction.match.team2Id}}"
-                         ngModel
-                         autocomplete="off" >{{selectedMatch.team2.teamName}}
+                         ngModel [disabled]="showOthersPredictions"
+                         autocomplete="off" >{{currentUserPrediction.match.team2.teamName}}
                       <p style="color: darkred" *ngIf="selectedWinnerId===currentUserPrediction.match.team2Id">{{team2odds.winOdds}}x</p>
                   </label>
               </div>
@@ -109,31 +119,34 @@
             </div>
             <div class="d-flex justify-content-end" style="width:60%;padding:1%;">
                 <div class="btn-group btn-group-toggle" data-toggle="buttons" style="width:90%;">
-                    <label class="btn btn-outline-dark btn-sm" style="font-size:0.7em;"
+                    <label class="btn btn-outline-info btn-sm" style="font-size:0.7em;"
+                           *ngIf="!showOthersPredictions || currentUserPrediction.margin === 'EASY'"
                            [ngClass]="currentUserPrediction.margin === 'EASY' ? 'active' : ''"
                            (click)="selectMargin('EASY')">
                       <input type="radio" name="marginOption" value="EASY" ngModel
                              autocomplete="off" >
-                        <p style="color: red" *ngIf="selectedWinnerId===currentUserPrediction.match.team1Id">{{team1odds.easyOdds}}x</p>
-                        <p style="color: red" *ngIf="selectedWinnerId===currentUserPrediction.match.team2Id">{{team2odds.easyOdds}}x</p>
+                        <p style="color: darkred" *ngIf="selectedWinnerId===currentUserPrediction.match.team1Id">{{team1odds.easyOdds}}x</p>
+                        <p style="color: darkred" *ngIf="selectedWinnerId===currentUserPrediction.match.team2Id">{{team2odds.easyOdds}}x</p>
                         EASY
                     </label>
-                    <label class="btn btn-outline-dark btn-sm" style="font-size:0.7em;"
+                    <label class="btn btn-outline-info btn-sm" style="font-size:0.7em;"
+                           *ngIf="!showOthersPredictions || currentUserPrediction.margin === 'MEDIUM'"
                            [ngClass]="currentUserPrediction.margin === 'MEDIUM' ? 'active' : ''"
                            (click)="selectMargin('MEDIUM')">
                         <input type="radio" name="marginOption" value="MEDIUM" ngModel
                                autocomplete="off"  >
-                        <p style="color: red" *ngIf="selectedWinnerId===currentUserPrediction.match.team1Id">{{team1odds.mediumOdds}}x</p>
-                        <p style="color: red" *ngIf="selectedWinnerId===currentUserPrediction.match.team2Id">{{team2odds.mediumOdds}}x</p>
+                        <p style="color: darkred" *ngIf="selectedWinnerId===currentUserPrediction.match.team1Id">{{team1odds.mediumOdds}}x</p>
+                        <p style="color: darkred" *ngIf="selectedWinnerId===currentUserPrediction.match.team2Id">{{team2odds.mediumOdds}}x</p>
                         MEDIUM
                     </label>
-                    <label class="btn btn-outline-dark btn-sm" style="font-size:0.7em;"
+                    <label class="btn btn-outline-info btn-sm" style="font-size:0.7em;"
+                           *ngIf="!showOthersPredictions || currentUserPrediction.margin === 'HARD'"
                            [ngClass]="currentUserPrediction.margin === 'HARD' ? 'active' : ''"
                            (click)="selectMargin('HARD')">
                         <input type="radio" name="marginOption" value="HARD" ngModel
                                autocomplete="off"  >
-                        <p style="color: red" *ngIf="selectedWinnerId===currentUserPrediction.match.team1Id">{{team1odds.hardOdds}}x</p>
-                        <p style="color: red" *ngIf="selectedWinnerId===currentUserPrediction.match.team2Id">{{team2odds.hardOdds}}x</p>
+                        <p style="color: darkred" *ngIf="selectedWinnerId===currentUserPrediction.match.team1Id">{{team1odds.hardOdds}}x</p>
+                        <p style="color: darkred" *ngIf="selectedWinnerId===currentUserPrediction.match.team2Id">{{team2odds.hardOdds}}x</p>
                         HARD
                     </label>
                 </div>
@@ -171,7 +184,7 @@
               <br>
 
             <div class="d-flex justify-content-center align-items-center">
-                <button class="btn btn-primary btn-block" type="submit" [disabled]="!p.valid || showOthersPredictions">Submit</button>
+                <button class="btn btn-dark btn-block" type="submit" [disabled]="!p.valid || showOthersPredictions">Submit</button>
             </div>
 
 
@@ -186,33 +199,37 @@
           </div>
           <hr>
           <div>
-              <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width:100%;">
+              <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width:100%;" matSort>
 
                 <!--- Note that these columns can be defined in any order.
                       The actual rendered columns are set as a property on the row definition" -->
 
                 <!-- Position Column -->
                 <ng-container matColumnDef="player">
-                  <th mat-header-cell *matHeaderCellDef> Player </th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Player </th>
                   <td mat-cell *matCellDef="let element"> {{element.player}} </td>
                 </ng-container>
 
                 <!-- Name Column -->
                 <ng-container matColumnDef="prediction">
-                  <th mat-header-cell *matHeaderCellDef> Prediction </th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Prediction </th>
                   <td mat-cell *matCellDef="let element"> {{element.prediction}} </td>
                 </ng-container>
 
                 <!-- Weight Column -->
                 <ng-container matColumnDef="challenged">
-                  <th mat-header-cell *matHeaderCellDef> Target </th>
-                  <td mat-cell *matCellDef="let element"> {{element.challenged}} </td>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Fasak </th>
+                    <td mat-cell *matCellDef="let element">
+                        <span [ngStyle]="{'text-decoration':element.validFasak? 'line-through' : ''}">
+                            {{element.challenged}}
+                        </span>
+                    </td>
                 </ng-container>
 
                 <!-- Symbol Column -->
                 <ng-container matColumnDef="coins">
-                  <th mat-header-cell *matHeaderCellDef> Coins </th>
-                  <td mat-cell *matCellDef="let element"> <span style="background:lightcoral;">{{element.coins}} </span></td>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Coins </th>
+                  <td mat-cell *matCellDef="let element">{{element.coins}}</td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
