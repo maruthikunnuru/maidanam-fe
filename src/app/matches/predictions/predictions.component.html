@@ -220,7 +220,7 @@
                 <ng-container matColumnDef="challenged">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header> Fasak </th>
                     <td mat-cell *matCellDef="let element">
-                        <span [ngStyle]="{'text-decoration':element.validFasak? 'line-through' : ''}">
+                        <span [ngStyle]="{'text-decoration':!element.validFasak? 'line-through' : ''}">
                             {{element.challenged}}
                         </span>
                     </td>
