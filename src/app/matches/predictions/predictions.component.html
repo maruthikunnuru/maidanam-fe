@@ -54,7 +54,7 @@
             </span>
             <span>{{currentUserPrediction.match.team1.teamName}}</span>
             <span style="font-size: 0.8em; color: lime;" *ngIf="currentUserPrediction.match.team1Id === currentUserPrediction.match.winnerId">
-                ({{currentUserPrediction.match.resultType.charAt(1)}})
+                ({{currentUserPrediction.match.resultType.charAt(0)}})
             </span>
         </div>
 
@@ -70,7 +70,7 @@
             </span>
             <span>{{currentUserPrediction.match.team2.teamName}} </span>
             <span style="font-size: 0.8em; color: lime;" *ngIf="currentUserPrediction.match.team2Id === currentUserPrediction.match.winnerId">
-                ({{currentUserPrediction.match.resultType.charAt(1)}})
+                ({{currentUserPrediction.match.resultType.charAt(0)}})
             </span>
         </div>
 
