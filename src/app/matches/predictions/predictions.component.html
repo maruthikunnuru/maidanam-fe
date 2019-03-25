@@ -3,6 +3,7 @@
 <link href="https://fonts.googleapis.com/css?family=Nova+Mono|Roboto+Mono" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <div class="container-fluid sticky-top" style="padding:0px;">
     <div class="d-flex justify-content-end">
@@ -48,10 +49,12 @@
             <img class="img-fluid rounded" [src]="'assets/images/' + currentUserPrediction.match.team1.teamName + '.jpg'" style="max-height: 50px;border-radius:0px;box-shadow:0px 0px 5px 1px #dddddd;">
         </div>
         <div style="width:30%;" class="d-flex justify-content-start align-items-center">
-            <span style="color: lime;" *ngIf="currentUserPrediction.match.team1Id === currentUserPrediction.match.winnerId">&#10004;</span>
+            <span *ngIf="currentUserPrediction.match.team1Id === currentUserPrediction.match.winnerId">
+                <i class="fa fa-trophy" style="font-size:20px;color:gold"></i>
+            </span>
             <span>{{currentUserPrediction.match.team1.teamName}}</span>
-            <span style="font-size: 0.5em; color: lime;" *ngIf="currentUserPrediction.match.team1Id === currentUserPrediction.match.winnerId">
-                {{currentUserPrediction.match.resultType}}
+            <span style="font-size: 0.8em; color: lime;" *ngIf="currentUserPrediction.match.team1Id === currentUserPrediction.match.winnerId">
+                ({{currentUserPrediction.match.resultType.charAt(1)}})
             </span>
         </div>
 
@@ -62,10 +65,12 @@
         </div>
 
         <div style="width:30%;" class="d-flex justify-content-end align-items-center">
-            <span style="color: lime;" *ngIf="currentUserPrediction.match.team2Id === currentUserPrediction.match.winnerId">&#10004;</span>
-            <span>{{currentUserPrediction.match.team2.teamName}}</span>
-            <span style="font-size: 0.5em; color: lime;" *ngIf="currentUserPrediction.match.team2Id === currentUserPrediction.match.winnerId">
-                {{currentUserPrediction.match.resultType}}
+            <span *ngIf="currentUserPrediction.match.team2Id === currentUserPrediction.match.winnerId">
+                <i class="fa fa-trophy" style="font-size:20px;color:gold"></i>
+            </span>
+            <span>{{currentUserPrediction.match.team2.teamName}} </span>
+            <span style="font-size: 0.8em; color: lime;" *ngIf="currentUserPrediction.match.team2Id === currentUserPrediction.match.winnerId">
+                ({{currentUserPrediction.match.resultType.charAt(1)}})
             </span>
         </div>
 
