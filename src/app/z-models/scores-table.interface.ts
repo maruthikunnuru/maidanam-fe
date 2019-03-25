@@ -4,4 +4,5 @@ export interface ScoresTableInterface {
     score: number;
     coins: number;
     loan: number;
+    playerId: number;
 }

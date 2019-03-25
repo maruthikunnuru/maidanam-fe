@@ -224,10 +224,11 @@ export class PredictionsComponent implements OnInit, AfterViewInit, OnDestroy {
                               if (pred.predictionId !== null && typeof pred.predictionId !== 'undefined') {
                                   const element: PredTableInterface = {
                                       player: pred.user.displayName,
-                                      prediction: pred.winner.teamName + ' ( ' + pred.margin + ' ) ',
+                                      prediction: pred.winner.teamName + '(' + pred.margin + ')',
                                       challenged: pred.challengedUser.displayName,
                                       coins: pred.coinsAtPlay,
-                                      validFasak: pred.validFasak
+                                      validFasak: pred.validFasak,
+                                      playerId: pred.userId
                                   };
                                   this.predictionList.push(element);
                                   this.predictionList = [...this.predictionList];

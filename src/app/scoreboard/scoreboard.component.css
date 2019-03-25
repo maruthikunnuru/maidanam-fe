@@ -9,6 +9,11 @@ th.mat-header-cell {
     font-weight: bold;
     font-size: 1em;
     color: blue;
-    background-color: lightskyblue;
+    background-color: lightgreen;
 
+}
+
+.btn-sml {
+    font-size: 11px;
+    border-radius: 100px;
 }

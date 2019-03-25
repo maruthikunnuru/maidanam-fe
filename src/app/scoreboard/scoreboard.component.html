@@ -18,10 +18,10 @@
       </div>
     </div>
   </div>
-  <p>{{user.totalCoins}} <img src="assets/images/coins.jpg" width="30" height="20">
-    <a class="btn btn-warning"
+  <p>{{user.totalCoins}} <img src="assets/images/coins.jpg" width="30" height="20">&nbsp;
+    <a class="btn btn-warning btn-sml"
        href="mailto:maidanam.in@gmail.com?subject=Need Coins"
-       target="_blank"> + BUY MORE</a>
+       target="_blank"> <b>+ BUY MORE</b></a>
   </p>
 </div>
 <hr>
@@ -29,10 +29,10 @@
 <div class="container-fluid">
 
   <mat-form-field>
-    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search / Filter">
   </mat-form-field>
 
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" style="width:100%;" >
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width:100%;" matSort>
 
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
@@ -40,34 +40,40 @@
     <!-- Rank Column -->
     <ng-container matColumnDef="rank">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Rank </th>
-      <td mat-cell *matCellDef="let element"> {{element.rank}} </td>
+      <td mat-cell [ngStyle]="{'color':element.playerId === user.userId? 'darkorange' : ''}"
+          *matCellDef="let element"> {{element.rank}} </td>
     </ng-container>
 
     <!-- Player Column -->
     <ng-container matColumnDef="player">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Player </th>
-      <td mat-cell *matCellDef="let element"> {{element.player}} </td>
+      <td mat-cell [ngStyle]="{'color':element.playerId === user.userId? 'darkorange' : ''}"
+          *matCellDef="let element"> {{element.player}} </td>
     </ng-container>
 
     <!-- Score Column -->
     <ng-container matColumnDef="score">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Score </th>
-      <td mat-cell *matCellDef="let element">  {{element.score}}</td>
+      <td mat-cell [ngStyle]="{'color':element.playerId === user.userId? 'darkorange' : ''}"
+          *matCellDef="let element">  {{element.score}}</td>
     </ng-container>
 
     <!-- Coins Column -->
     <ng-container matColumnDef="coins">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Coins </th>
-      <td mat-cell *matCellDef="let element">{{element.coins}} </td>
+      <td mat-cell [ngStyle]="{'color':element.playerId === user.userId? 'darkorange' : ''}"
+          *matCellDef="let element">{{element.coins}} </td>
     </ng-container>
 
     <!-- Loan Column -->
     <ng-container matColumnDef="loan">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Loan </th>
-      <td mat-cell *matCellDef="let element"> <div [ngStyle]="{'color':element.loan > 0 ? 'red' : 'black'}">{{element.loan}} </div></td>
+      <td mat-cell [ngStyle]="{'color':element.playerId === user.userId? 'darkorange' : ''}"
+          *matCellDef="let element">
+        <span [ngStyle]="{'background':element.loan > 0 ? 'lightcoral' : ''}">{{element.loan}} </span></td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 </div>
