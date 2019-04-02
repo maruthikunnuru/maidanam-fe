@@ -23,7 +23,7 @@ export class ScoreboardComponent implements OnInit, OnDestroy {
   groups: GroupModel[];
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns: string[] = ['rank', 'player', 'score', 'coins', 'loan'];
+  displayedColumns: string[] = ['rank', 'player', 'score', 'coins', 'loan', 'change'];
   scores: ScoresTableInterface[] = [];
   dataSource: MatTableDataSource<ScoresTableInterface>;
 
@@ -74,7 +74,8 @@ export class ScoreboardComponent implements OnInit, OnDestroy {
                         score: score.effectiveCoins,
                         coins: score.totalCoins,
                         loan: score.totalLoan,
-                        playerId: score.userId
+                        playerId: score.userId,
+                        changeInCoins: score.changeInTotalCoins
                       };
                       this.scores.push(element);
                       this.scores = [...this.scores];

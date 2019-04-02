@@ -70,7 +70,15 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Loan </th>
       <td mat-cell [ngStyle]="{'color':element.playerId === user.userId? 'darkorange' : ''}"
           *matCellDef="let element">
-        <span [ngStyle]="{'background':element.loan > 0 ? 'lightcoral' : ''}">{{element.loan}} </span></td>
+        <span [ngStyle]="{'color':element.loan < 0 ? 'red' : ''}">{{element.loan}} </span></td>
+    </ng-container>
+
+    <!-- Change in Coins Column -->
+    <ng-container matColumnDef="change">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Change </th>
+      <td mat-cell [ngStyle]="{'color':element.playerId === user.userId? 'darkorange' : ''}"
+          *matCellDef="let element">
+        <span [ngStyle]="{'background':element.changeInCoins < 0 ? 'lightcoral' : ''}">{{element.changeInCoins}} </span></td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

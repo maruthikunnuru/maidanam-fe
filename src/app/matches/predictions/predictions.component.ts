@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {MatchModel} from '../../z-models/match.model';
 import {MatchesService} from '../../z-services/matches.service';
@@ -21,7 +21,7 @@ import {MatSort, MatTableDataSource} from '@angular/material';
   templateUrl: './predictions.component.html',
   styleUrls: ['./predictions.component.css']
 })
-export class PredictionsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class PredictionsComponent implements OnInit, OnDestroy {
 
   slideValue = 0;
   selectedWinnerId: number;
@@ -66,6 +66,9 @@ export class PredictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log(slideEvent);
   }
 
+  formatNumber(num: number) {
+      return Math.round(num);
+  }
   getMatchClass(match: MatchModel) {
     if (match.matchStatus === 'RESULT' || match.matchStatus === 'ARCHIVED' ) {
         return 'open-close-list-past';
@@ -225,7 +228,7 @@ export class PredictionsComponent implements OnInit, AfterViewInit, OnDestroy {
                                   const element: PredTableInterface = {
                                       player: pred.user.displayName,
                                       prediction: pred.winner.teamName + '(' + pred.margin + ')',
-                                      challenged: pred.challengedUser.displayName,
+                                      challenged: pred.challengedUser ? pred.challengedUser.displayName : 'N/A',
                                       coins: pred.coinsAtPlay,
                                       validFasak: pred.validFasak,
                                       playerId: pred.userId
@@ -237,6 +240,10 @@ export class PredictionsComponent implements OnInit, AfterViewInit, OnDestroy {
                               }
                           });
                           this.dataSource = new MatTableDataSource(this.predictionList);
+                          setTimeout(() => {
+                              this.dataSource.sort = this.sort;
+
+                          });
 
                           if (this.currentUserPrediction.predictionId) {
                               if (this.currentUserPrediction.winner.teamName) {
@@ -259,9 +266,9 @@ export class PredictionsComponent implements OnInit, AfterViewInit, OnDestroy {
           );
   }
 
-  ngAfterViewInit(): void {
-      this.dataSource.sort = this.sort;
-  }
+  // ngAfterViewInit(): void {
+  //     this.dataSource.sort = this.sort;
+  // }
 
   submitPrediction() {
 
