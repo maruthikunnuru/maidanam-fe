@@ -10,6 +10,7 @@ import {ManageGroupsComponent} from './manage-groups/manage-groups.component';
 import {PlayerHistoryComponent} from './player-history/player-history.component';
 import {AuthGuard} from './z-services/auth.guard';
 import {FaqComponent} from './faq/faq.component';
+import {AdminComponent} from './admin/admin.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' , canActivate: [AuthGuard]},
@@ -19,10 +20,11 @@ const appRoutes: Routes = [
   { path: 'scoreboard', component: ScoreboardComponent},
   { path: 'register', component: RegisterComponent, canActivate: [AuthGuard]},
   // { path: 'error', component: ErrorPageComponent},
-  // { path: 'groups', component: ManageGroupsComponent, canActivate: [AuthGuard]},
+  { path: 'groups', component: ManageGroupsComponent, canActivate: [AuthGuard]},
   // { path: 'history', component: PlayerHistoryComponent},
   // { path: 'history/:id/predictions', pathMatch: 'full', component: PredictionsComponent },
-  { path: 'faq', pathMatch: 'full', component: FaqComponent }
+  { path: 'faq', pathMatch: 'full', component: FaqComponent },
+  { path: 'admin', pathMatch: 'full', component: AdminComponent}
 ];
 
 @NgModule({

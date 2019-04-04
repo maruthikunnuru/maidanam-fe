@@ -1,0 +1,70 @@
+<br>
+<button class="btn btn-link" (click)="goBack()">Go Back</button>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <form (ngSubmit)="onSubmitResult(m)" #m="ngForm">
+          <br>
+          <div class="form-group">
+              <label for="winner">Winner :</label>
+              <select id="winner" class="form-control"
+                      ngModel name="winnerTeamName" required>
+                <option value=""> - Select Winner - </option>
+                <option value="KXIP">Kings XI Punjab</option>
+                <option value="CSK">Chennai Super Kings</option>
+                <option value="MI">Mumbai Indians</option>
+                <option value="DC">Delhi Capitals</option>
+                <option value="KKR">Koltaka Knight Riders</option>
+                <option value="RR">Rajasthan Royals</option>
+                <option value="RCB">Royal Challengers Benguluru</option>
+              </select>
+          </div>
+
+          <div class="form-group">
+              <label for="margin">Margin :</label>
+              <select id="margin" class="form-control"
+                      ngModel name="resultType" required>
+                <option value=""> - Select Margin - </option>
+                <option value="EASY">EASY</option>
+                <option value="MEDIUM">MEDIUM</option>
+                <option value="HARD">HARD</option>
+              </select>
+          </div>
+
+          <div class="form-group">
+              <label for="result">Result :</label>
+              <textarea type="text" id="result"
+                     class="form-control"
+                     ngModel name="matchResult" required>
+              </textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="mdate">Match Date :</label>
+            <input type="date" id="mdate"
+                   class="form-control"
+                   ngModel name="localMatchDate" required>
+          </div>
+
+          <div class="form-group">
+              <label for="token">Admin Token :</label>
+              <input type="text" id="token"
+                     class="form-control"
+                     ngModel name="adminToken" required>
+          </div>
+
+            <div  class="alert alert-danger" *ngIf="isFailure">
+              Failed !
+            </div>
+            <div  class="alert alert-success" *ngIf="isSuccess">
+              Success !
+            </div>
+          <br>
+          <button type="reset" class="btn btn-info" [disabled]="!m.touched">Clear</button>
+          &nbsp;&nbsp;&nbsp;
+          <button type="submit" class="btn btn-success" [disabled]="!m.valid">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -33,6 +33,8 @@ import {AuthGuard} from './z-services/auth.guard';
 import {AppConstants} from './app-constants';
 import { FaqComponent } from './faq/faq.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
+import { AdminComponent } from './admin/admin.component';
+import {AdminService} from './z-services/admin.service';
 
 const googleLoginOptions: LoginOpt = {
   scope: 'profile email',
@@ -64,7 +66,8 @@ export function provideConfig() {
     CurrentViewComponent,
     ListViewComponent,
     PlayerHistoryComponent,
-    FaqComponent
+    FaqComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
@@ -94,6 +97,7 @@ export function provideConfig() {
     MatchesService,
     PlayerHistoryService,
     PredictionsService,
+    AdminService,
     AuthGuard
   ],
   bootstrap: [AppComponent]

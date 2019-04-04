@@ -17,29 +17,29 @@
               <a class="dropdown-item" (click)="onSelectGroup(gp.groupId, gp)">{{gp.groupName}}</a>
               </div>
             </div>
+        </div>
     </div>
 </div>
     <p>{{user.totalCoins}} <img src="assets/images/coins.jpg" width="30" height="20">&nbsp;
         <a class="btn btn-warning btn-sml" href="mailto:maidanam.in@gmail.com?subject=Need Coins" target="_blank"> <b>+ BUY MORE</b> </a>
     </p>
-<br>
+    <br>
 
 <!-- This is Current/All Match view buttons -->
 <div class="container-fluid">
   <div class="d-flex justify-content-center">
-  <div class="btn-group  btn-group-toggle">
-      <label class="btn btn-outline-info" [ngClass] = "{'active':currentView}" style="width:80px; cursor: pointer;">
-        <input type="radio" name="options" id="option1" checked (click)="changeView($event)" value="current"> Current
-      </label>
-    
-      <label class="btn btn-outline-info"  [ngClass] = "{'active':listView}" style="width:80px; cursor: pointer;">
-        <input type="radio" name="options" id="option2" autocomplete="off" (click)="changeView($event)" value="all">All
-      </label>
-      
-  </div>
-</div>
-</div>
+      <div class="btn-group  btn-group-toggle">
+          <label class="btn btn-outline-info" [ngClass] = "{'active':currentView}" style="width:80px; cursor: pointer;">
+            <input type="radio" name="options" id="option1" checked (click)="changeView($event)" value="current"> Current
+          </label>
 
+          <label class="btn btn-outline-info"  [ngClass] = "{'active':listView}" style="width:80px; cursor: pointer;">
+            <input type="radio" name="options" id="option2" autocomplete="off" (click)="changeView($event)" value="all">All
+          </label>
+
+      </div>
+    </div>
+</div>
 
 
 <!-- This is Current Match view-->
@@ -50,4 +50,9 @@
 <!-- This is All Matches View *ngIf="listView"-->
 <div @flyInOut *ngIf="listView">
   <app-list-view></app-list-view>  
+</div>
+<div>
+    <span *ngIf="user.userRole === 'APP_ADMIN'">
+        <a class="btn btn-block btn-danger" routerLink="/admin"><b>Submit Match Result</b></a>
+    </span>
 </div>
