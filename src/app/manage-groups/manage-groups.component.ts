@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, NgForm} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {UserModel} from '../z-models/user.model';
@@ -6,6 +6,8 @@ import {Router} from '@angular/router';
 import {LoginService} from '../z-services/login.service';
 import {AlertService} from '../z-services/alert.service';
 import {GroupModel} from '../z-models/group.model';
+import {MatSort, MatTableDataSource} from '@angular/material';
+import {GroupsTableInterface} from '../z-models/groups-table.interface';
 
 @Component({
   selector: 'app-manage-groups',
@@ -17,19 +19,26 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
   joinMode = false;
   createMode = false;
   currentUserSubscription: Subscription;
+  currentUserGroupsSubscription: Subscription;
   joinGpSubscription: Subscription;
   createGpSubscription: Subscription;
+  groupSubscription: Subscription;
   loggedIn: boolean;
   user: UserModel;
+  groups: GroupModel[];
+  groupList: GroupModel[];
   isJoined = false;
   isJoinedErr = false;
   isCreated = false;
   isCreatedErr = false;
 
+  displayedColumns: string[] = ['groupName', 'referralCd'];
+  groupRefs: GroupsTableInterface[] = [];
+  dataSource: MatTableDataSource<GroupsTableInterface>;
+  @ViewChild(MatSort) sort: MatSort;
+
   constructor(private router: Router,
-              private loginService: LoginService,
-              private formBuilder: FormBuilder,
-              private alertService: AlertService) { }
+              private loginService: LoginService) { }
 
   ngOnInit() {
     this.currentUserSubscription = this.loginService.currentUser
@@ -43,6 +52,33 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
             },
             (error) => console.log(error)
         );
+
+      this.currentUserGroupsSubscription = this.loginService.currentUserGroups
+          .subscribe(
+              (res) => {
+                  this.groups = res;
+
+                  if (this.groups.length > 0) {
+                      this.groups.forEach((group) => {
+                          console.log('Inside dataSource..');
+                          const element: GroupsTableInterface = {
+                              groupName: group.groupName,
+                              referralCd: group.referenceCds
+                          };
+                          this.groupRefs.push(element);
+                          this.groupRefs = [...this.groupRefs];
+
+                          console.log(this.groupRefs);
+                      });
+                      this.dataSource = new MatTableDataSource(this.groupRefs);
+                      setTimeout(() => {
+                          this.dataSource.sort = this.sort;
+
+                      });
+                  }
+              },
+              (error) => console.log(error)
+          );
   }
 
   joinGroup() {
@@ -72,10 +108,13 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
                 } else {
                   this.isJoinedErr = false;
                   this.isJoined = true;
+                  this.updateUserGroups(this.user.userName);
                 }
               },
               (error) => console.log(error)
           );
+        this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() =>
+            this.router.navigate(['/groups']));
     }
   }
 
@@ -93,16 +132,33 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
                 } else {
                   this.isCreated = true;
                   this.isCreatedErr = false;
+                  this.updateUserGroups(this.user.userName);
                 }
               },
               (error) => console.log(error)
           );
+        this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() =>
+            this.router.navigate(['/groups']));
     }
 
   }
 
-  ngOnDestroy(): void {
+  updateUserGroups(username: string) {
+      this.groupSubscription = this.loginService.getGroupList(username)
+          .subscribe((resp) => {
+
+                  if (resp.statusCode === 'Y') {
+                      this.groupList = resp.result as GroupModel[];
+                      this.loginService.setGroups(this.groupList);
+                  }
+              },
+              (error) => console.log(error)
+          );
+  }
+  ngOnDestroy() {
     this.currentUserSubscription.unsubscribe();
+    this.currentUserGroupsSubscription.unsubscribe();
+    // this.groupSubscription.unsubscribe();
     // this.joinGpSubscription.unsubscribe();
     // this.createGpSubscription.unsubscribe();
   }

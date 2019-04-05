@@ -79,6 +79,10 @@ export class LoginService {
         // remove user groups from local storage to log user out
         localStorage.removeItem('currentUserGroups');
         this.currentUserGroupsSubject.next(null);
+
+        // remove social user from local storage to log user out
+        localStorage.removeItem('currentSocialUser');
+        this.currentSocialUserSubject.next(null);
     }
 
     getGroupList(username: string): Observable<ResponseModel> {

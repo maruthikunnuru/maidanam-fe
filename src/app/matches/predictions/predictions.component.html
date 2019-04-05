@@ -235,6 +235,10 @@
           </div>
           <hr>
           <div>
+              <mat-form-field>
+                  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search / Filter">
+              </mat-form-field>
+
               <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width:100%;" matSort>
 
                 <!--- Note that these columns can be defined in any order.

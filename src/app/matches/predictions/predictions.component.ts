@@ -336,6 +336,10 @@ export class PredictionsComponent implements OnInit, OnDestroy {
         this.router.navigate(['matches/' + this.matchId + '/predictions']));
   }
 
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
   ngOnDestroy(): void {
       this.currentUserSubscription.unsubscribe();
       this.currentUserGroupsSubscription.unsubscribe();
