@@ -318,23 +318,23 @@ export class PredictionsComponent implements OnInit, OnDestroy {
 
    console.log(this.userPredictionToSubmit);
 
-   // this.spinnerService.show();
-   // this.submitPredictionSubscription = this.predictionService.submitPredictions(this.user.userId,
-   //     this.user.userName, this.userPredictionToSubmit)
-   //     .subscribe((resps) => {
-   //             this.spinnerService.hide();
-   //             console.log(resps);
-   //             if (resps.statusCode === 'N') {
-   //                 this.submitFail = true;
-   //                 this.submitPass = false;
-   //                 this.errorMessage = resps.validationErrors[0];
-   //             } else {
-   //                 this.submitFail = false;
-   //                 this.submitPass = true;
-   //             }
-   //         },
-   //         (error) => console.log(error)
-   //     );
+   this.spinnerService.show();
+   this.submitPredictionSubscription = this.predictionService.submitPredictions(this.user.userId,
+       this.user.userName, this.userPredictionToSubmit)
+       .subscribe((resps) => {
+               this.spinnerService.hide();
+               console.log(resps);
+               if (resps.statusCode === 'N') {
+                   this.submitFail = true;
+                   this.submitPass = false;
+                   this.errorMessage = resps.validationErrors[0];
+               } else {
+                   this.submitFail = false;
+                   this.submitPass = true;
+               }
+           },
+           (error) => console.log(error)
+       );
   }
 
   onSelectGroup(groupid: number) {
