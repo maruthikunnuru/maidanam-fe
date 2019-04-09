@@ -35,7 +35,10 @@ export class MatchesComponent implements OnInit, OnDestroy {
 
   currentUserSubscription: Subscription;
   currentUserGroupsSubscription: Subscription;
+  userGroupSubscription: Subscription;
   user: UserModel;
+  selectedUserGroup: UserModel;
+  usersList: UserModel[];
   groups: GroupModel[];
   loggedIn: boolean;
 
@@ -85,13 +88,28 @@ export class MatchesComponent implements OnInit, OnDestroy {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  onSelectGroup(groupid: number, group: GroupModel) {
+  onSelectGroup(groupid: number) {
       console.log(groupid);
-      console.log(group);
 
-      this.user.groupId = groupid;
-      this.user.group = group;
-      this.loginService.setUser(this.user);
+      this.userGroupSubscription = this.loginService.getUsersByGroupId(this.user.userName, groupid)
+          .subscribe((resp) => {
+                  console.log(resp);
+                  if (resp.statusCode === 'N') {
+                      alert('No User Data Available');
+                  } else {
+                      this.usersList = resp.result as UserModel[];
+                      console.log(this.usersList);
+                      this.selectedUserGroup = this.usersList.filter( usr => usr.userName === this.user.userName)[0];
+                      console.log(this.selectedUserGroup);
+
+                      this.loginService.setUser(this.selectedUserGroup);
+
+                  }
+              },
+              (error) => console.log(error)
+          );
+
+
       this.router.navigateByUrl('/home', {skipLocationChange: true}).then(()=>
           this.router.navigate(['/matches']));
   }

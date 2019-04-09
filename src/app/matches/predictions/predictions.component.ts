@@ -42,7 +42,10 @@ export class PredictionsComponent implements OnInit, OnDestroy {
   loggedIn: boolean;
   showOthersPredictions = false;
   targetSubscription: Subscription;
+  userGroupSubscription: Subscription;
   targetList: UserModel[];
+  usersList: UserModel[];
+  selectedUserGroup: UserModel;
   isTeam1WinnerPredicted = false;
   isTeam2WinnerPredicted = false;
   team1odds: OddsModel;
@@ -53,6 +56,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
   submitPass = false;
   errorMessage: string;
   maxCoins: number;
+  username: string;
 
   @ViewChild('p') predictionForm: NgForm;
   @ViewChild(MatSort) sort: MatSort;
@@ -151,6 +155,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
               this.user = res;
               this.loggedIn = (this.user != null);
               console.log(this.user);
+              this.username = this.user.userName;
               if (!this.loggedIn) {
                  this.router.navigate(['/home']);
               }
@@ -188,7 +193,8 @@ export class PredictionsComponent implements OnInit, OnDestroy {
                       this.targetList = resp.result as UserModel[];
                       console.log(this.targetList);
                       this.targetList = this.targetList.filter( usr => usr.userName !== this.user.userName);
-                      console.log(console.log(this.targetList));
+                      console.log(this.targetList);
+
                   }
               },
               (error) => console.log(error)
@@ -294,8 +300,14 @@ export class PredictionsComponent implements OnInit, OnDestroy {
 
    this.userPredictionToSubmit.margin = this.predictionForm.value.marginOption != null ?
        this.predictionForm.value.marginOption : this.userPredictionToSubmit.margin;
+
    this.userPredictionToSubmit.challengedUserId = this.predictionForm.value.targetUser != null ?
        this.predictionForm.value.targetUser : this.userPredictionToSubmit.challengedUserId;
+
+   if (this.userPredictionToSubmit.challengedUserId === undefined) {
+       this.userPredictionToSubmit.challengedUserId = null;
+   }
+
    this.userPredictionToSubmit.winnerId = this.predictionForm.value.winner != null ?
        this.predictionForm.value.winner : this.userPredictionToSubmit.winnerId;
    this.userPredictionToSubmit.coinsAtPlay = this.predictionForm.value.coinsInvested != null ?
@@ -306,34 +318,47 @@ export class PredictionsComponent implements OnInit, OnDestroy {
 
    console.log(this.userPredictionToSubmit);
 
-   this.spinnerService.show();
-   this.submitPredictionSubscription = this.predictionService.submitPredictions(this.user.userId,
-       this.user.userName, this.userPredictionToSubmit)
-       .subscribe((resps) => {
-               this.spinnerService.hide();
-               console.log(resps);
-               if (resps.statusCode === 'N') {
-                   this.submitFail = true;
-                   this.submitPass = false;
-                   this.errorMessage = resps.validationErrors[0];
-               } else {
-                   this.submitFail = false;
-                   this.submitPass = true;
-               }
-           },
-           (error) => console.log(error)
-       );
+   // this.spinnerService.show();
+   // this.submitPredictionSubscription = this.predictionService.submitPredictions(this.user.userId,
+   //     this.user.userName, this.userPredictionToSubmit)
+   //     .subscribe((resps) => {
+   //             this.spinnerService.hide();
+   //             console.log(resps);
+   //             if (resps.statusCode === 'N') {
+   //                 this.submitFail = true;
+   //                 this.submitPass = false;
+   //                 this.errorMessage = resps.validationErrors[0];
+   //             } else {
+   //                 this.submitFail = false;
+   //                 this.submitPass = true;
+   //             }
+   //         },
+   //         (error) => console.log(error)
+   //     );
   }
 
-  onSelectGroup(groupid: number, groupObj: GroupModel) {
+  onSelectGroup(groupid: number) {
     console.log(groupid);
-    console.log(groupObj);
 
-    this.user.groupId = groupid;
-    this.user.group = groupObj;
-    this.loginService.setUser(this.user);
+    this.userGroupSubscription = this.loginService.getUsersByGroupId(this.user.userName, groupid)
+      .subscribe((resp) => {
+              console.log(resp);
+              if (resp.statusCode === 'N') {
+                  alert('No User Data Available');
+              } else {
+                  this.usersList = resp.result as UserModel[];
+                  console.log(this.usersList);
+                  this.selectedUserGroup = this.usersList.filter( usr => usr.userName === this.username)[0];
+                  console.log(this.selectedUserGroup);
+
+                  this.loginService.setUser(this.selectedUserGroup);
+
+              }
+          },
+          (error) => console.log(error)
+      );
     this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() =>
-        this.router.navigate(['matches/' + this.matchId + '/predictions']));
+        this.router.navigate(['matches/']));
   }
 
   applyFilter(filterValue: string) {

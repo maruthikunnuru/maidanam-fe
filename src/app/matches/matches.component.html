@@ -14,7 +14,7 @@
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <div *ngFor="let gp of groups">
-              <a class="dropdown-item" (click)="onSelectGroup(gp.groupId, gp)">{{gp.groupName}}</a>
+              <a class="dropdown-item" (click)="onSelectGroup(gp.groupId)">{{gp.groupName}}</a>
               </div>
             </div>
         </div>

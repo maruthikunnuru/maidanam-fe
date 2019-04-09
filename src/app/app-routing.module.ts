@@ -11,6 +11,7 @@ import {PlayerHistoryComponent} from './player-history/player-history.component'
 import {AuthGuard} from './z-services/auth.guard';
 import {FaqComponent} from './faq/faq.component';
 import {AdminComponent} from './admin/admin.component';
+import {TournamentsComponent} from './tournaments/tournaments.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' , canActivate: [AuthGuard]},
@@ -24,6 +25,7 @@ const appRoutes: Routes = [
   // { path: 'history', component: PlayerHistoryComponent},
   // { path: 'history/:id/predictions', pathMatch: 'full', component: PredictionsComponent },
   { path: 'faq', pathMatch: 'full', component: FaqComponent },
+   { path: 'tournaments', pathMatch: 'full', component: TournamentsComponent },
   { path: 'admin', pathMatch: 'full', component: AdminComponent}
 ];
 

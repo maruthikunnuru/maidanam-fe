@@ -17,8 +17,11 @@ export class ScoreboardComponent implements OnInit, OnDestroy {
   currentUserSubscription: Subscription;
   currentUserGroupsSubscription: Subscription;
   scoresSubscription: Subscription;
+  userGroupSubscription: Subscription;
   user: UserModel;
+  selectedUserGroup: UserModel;
   scoresList: UserModel[];
+  usersList: UserModel[];
   loggedIn: boolean;
   groups: GroupModel[];
   @ViewChild(MatSort) sort: MatSort;
@@ -67,7 +70,7 @@ export class ScoreboardComponent implements OnInit, OnDestroy {
 
                 if (this.scoresList.length > 0) {
                   this.scoresList.forEach((score, index) => {
-                    console.log('Inside dataSource..');
+                    console.log('Inside scores dataSource..');
                       const element: ScoresTableInterface = {
                         rank: index + 1,
                         player: score.displayName,
@@ -99,13 +102,27 @@ export class ScoreboardComponent implements OnInit, OnDestroy {
         this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  onSelectGroup(groupid: number, group: GroupModel) {
+  onSelectGroup(groupid: number) {
     console.log(groupid);
-    console.log(group);
 
-    this.user.groupId = groupid;
-    this.user.group = group;
-    this.loginService.setUser(this.user);
+    this.userGroupSubscription = this.loginService.getUsersByGroupId(this.user.userName, groupid)
+      .subscribe((resp) => {
+              console.log(resp);
+              if (resp.statusCode === 'N') {
+                  alert('No User Data Available');
+              } else {
+                  this.usersList = resp.result as UserModel[];
+                  console.log(this.usersList);
+                  this.selectedUserGroup = this.usersList.filter( usr => usr.userName === this.user.userName)[0];
+                  console.log(this.selectedUserGroup);
+
+                  this.loginService.setUser(this.selectedUserGroup);
+
+              }
+          },
+          (error) => console.log(error)
+      );
+
     this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() =>
         this.router.navigate(['/scoreboard']));
   }
@@ -114,6 +131,7 @@ export class ScoreboardComponent implements OnInit, OnDestroy {
     this.currentUserSubscription.unsubscribe();
     this.currentUserGroupsSubscription.unsubscribe();
     this.scoresSubscription.unsubscribe();
+    // this.userGroupSubscription.unsubscribe();
   }
 
 }

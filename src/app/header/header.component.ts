@@ -59,7 +59,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
                                   this.user = userList.filter(usr => usr.emailId === this.socialUser.email)[0];
                                   console.log('Final User -->' + JSON.stringify(this.user));
                                   this.loginService.setUser(this.user);
-                                  this.router.navigate(['/matches']);
+                                  this.router.navigate(['/tournaments']);
                                 } else {
                                    console.log('Error in getUsersByGroup');
                                 }
