@@ -1,3 +1,18 @@
-.h1 {
-    color: blue;
+
+
+th.mat-header-cell {
+    font-weight: bold;
+    font-size: 0.6em;
+    color: white;
+    background-color: lightslategrey;
+}
+
+td.mat-cell {
+    font-size: 0.6em;
+    white-space:nowrap;
+}
+
+.btn-sml {
+    font-size: 11px;
+    border-radius: 100px;
 }

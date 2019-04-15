@@ -1,52 +1,80 @@
+<link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Nova+Mono|Roboto+Mono" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-<div class="container-fluid">
-  <div class="d-flex justify-content-center">
-    <br>
-        <h2 style="color:darkred">{{historyList[0].firstName}} {{historyList[0].lastName}}</h2>
-  </div>
-  <div class="container-fluid sticky-top" style="padding:0px;">
-    <div class="d-flex justify-content-end">
-      <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          JNTU
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a class="dropdown-item" href="#">JNTU</a>
-          <a class="dropdown-item" href="#">Family</a>
-          <a class="dropdown-item" href="#">Office</a>
+
+<div class="container-fluid sticky-top" style="padding:0px;">
+  <div class="d-flex justify-content-end">
+    <div class="dropdown">
+      <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{user.group.groupName}}
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <div *ngFor="let gp of groups">
+          <a class="dropdown-item" (click)="onSelectGroup(gp.groupId)">{{gp.groupName}}</a>
         </div>
       </div>
     </div>
   </div>
+  <p>{{user.totalCoins}} <img src="assets/images/coins.jpg" width="30" height="20">&nbsp;
+    <a class="btn btn-warning btn-sml"
+       href="mailto:maidanam.in@gmail.com?subject=Need Coins"
+       target="_blank"> <b>+ BUY MORE</b></a>
+  </p>
+
   <hr>
-  <div class="table-responsive-sm">
-    <table class="table table-bordered table-warning">
-      <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Team1</th>
-        <th scope="col">Team2</th>
-        <th scope="col">Winner</th>
-        <th scope="col">Challenger</th>
-        <th scope="col">Total Coins Won</th>
-        <th scope="col">By Win/Margin/Challenge</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let ht of historyList; let i = index">
-        <td><a role="link" (click)="onMatchClick(ht.prediction.match.matchId)" style="cursor: pointer; color: blue;">{{i+1}}</a></td>
-        <td>{{ht.prediction.match.team1.teamName}}</td>
-        <td>{{ht.prediction.match.team2.teamName}}</td>
-        <td>{{ht.prediction.match.winner.teamName}}</td>
-        <td>{{ht.prediction.challengedUser.firstName}} {{ht.prediction.challengedUser.lastName}}</td>
-        <td>{{ht.totalCoinsWon}}</td>
-        <td>{{ht.coinsWonByWin}} / {{ht.coinsWonByMargin}} / {{ht.coinsWonByChallenge}}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search / Filter">
+  </mat-form-field>
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"  matSort>
+
+    <ng-container matColumnDef="no">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> # </th>
+      <td mat-cell *matCellDef="let element"> {{element.matchId}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="match">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Match </th>
+      <td mat-cell *matCellDef="let element"> {{element.match}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="prediction">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Prediction </th>
+      <td mat-cell *matCellDef="let element">  {{element.prediction}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="coins">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Coins </th>
+      <td mat-cell *matCellDef="let element">{{element.coinsAtPlay}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="fasak">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Fasak'<sup>ed</sup> </th>
+      <td mat-cell *matCellDef="let element">{{element.fasak == null ? '-None-' : element.fasak}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="won">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> WinLoss/<br>byMargin/<br>byFasak </th>
+      <td mat-cell *matCellDef="let element">
+        <span [ngStyle]="{'color':element.loss < 0 ? 'red' : ''}">{{element.won == null? (element.loss == null ? 0 : element.loss) : element.won}}</span> /
+        <span>{{element.bonus == null ?0:element.bonus}}</span> /
+        <span>{{element.fasakPoints == null ? 0 : element.fasakPoints}}</span>
+      </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="result">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Result </th>
+      <td mat-cell style="width: 5%" *matCellDef="let element">{{element.result}}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator style="padding:0px;" [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>
 </div>
-
-
-
-
