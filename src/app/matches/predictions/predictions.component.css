@@ -42,11 +42,6 @@
     box-shadow: 0px 0px 8px 2px #729d39;
 }
 
-*{
-    font-family: 'Titillium Web', sans-serif;
-    font-family: 'Roboto Mono', monospace;
-    font-family: 'Nova Mono', monospace;
-}
 
 td, span {
     font-family: 'Ubuntu', sans-serif;
