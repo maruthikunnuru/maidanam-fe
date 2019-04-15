@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, Renderer} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService, GoogleLoginProvider, SocialUser} from 'angularx-social-login';
 import {Router} from '@angular/router';
 import {LoginService} from '../z-services/login.service';
@@ -23,13 +23,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private authService: AuthService,
-              private loginService: LoginService,
-              private el: ElementRef,
-              private renderer: Renderer) { }
-
-  onMenuClick() {
-    this.renderer.setElementClass(this.el.nativeElement.querySelector('#navbarNavDropdown'), 'in', false);
-  }
+              private loginService: LoginService) { }
 
   ngOnInit() {
     if (!this.loggedIn) {
