@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, NgForm} from '@angular/forms';
-import {Subscription} from 'rxjs';
+import { Location } from '@angular/common';
+import {NgForm} from '@angular/forms';
+import {Observable, Subscription} from 'rxjs';
 import {UserModel} from '../z-models/user.model';
 import {Router} from '@angular/router';
 import {LoginService} from '../z-services/login.service';
-import {AlertService} from '../z-services/alert.service';
 import {GroupModel} from '../z-models/group.model';
 import {MatSort, MatTableDataSource} from '@angular/material';
 import {GroupsTableInterface} from '../z-models/groups-table.interface';
@@ -34,11 +34,13 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
 
   displayedColumns: string[] = ['groupName', 'referralCd'];
   groupRefs: GroupsTableInterface[] = [];
+  finalGroupRefs: GroupsTableInterface[] = [];
   dataSource: MatTableDataSource<GroupsTableInterface>;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(private router: Router,
-              private loginService: LoginService) { }
+              private loginService: LoginService,
+              private location: Location) { }
 
   ngOnInit() {
     this.currentUserSubscription = this.loginService.currentUser
@@ -58,18 +60,20 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
               (res) => {
                   this.groups = res;
 
-                  if (this.groups.length > 0) {
+                  if (this.groups && this.groups.length > 0) {
                       this.groups.forEach((group) => {
-                          console.log('Inside dataSource..');
-                          const element: GroupsTableInterface = {
-                              groupName: group.groupName,
-                              referralCd: group.referenceCds
-                          };
-                          this.groupRefs.push(element);
-                          this.groupRefs = [...this.groupRefs];
-
-                          console.log(this.groupRefs);
+                          if (!this.groupRefs.some(x => (x.groupName === group.groupName))) {
+                              console.log('Inside dataSource..');
+                              const element: GroupsTableInterface = {
+                                  groupName: group.groupName,
+                                  referralCd: group.referenceCds
+                              };
+                              this.groupRefs.push(element);
+                              this.groupRefs = [...this.groupRefs];
+                          }
                       });
+
+                      console.log(this.groupRefs);
                       this.dataSource = new MatTableDataSource(this.groupRefs);
                       setTimeout(() => {
                           this.dataSource.sort = this.sort;
@@ -113,8 +117,6 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
               },
               (error) => console.log(error)
           );
-        this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() =>
-            this.router.navigate(['/groups']));
     }
   }
 
@@ -137,8 +139,6 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
               },
               (error) => console.log(error)
           );
-        this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() =>
-            this.router.navigate(['/groups']));
     }
 
   }

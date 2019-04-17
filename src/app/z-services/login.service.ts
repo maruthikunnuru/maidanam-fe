@@ -66,6 +66,8 @@ export class LoginService {
     }
 
     setGroups(groups: GroupModel[]) {
+        localStorage.removeItem('currentUserGroups');
+        this.currentUserGroupsSubject.next(null);
         const currentUserGroups = JSON.stringify(groups);
         localStorage.setItem('currentUserGroups', currentUserGroups);
         this.currentUserGroupsSubject.next(groups);

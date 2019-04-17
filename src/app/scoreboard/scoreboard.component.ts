@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterContentInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UserModel} from '../z-models/user.model';
 import {LoginService} from '../z-services/login.service';
@@ -12,7 +12,7 @@ import {MatSort, MatTableDataSource} from '@angular/material';
   templateUrl: './scoreboard.component.html',
   styleUrls: ['./scoreboard.component.css']
 })
-export class ScoreboardComponent implements OnInit, OnDestroy {
+export class ScoreboardComponent implements AfterContentInit, OnDestroy {
 
   currentUserSubscription: Subscription;
   currentUserGroupsSubscription: Subscription;
@@ -34,8 +34,7 @@ export class ScoreboardComponent implements OnInit, OnDestroy {
               private router: Router,
               private loginService: LoginService) { }
 
-  ngOnInit() {
-    // this.dataSource.sort = this.sort;
+  ngAfterContentInit(): void {
     console.log('Inside Scoreboard');
     this.currentUserSubscription = this.loginService.currentUser
         .subscribe(
@@ -109,7 +108,7 @@ export class ScoreboardComponent implements OnInit, OnDestroy {
       .subscribe((resp) => {
               console.log(resp);
               if (resp.statusCode === 'N') {
-                  alert('No User Data Available');
+                  // alert('No User Data Available');
               } else {
                   this.usersList = resp.result as UserModel[];
                   console.log(this.usersList);
@@ -117,14 +116,12 @@ export class ScoreboardComponent implements OnInit, OnDestroy {
                   console.log(this.selectedUserGroup);
 
                   this.loginService.setUser(this.selectedUserGroup);
-
+                  this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() =>
+                      this.router.navigate(['/scoreboard']));
               }
           },
           (error) => console.log(error)
       );
-
-    this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() =>
-        this.router.navigate(['/scoreboard']));
   }
 
   ngOnDestroy(): void {

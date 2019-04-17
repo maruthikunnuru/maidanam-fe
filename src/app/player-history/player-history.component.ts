@@ -1,13 +1,11 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterContentInit, Component, OnDestroy, ViewChild} from '@angular/core';
 import {PlayerHistoryService} from '../z-services/player-history.service';
 import {HistoryModel} from '../z-models/history.model';
-import {MatchesService} from '../z-services/matches.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {UserModel} from '../z-models/user.model';
 import {GroupModel} from '../z-models/group.model';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import {ScoresTableInterface} from '../z-models/scores-table.interface';
 import {LoginService} from '../z-services/login.service';
 import {HistoryTableInterface} from '../z-models/history-table.interface';
 
@@ -17,7 +15,7 @@ import {HistoryTableInterface} from '../z-models/history-table.interface';
   templateUrl: './player-history.component.html',
   styleUrls: ['./player-history.component.css']
 })
-export class PlayerHistoryComponent implements OnInit, OnDestroy {
+export class PlayerHistoryComponent implements AfterContentInit, OnDestroy {
 
 
     currentUserSubscription: Subscription;
@@ -42,7 +40,7 @@ export class PlayerHistoryComponent implements OnInit, OnDestroy {
                 private loginService: LoginService,
                 private historyService: PlayerHistoryService) { }
 
-    ngOnInit() {
+    ngAfterContentInit() {
         console.log('Inside Player History');
         this.currentUserSubscription = this.loginService.currentUser
             .subscribe(
@@ -70,7 +68,7 @@ export class PlayerHistoryComponent implements OnInit, OnDestroy {
             .subscribe((resp) => {
                     console.log(resp);
                     if (resp.statusCode === 'N') {
-                        alert('No History Available');
+                        // alert('No History Available');
                     } else {
                         this.historyList = resp.result as HistoryModel[];
                         console.log(this.historyList);
@@ -121,7 +119,7 @@ export class PlayerHistoryComponent implements OnInit, OnDestroy {
             .subscribe((resp) => {
                     console.log(resp);
                     if (resp.statusCode === 'N') {
-                        alert('No User Data Available');
+                        // alert('No User Data Available');
                     } else {
                         this.usersList = resp.result as UserModel[];
                         console.log(this.usersList);
@@ -129,14 +127,12 @@ export class PlayerHistoryComponent implements OnInit, OnDestroy {
                         console.log(this.selectedUserGroup);
 
                         this.loginService.setUser(this.selectedUserGroup);
-
+                        this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() =>
+                            this.router.navigate(['/history']));
                     }
                 },
                 (error) => console.log(error)
             );
-
-        this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() =>
-            this.router.navigate(['/history']));
     }
 
     ngOnDestroy(): void {
