@@ -49,7 +49,7 @@ export class PlayerHistoryComponent implements AfterContentInit, OnDestroy {
                     this.loggedIn = (this.user != null);
 
                     if (!this.loggedIn) {
-                        //this.router.navigate(['/home']);
+                        this.router.navigate(['/home']);
                     }
                 },
                 (error) => console.log(error)
