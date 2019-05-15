@@ -36,6 +36,9 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { AdminComponent } from './admin/admin.component';
 import {AdminService} from './z-services/admin.service';
 import { TournamentsComponent } from './tournaments/tournaments.component';
+import { ElectionsComponent } from './elections/elections.component';
+import { ApComponent } from './elections/ap/ap.component';
+import { IndiaComponent } from './elections/india/india.component';
 
 const googleLoginOptions: LoginOpt = {
   scope: 'profile email',
@@ -69,7 +72,10 @@ export function provideConfig() {
     PlayerHistoryComponent,
     FaqComponent,
     AdminComponent,
-    TournamentsComponent
+    TournamentsComponent,
+    ElectionsComponent,
+    ApComponent,
+    IndiaComponent
   ],
   imports: [
     BrowserModule,

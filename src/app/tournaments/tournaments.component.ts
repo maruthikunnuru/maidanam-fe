@@ -10,8 +10,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class TournamentsComponent implements OnInit {
 
   constructor(private loginService: LoginService,
-              private router: Router,
-              private route: ActivatedRoute) { }
+              private router: Router) { }
 
   ngOnInit() {
   }
@@ -21,11 +20,11 @@ export class TournamentsComponent implements OnInit {
   }
 
   onSelectAp() {
-
+    this.router.navigate(['/elections/ap']);
   }
 
   onSelectNational() {
-
+    this.router.navigate(['/elections/india']);
   }
 }
 
