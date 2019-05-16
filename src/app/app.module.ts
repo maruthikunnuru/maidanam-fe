@@ -39,6 +39,7 @@ import { TournamentsComponent } from './tournaments/tournaments.component';
 import { ElectionsComponent } from './elections/elections.component';
 import { ApComponent } from './elections/ap/ap.component';
 import { IndiaComponent } from './elections/india/india.component';
+import {ElectionsService} from './z-services/elections.service';
 
 const googleLoginOptions: LoginOpt = {
   scope: 'profile email',
@@ -106,6 +107,7 @@ export function provideConfig() {
     PlayerHistoryService,
     PredictionsService,
     AdminService,
+    ElectionsService,
     AuthGuard
   ],
   bootstrap: [AppComponent]

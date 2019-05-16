@@ -7,11 +7,11 @@ import {ElectionPredictionModel} from '../z-models/election-prediction.model';
 
 
 @Injectable()
-export class PredictionsService {
+export class ElectionsService {
     constructor(private http: Http) {}
 
-    getElectionPredictions(electionType: string, userId: number): Observable<ResponseModel> {
-        const headers = new Headers()
+    getApElectionPredictions(electionType: string, userId: number): Observable<ResponseModel> {
+        const headers = new Headers();
         headers.append('X-ELECTION-TYPE', electionType);
 
         return this.http.get(AppConstants.API_ENDPOINT + '/elections/predictions/users/' + userId, {headers: headers})
@@ -27,14 +27,14 @@ export class PredictionsService {
             );
     }
 
-    submitElectionPredictions(userId: number, electionType: string,
-                      electionPrediction: ElectionPredictionModel): Observable<ResponseModel> {
+    submitApElectionPredictions(userId: number, electionType: string,
+                      electionPredictions: ElectionPredictionModel[]): Observable<ResponseModel> {
 
-        const headers = new Headers()
+        const headers = new Headers();
         headers.append('X-ELECTION-TYPE', electionType);
         headers.append('X-USER-ID', String(userId));
 
-        return this.http.post(AppConstants.API_ENDPOINT + '//elections/predictions', electionPrediction,
+        return this.http.post(AppConstants.API_ENDPOINT + '/elections/predictions', electionPredictions,
             {headers: headers})
             .map(
                 (response: Response) => {

@@ -28,11 +28,9 @@ export class PredictionsComponent implements OnInit, OnDestroy {
   selectedMargin: string;
 
   matchId: number;
-  selectedMatch: MatchModel;
   predictions: PredictionModel[];
   currentUserPrediction: PredictionModel;
   userPredictionToSubmit: PredictionModel;
-  matchSubscription: Subscription;
   getPredictionSubscription: Subscription;
   submitPredictionSubscription: Subscription;
   currentUserSubscription: Subscription;

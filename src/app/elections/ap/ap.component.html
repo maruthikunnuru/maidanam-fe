@@ -9,7 +9,7 @@
         <div class="form-group" *ngFor="let constituency of constituencies; let i=index">
           <table>
             <tr>
-              <td>
+              <td style="width: 30%">
                 <input id="province" class="form-control"
                        type="text" name="province"
                        value="{{constituency}}" readonly />
@@ -17,25 +17,25 @@
               &nbsp;&nbsp;&nbsp;&nbsp;
               <td>
                 <div style="display:flex; flex-direction: row; justify-content: center; align-items: center">
-                  <label for="ycpParty{{i}}">YCP: </label>&nbsp;
-                  <input id="ycpParty{{i}}" type="number" class="form-control"
-                       name="{{constituency}}-YCP"  ngModel>
+<!--                  <label for="ycpParty{{i}}">YCP: </label>&nbsp;-->
+                  <input id="ycpParty{{i}}" type="number"  class="form-control" min="0"
+                         placeholder="YCP" name="{{constituency}}-YCP" ngModel>
                 </div>
               </td>
               &nbsp;&nbsp;
               <td>
                 <div style="display:flex; flex-direction: row; justify-content: center; align-items: center">
-                  <label for="tdpParty{{i}}">TDP: </label>&nbsp;
-                  <input id="tdpParty{{i}}" type="number" class="form-control"
-                       name="{{constituency}}-TDP" ngModel>
+<!--                  <label for="tdpParty{{i}}">TDP: </label>&nbsp;-->
+                  <input id="tdpParty{{i}}" type="number" class="form-control" min="0"
+                         placeholder="TDP" name="{{constituency}}-TDP" ngModel>
                 </div>
               </td>
               &nbsp;&nbsp;
               <td>
                 <div style="display:flex; flex-direction: row; justify-content: center; align-items: center">
-                  <label for="othParty{{i}}">Others: </label>&nbsp;
-                  <input id="othParty{{i}}" type="number" class="form-control"
-                       name="{{constituency}}-OTHERS" ngModel>
+<!--                  <label for="othParty{{i}}">Others: </label>&nbsp;-->
+                  <input id="othParty{{i}}" type="number" class="form-control" min="0"
+                         placeholder="Others" name="{{constituency}}-OTHERS" ngModel>
                 </div>
               </td>
             </tr>
