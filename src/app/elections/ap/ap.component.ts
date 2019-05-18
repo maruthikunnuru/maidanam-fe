@@ -141,15 +141,17 @@ export class ApComponent implements OnInit, OnDestroy {
       this.isSuccess = false;
       this.isFailure = false;
       this.isSeatCountFail = false;
+      let totalSeatsByProvince = 0
 
       this.constituencies.forEach( (province, i) => {
-          const totalSeatsByProvince = apPredForm.value[province + '-TDP'] +
+          totalSeatsByProvince = totalSeatsByProvince + apPredForm.value[province + '-TDP'] +
               apPredForm.value[province + '-YCP'] +
               apPredForm.value[province + '-OTHERS'];
 
-          if (totalSeatsByProvince > this.counts[i]) {
+          // if (totalSeatsByProvince > this.counts[i]) {
+          if (totalSeatsByProvince > 175) {
               this.isSeatCountFail = true;
-              this.seatCountFailProvince = province;
+              // this.seatCountFailProvince = province;
               return;
           }
       });

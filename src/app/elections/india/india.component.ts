@@ -46,7 +46,6 @@ export class IndiaComponent implements OnInit, OnDestroy {
     'Uttar Pradesh',
     'Maharashtra',
     'Telangana',
-    'West Bengal',
     'Bihar',
     'Tamil Nadu',
     'Madhya Pradesh',
@@ -78,12 +77,13 @@ export class IndiaComponent implements OnInit, OnDestroy {
     'Daman & Diu',
     'Lakshadweep',
     'Puducherry',
+    'West Bengal',
     'Andhra Pradesh'
   ];
 
-  counts = [80, 48, 17, 42, 40, 39, 29, 28, 26, 25, 21, 20, 14,
+  counts = [80, 48, 17, 40, 39, 29, 28, 26, 25, 21, 20, 14,
     14, 13, 11, 10, 7, 6, 5, 4, 2, 2, 2, 2, 2,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 25];
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 42, 25];
 
 
   submitIndiaElectionPredictions: ElectionPredictionModel[];
@@ -98,6 +98,10 @@ export class IndiaComponent implements OnInit, OnDestroy {
       if ( province === 'Andhra Pradesh') {
         seatModel.push(new SeatModel('TDP', apPredForm[province + '-TDP'] === '' ? 0 : apPredForm[province + '-TDP']));
         seatModel.push(new SeatModel('YCP', apPredForm[province + '-YCP'] === '' ? 0 : apPredForm[province + '-YCP']));
+        seatModel.push(new SeatModel('OTHERS', apPredForm[province + '-OTHERS'] === '' ? 0 : apPredForm[province + '-OTHERS']));
+      } else if ( province === 'West Bengal') {
+        seatModel.push(new SeatModel('NDA', apPredForm[province + '-NDA'] === '' ? 0 : apPredForm[province + '-NDA']));
+        seatModel.push(new SeatModel('AITC', apPredForm[province + '-AITC'] === '' ? 0 : apPredForm[province + '-AITC']));
         seatModel.push(new SeatModel('OTHERS', apPredForm[province + '-OTHERS'] === '' ? 0 : apPredForm[province + '-OTHERS']));
       } else {
         seatModel.push(new SeatModel('NDA', apPredForm[province + '-NDA'] === '' ? 0 : apPredForm[province + '-NDA']));
@@ -160,6 +164,10 @@ export class IndiaComponent implements OnInit, OnDestroy {
                       seatModel.push(new SeatModel('TDP', 0));
                       seatModel.push(new SeatModel('YCP', 0));
                       seatModel.push(new SeatModel('OTHERS', 0));
+                    } else if ( province === 'West Bengal') {
+                      seatModel.push(new SeatModel('NDA', 0));
+                      seatModel.push(new SeatModel('AITC', 0));
+                      seatModel.push(new SeatModel('OTHERS', 0));
                     } else {
                       seatModel.push(new SeatModel('NDA', 0));
                       seatModel.push(new SeatModel('UPA', 0));
@@ -187,15 +195,27 @@ export class IndiaComponent implements OnInit, OnDestroy {
     this.isSuccess = false;
     this.isFailure = false;
     this.isSeatCountFail = false;
+    let totalSeatsByProvince = 0;
 
     this.constituencies.forEach( (province, i) => {
-      const totalSeatsByProvince = indiaPredForm.value[province + '-NDA'] +
-          indiaPredForm.value[province + '-UPA'] +
-          indiaPredForm.value[province + '-OTHERS'];
+      if (province === 'Andhra Pradesh') {
+        totalSeatsByProvince = totalSeatsByProvince + indiaPredForm.value[province + '-TDP'] +
+            indiaPredForm.value[province + '-YCP'] +
+            indiaPredForm.value[province + '-OTHERS'];
+      } else if (province === 'West Bengal') {
+        totalSeatsByProvince = totalSeatsByProvince + indiaPredForm.value[province + '-NDA'] +
+            indiaPredForm.value[province + '-AITC'] +
+            indiaPredForm.value[province + '-OTHERS'];
+      } else {
+        totalSeatsByProvince = totalSeatsByProvince + indiaPredForm.value[province + '-NDA'] +
+            indiaPredForm.value[province + '-UPA'] +
+            indiaPredForm.value[province + '-OTHERS'];
+      }
 
-      if (totalSeatsByProvince > this.counts[i]) {
+      // if (totalSeatsByProvince > this.counts[i]) {
+      if (totalSeatsByProvince > 543) {
         this.isSeatCountFail = true;
-        this.seatCountFailProvince = province;
+        // this.seatCountFailProvince = province;
         return;
       }
     });

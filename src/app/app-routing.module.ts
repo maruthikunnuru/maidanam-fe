@@ -12,24 +12,24 @@ import {AuthGuard} from './z-services/auth.guard';
 import {FaqComponent} from './faq/faq.component';
 import {AdminComponent} from './admin/admin.component';
 import {TournamentsComponent} from './tournaments/tournaments.component';
-import {ApComponent} from "./elections/ap/ap.component";
-import {IndiaComponent} from "./elections/india/india.component";
+import {ApComponent} from './elections/ap/ap.component';
+import {IndiaComponent} from './elections/india/india.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' , canActivate: [AuthGuard]},
   { path: 'home', component: HomeComponent },
-  { path: 'matches', component: MatchesComponent},
+  // { path: 'matches', component: MatchesComponent},
   { path: 'elections/ap', pathMatch: 'full', component: ApComponent},
   { path: 'elections/india', pathMatch: 'full', component: IndiaComponent},
-  { path: 'matches/:id/predictions', pathMatch: 'full', component: PredictionsComponent },
-  { path: 'scoreboard', component: ScoreboardComponent},
+  // { path: 'matches/:id/predictions', pathMatch: 'full', component: PredictionsComponent },
+  // { path: 'scoreboard', component: ScoreboardComponent},
   { path: 'register', component: RegisterComponent, canActivate: [AuthGuard]},
   { path: 'error', component: ErrorPageComponent},
   { path: 'groups', component: ManageGroupsComponent, canActivate: [AuthGuard]},
-  { path: 'history', component: PlayerHistoryComponent},
-  { path: 'faq', pathMatch: 'full', component: FaqComponent },
+  // { path: 'history', component: PlayerHistoryComponent},
+  // { path: 'faq', pathMatch: 'full', component: FaqComponent },
   { path: 'tournaments', pathMatch: 'full', component: TournamentsComponent },
-  { path: 'admin', pathMatch: 'full', component: AdminComponent}
+  // { path: 'admin', pathMatch: 'full', component: AdminComponent}
 ];
 
 @NgModule({

@@ -38,7 +38,7 @@
         </table>
         <div class="form-group" *ngFor="let electionPrediction of currentIndiaElectionPredictions; let i=index">
           <table>
-            <tr *ngIf="electionPrediction.province !== 'Andhra Pradesh'">
+            <tr *ngIf="electionPrediction.province !== 'Andhra Pradesh' && electionPrediction.province !== 'West Bengal'">
               <td style="width: 55%; background: lightskyblue;">
                 <span style="">{{electionPrediction.province}} ({{counts[i]}}) </span>
               </td>
@@ -103,6 +103,40 @@
             </tr>
           </table>
 
+          <table>
+            <tr *ngIf="electionPrediction.province === 'West Bengal'">
+              <td style="width: 25%; background: goldenrod;" colspan="4">
+                <span style="">WB ({{counts[i]}}) </span>
+              </td>&nbsp;&nbsp;&nbsp;
+              <td style="width: 25%">
+                <div style="display:flex; flex-direction: row; justify-content: center; align-items: center">
+                  <label for="ndaParty" >NDA: </label>
+                  <input id="ndaParty" type="number"  class="form-control" min="0" value="0"
+                         placeholder="NDA" name="{{electionPrediction.province}}-{{electionPrediction.seatPredictionObject.predictions[0].partyName}}"
+                         [(ngModel)]="electionPrediction.seatPredictionObject.predictions[0].numberOfSeats">
+                </div>
+              </td>
+              &nbsp;&nbsp;
+              <td style="width: 25%">
+                <div style="display:flex; flex-direction: row; justify-content: center; align-items: center">
+                  <label for="aitcParty">AITC: </label>
+                  <input id="aitcParty" type="number" class="form-control" min="0" value="0"
+                         placeholder="AITC" name="{{electionPrediction.province}}-{{electionPrediction.seatPredictionObject.predictions[1].partyName}}"
+                         [(ngModel)]="electionPrediction.seatPredictionObject.predictions[1].numberOfSeats">
+                </div>
+              </td>
+              &nbsp;&nbsp;
+              <td style="width: 55%">
+                <div style="display:flex; flex-direction: row; justify-content: center; align-items: center">
+                  <label for="othParty2">Oth: </label>
+                  <input id="othParty2" type="number" class="form-control" min="0" value="0"
+                         placeholder="Others" name="{{electionPrediction.province}}-{{electionPrediction.seatPredictionObject.predictions[2].partyName}}"
+                         [(ngModel)]="electionPrediction.seatPredictionObject.predictions[2].numberOfSeats">
+                </div>
+              </td>
+            </tr>
+          </table>
+
         </div>
 
         <div  class="alert alert-danger" *ngIf="isFailure">
@@ -112,7 +146,7 @@
           Success !
         </div>
         <div  class="alert alert-danger" *ngIf="isSeatCountFail">
-          Seat Counts Mismatch for <br> <span style="color: red; font-size: 1.5em">{{seatCountFailProvince}}</span> <br>Please correct and re-submit !!
+          Total Seat Count > <span style="color: red; font-size: 1.5em">543</span> <br>Please correct and re-submit !!
         </div>
         <br>
         <button type="reset" class="btn btn-info">Clear</button>
