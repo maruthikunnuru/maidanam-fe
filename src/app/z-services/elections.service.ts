@@ -10,7 +10,7 @@ import {ElectionPredictionModel} from '../z-models/election-prediction.model';
 export class ElectionsService {
     constructor(private http: Http) {}
 
-    getApElectionPredictions(electionType: string, userId: number): Observable<ResponseModel> {
+    getElectionPredictions(electionType: string, userId: number): Observable<ResponseModel> {
         const headers = new Headers();
         headers.append('X-ELECTION-TYPE', electionType);
 
@@ -27,7 +27,7 @@ export class ElectionsService {
             );
     }
 
-    submitApElectionPredictions(userId: number, electionType: string,
+    submitElectionPredictions(userId: number, electionType: string,
                       electionPredictions: ElectionPredictionModel[]): Observable<ResponseModel> {
 
         const headers = new Headers();

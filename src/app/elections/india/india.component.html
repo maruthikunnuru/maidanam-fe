@@ -1,3 +1,124 @@
-<p>
-  india works!
-</p>
+<div class="container-fluid sticky-top" style="padding:0px;">
+  <div class="d-flex justify-content-end">
+    <div class="dropdown">
+      <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{user.group.groupName}}
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <div *ngFor="let gp of groups">
+          <a class="dropdown-item" (click)="onSelectGroup(gp.groupId)">{{gp.groupName}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<button class="btn btn-link" (click)="goBack()">Go Back</button>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-10 col-sm-offset-1 col-md-offset-2">
+      <form (ngSubmit)="onSubmitResult(m)" #m="ngForm">
+        <br>
+        <table >
+          <tr style="color: darkred">
+            <th style="width: 55%; text-align: center">
+              <span style="">Province</span>&nbsp;
+            </th>
+            <th style="width: 30%; text-align: center">
+              <span >NDA</span>&nbsp;
+            </th>
+            <th style="width: 30%%; text-align: center">
+              <span >UPA</span>&nbsp;
+            </th>
+            <th style="width: 30%; text-align: center">
+              <span >Others</span>&nbsp;
+            </th>
+          </tr>
+        </table>
+        <div class="form-group" *ngFor="let electionPrediction of currentIndiaElectionPredictions; let i=index">
+          <table>
+            <tr *ngIf="electionPrediction.province !== 'Andhra Pradesh'">
+              <td style="width: 55%; background: lightskyblue;">
+                <span style="">{{electionPrediction.province}} ({{counts[i]}}) </span>
+              </td>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <td style="width: 15%">
+                <div style="display:flex; flex-direction: row; justify-content: center; align-items: center">
+                  <input id="ndaParty{{i}}" type="number"  class="form-control" min="0" value="0"
+                         placeholder="NDA" name="{{electionPrediction.province}}-{{electionPrediction.seatPredictionObject.predictions[0].partyName}}"
+                         [(ngModel)]="electionPrediction.seatPredictionObject.predictions[0].numberOfSeats">
+                </div>
+              </td>
+              &nbsp;&nbsp;
+              <td style="width: 15%">
+                <div style="display:flex; flex-direction: row; justify-content: center; align-items: center">
+                  <input id="upaParty{{i}}" type="number" class="form-control" min="0" value="0"
+                         placeholder="UPA" name="{{electionPrediction.province}}-{{electionPrediction.seatPredictionObject.predictions[1].partyName}}"
+                         [(ngModel)]="electionPrediction.seatPredictionObject.predictions[1].numberOfSeats">
+                </div>
+              </td>
+              &nbsp;&nbsp;
+              <td style="width: 15%">
+                <div style="display:flex; flex-direction: row; justify-content: center; align-items: center">
+                  <input id="othParty{{i}}" type="number" class="form-control" min="0" value="0"
+                         placeholder="Others" name="{{electionPrediction.province}}-{{electionPrediction.seatPredictionObject.predictions[2].partyName}}"
+                         [(ngModel)]="electionPrediction.seatPredictionObject.predictions[2].numberOfSeats">
+                </div>
+              </td>
+            </tr>
+          </table>
+
+          <table>
+            <tr *ngIf="electionPrediction.province === 'Andhra Pradesh'">
+              <td style="width: 25%; background: goldenrod;" colspan="4">
+                <span style="">AP ({{counts[i]}}) </span>
+              </td>&nbsp;&nbsp;&nbsp;
+              <td style="width: 25%">
+                <div style="display:flex; flex-direction: row; justify-content: center; align-items: center">
+                  <label for="tdpParty" >TDP: </label>
+                  <input id="tdpParty" type="number"  class="form-control" min="0" value="0"
+                         placeholder="TDP" name="{{electionPrediction.province}}-{{electionPrediction.seatPredictionObject.predictions[0].partyName}}"
+                         [(ngModel)]="electionPrediction.seatPredictionObject.predictions[0].numberOfSeats">
+                </div>
+              </td>
+              &nbsp;&nbsp;
+              <td style="width: 25%">
+                <div style="display:flex; flex-direction: row; justify-content: center; align-items: center">
+                  <label for="ycpParty">YCP: </label>
+                  <input id="ycpParty" type="number" class="form-control" min="0" value="0"
+                         placeholder="YCP" name="{{electionPrediction.province}}-{{electionPrediction.seatPredictionObject.predictions[1].partyName}}"
+                         [(ngModel)]="electionPrediction.seatPredictionObject.predictions[1].numberOfSeats">
+                </div>
+              </td>
+              &nbsp;&nbsp;
+              <td style="width: 55%">
+                <div style="display:flex; flex-direction: row; justify-content: center; align-items: center">
+                  <label for="othParty">Oth: </label>
+                  <input id="othParty" type="number" class="form-control" min="0" value="0"
+                         placeholder="Others" name="{{electionPrediction.province}}-{{electionPrediction.seatPredictionObject.predictions[2].partyName}}"
+                         [(ngModel)]="electionPrediction.seatPredictionObject.predictions[2].numberOfSeats">
+                </div>
+              </td>
+            </tr>
+          </table>
+
+        </div>
+
+        <div  class="alert alert-danger" *ngIf="isFailure">
+          Failed !
+        </div>
+        <div  class="alert alert-success" *ngIf="isSuccess">
+          Success !
+        </div>
+        <div  class="alert alert-danger" *ngIf="isSeatCountFail">
+          Seat Counts Mismatch for <br> <span style="color: red; font-size: 1.5em">{{seatCountFailProvince}}</span> <br>Please correct and re-submit !!
+        </div>
+        <br>
+        <button type="reset" class="btn btn-info">Clear</button>
+        &nbsp;
+        <button type="submit" class="btn btn-success">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>

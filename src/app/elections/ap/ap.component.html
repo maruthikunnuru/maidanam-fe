@@ -1,41 +1,69 @@
+<div class="container-fluid sticky-top" style="padding:0px;">
+    <div class="d-flex justify-content-end">
+        <div class="dropdown">
+            <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{user.group.groupName}}
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <div *ngFor="let gp of groups">
+                    <a class="dropdown-item" (click)="onSelectGroup(gp.groupId)">{{gp.groupName}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <br>
 <button class="btn btn-link" (click)="goBack()">Go Back</button>
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+    <div class="col-xs-12 col-sm-10 col-md-10 col-sm-offset-1 col-md-offset-2">
       <form (ngSubmit)="onSubmitResult(m)" #m="ngForm">
         <br>
-        <div class="form-group" *ngFor="let constituency of constituencies; let i=index">
+        <table >
+            <tr style="color: darkred">
+                <th style="width: 45%; text-align: center">
+                    <span style="">Province</span>&nbsp;
+                </th>
+                <th style="width: 30%; text-align: center">
+                    <span >TDP</span>&nbsp;
+                </th>
+                <th style="width: 30%; text-align: center">
+                    <span >YCP</span>&nbsp;
+                </th>
+                <th style="width: 30%; text-align: center">
+                    <span  >Others</span>&nbsp;
+                </th>
+            </tr>
+        </table>
+        <div class="form-group" *ngFor="let electionPrediction of currentApElectionPredictions; let i=index">
           <table>
             <tr>
-              <td style="width: 30%">
-                <input id="province" class="form-control"
-                       type="text" name="province"
-                       value="{{constituency}}" readonly />
+              <td style="width: 45%; background: darkseagreen;">
+                <span style="">{{electionPrediction.province}} ({{counts[i]}}) </span>
               </td>
               &nbsp;&nbsp;&nbsp;&nbsp;
-              <td>
+              <td style="width: 20%">
                 <div style="display:flex; flex-direction: row; justify-content: center; align-items: center">
-<!--                  <label for="ycpParty{{i}}">YCP: </label>&nbsp;-->
-                  <input id="ycpParty{{i}}" type="number"  class="form-control" min="0"
-                         placeholder="YCP" name="{{constituency}}-YCP" ngModel>
+                  <input id="ycpParty{{i}}" type="number"  class="form-control" min="0" value="0"
+                         placeholder="YCP" name="{{electionPrediction.province}}-{{electionPrediction.seatPredictionObject.predictions[0].partyName}}"
+                         [(ngModel)]="electionPrediction.seatPredictionObject.predictions[0].numberOfSeats">
                 </div>
               </td>
               &nbsp;&nbsp;
-              <td>
+              <td style="width: 15%">
                 <div style="display:flex; flex-direction: row; justify-content: center; align-items: center">
-<!--                  <label for="tdpParty{{i}}">TDP: </label>&nbsp;-->
-                  <input id="tdpParty{{i}}" type="number" class="form-control" min="0"
-                         placeholder="TDP" name="{{constituency}}-TDP" ngModel>
+                  <input id="tdpParty{{i}}" type="number" class="form-control" min="0" value="0"
+                         placeholder="TDP" name="{{electionPrediction.province}}-{{electionPrediction.seatPredictionObject.predictions[1].partyName}}"
+                         [(ngModel)]="electionPrediction.seatPredictionObject.predictions[1].numberOfSeats">
                 </div>
               </td>
               &nbsp;&nbsp;
-              <td>
+              <td style="width: 15%">
                 <div style="display:flex; flex-direction: row; justify-content: center; align-items: center">
-<!--                  <label for="othParty{{i}}">Others: </label>&nbsp;-->
-                  <input id="othParty{{i}}" type="number" class="form-control" min="0"
-                         placeholder="Others" name="{{constituency}}-OTHERS" ngModel>
+                  <input id="othParty{{i}}" type="number" class="form-control" min="0" value="0"
+                         placeholder="Others" name="{{electionPrediction.province}}-{{electionPrediction.seatPredictionObject.predictions[2].partyName}}"
+                         [(ngModel)]="electionPrediction.seatPredictionObject.predictions[2].numberOfSeats">
                 </div>
               </td>
             </tr>
@@ -49,10 +77,13 @@
         <div  class="alert alert-success" *ngIf="isSuccess">
           Success !
         </div>
+          <div  class="alert alert-danger" *ngIf="isSeatCountFail">
+              Seat Counts Mismatch for <br><span style="color: red; font-size: 1.5em">{{seatCountFailProvince}}</span> <br> Please correct and re-submit !!
+          </div>
         <br>
-        <button type="reset" class="btn btn-info" [disabled]="!m.touched">Clear</button>
+        <button type="reset" class="btn btn-info">Clear</button>
         &nbsp;&nbsp;&nbsp;
-        <button type="submit" class="btn btn-success" [disabled]="!m.valid">Submit</button>
+        <button type="submit" class="btn btn-success">Submit</button>
       </form>
     </div>
   </div>
