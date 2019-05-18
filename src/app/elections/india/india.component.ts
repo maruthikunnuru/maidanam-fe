@@ -95,10 +95,15 @@ export class IndiaComponent implements OnInit, OnDestroy {
     this.constituencies.forEach( (province) => {
       const seatModel: SeatModel[] = [];
 
-      seatModel.push(new SeatModel('NDA', apPredForm[province + '-NDA'] === '' ? 0 : apPredForm[province + '-NDA']));
-      seatModel.push(new SeatModel('UPA', apPredForm[province + '-UPA'] === '' ? 0 : apPredForm[province + '-UPA']));
-      seatModel.push(new SeatModel('OTHERS', apPredForm[province + '-OTHERS'] === '' ? 0 : apPredForm[province + '-OTHERS']));
-
+      if ( province === 'Andhra Pradesh') {
+        seatModel.push(new SeatModel('TDP', apPredForm[province + '-TDP'] === '' ? 0 : apPredForm[province + '-TDP']));
+        seatModel.push(new SeatModel('YCP', apPredForm[province + '-YCP'] === '' ? 0 : apPredForm[province + '-YCP']));
+        seatModel.push(new SeatModel('OTHERS', apPredForm[province + '-OTHERS'] === '' ? 0 : apPredForm[province + '-OTHERS']));
+      } else {
+        seatModel.push(new SeatModel('NDA', apPredForm[province + '-NDA'] === '' ? 0 : apPredForm[province + '-NDA']));
+        seatModel.push(new SeatModel('UPA', apPredForm[province + '-UPA'] === '' ? 0 : apPredForm[province + '-UPA']));
+        seatModel.push(new SeatModel('OTHERS', apPredForm[province + '-OTHERS'] === '' ? 0 : apPredForm[province + '-OTHERS']));
+      }
       const seatPredictionObject: SeatListModel = new SeatListModel(seatModel);
 
       const tmpElectionPrediction: ElectionPredictionModel =
@@ -151,9 +156,15 @@ export class IndiaComponent implements OnInit, OnDestroy {
                   this.constituencies.forEach( (province) => {
                     const seatModel: SeatModel[] = [];
 
-                    seatModel.push(new SeatModel('NDA', 0));
-                    seatModel.push(new SeatModel('UPA', 0));
-                    seatModel.push(new SeatModel('OTHERS', 0));
+                    if ( province === 'Andhra Pradesh') {
+                      seatModel.push(new SeatModel('TDP', 0));
+                      seatModel.push(new SeatModel('YCP', 0));
+                      seatModel.push(new SeatModel('OTHERS', 0));
+                    } else {
+                      seatModel.push(new SeatModel('NDA', 0));
+                      seatModel.push(new SeatModel('UPA', 0));
+                      seatModel.push(new SeatModel('OTHERS', 0));
+                    }
 
                     const seatPredictionObject: SeatListModel = new SeatListModel(seatModel);
 
