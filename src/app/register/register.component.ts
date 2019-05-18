@@ -7,7 +7,7 @@ import {Subscription} from 'rxjs';
 import {MatStepper} from '@angular/material';
 import {AlertService} from '../z-services/alert.service';
 import { trigger, transition, style, animate, keyframes } from '@angular/animations';
-import {SocialUser} from 'angularx-social-login';
+import {AuthService, SocialUser} from 'angularx-social-login';
 import {GroupModel} from '../z-models/group.model';
 
 @Component({
@@ -70,6 +70,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   dpFormGroup: FormGroup;
 
   constructor(private router: Router,
+              private authService: AuthService,
               private loginService: LoginService,
               private formBuilder: FormBuilder) { }
 
@@ -114,16 +115,25 @@ export class RegisterComponent implements OnInit, OnDestroy {
                     if (response.statusCode === 'N') {
                       alert('Registration Failed');
                     } else {
-                      alert('Registration Successful');
                       this.user = response.result as UserModel;
                       this.loginService.setUser(this.user);
-                      this.router.navigate(['/matches']);
+                        this.signOut();
+                        this.router.navigateByUrl('/home');
                     }
                   },
                   (error) => console.log(error)
               );
         }
-}
+    }
+
+    signOut(): void {
+        if (this.loggedIn) {
+            // confirm('Do you want to signout Mr.' + this.socialUser.name);
+            this.authService.signOut();
+            this.loginService.logout();
+            this.router.navigate(['/home']);
+        }
+    }
 
   checkRefCode() {
     console.log(this.refFormGroup.value.refCodeCtrl);
