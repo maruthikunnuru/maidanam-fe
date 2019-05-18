@@ -22,7 +22,7 @@
         <br>
         <table >
           <tr style="color: darkred">
-            <th style="width: 55%; text-align: center">
+            <th style="width: 45%; text-align: center">
               <span style="">Province</span>&nbsp;
             </th>
             <th style="width: 30%; text-align: center">
@@ -39,11 +39,11 @@
         <div class="form-group" *ngFor="let electionPrediction of currentIndiaElectionPredictions; let i=index">
           <table>
             <tr *ngIf="electionPrediction.province !== 'Andhra Pradesh' && electionPrediction.province !== 'West Bengal'">
-              <td style="width: 55%; background: lightskyblue;">
+              <td style="width: 45%; background: lightskyblue;">
                 <span style="">{{electionPrediction.province}} ({{counts[i]}}) </span>
               </td>
               &nbsp;&nbsp;&nbsp;&nbsp;
-              <td style="width: 15%">
+              <td style="width: 20%">
                 <div style="display:flex; flex-direction: row; justify-content: center; align-items: center">
                   <input id="ndaParty{{i}}" type="number"  class="form-control" min="0" value="0"
                          placeholder="NDA" name="{{electionPrediction.province}}-{{electionPrediction.seatPredictionObject.predictions[0].partyName}}"
