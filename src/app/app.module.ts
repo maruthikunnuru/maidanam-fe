@@ -2,12 +2,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { SocialLoginModule, AuthServiceConfig, LoginOpt, GoogleLoginProvider} from 'angularx-social-login';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatPaginatorModule, MatSelectModule, MatSliderModule, MatSortModule} from '@angular/material';
-import {MatTableModule} from '@angular/material/table';
+import { MatPaginatorModule, MatSelectModule, MatSliderModule, MatSortModule} from '@angular/material';
+import { MatTableModule} from '@angular/material/table';
 import { HttpModule } from '@angular/http';
-import {MatStepperModule} from '@angular/material/stepper';
+import { MatStepperModule} from '@angular/material/stepper';
 import { MatFormFieldModule, MatInputModule } from '@angular/material';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule} from '@angular/material/button';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -29,17 +29,17 @@ import { ListViewComponent } from './matches/list-view/list-view.component';
 import { PlayerHistoryComponent } from './player-history/player-history.component';
 import { MatchesService} from './z-services/matches.service';
 import { PlayerHistoryService} from './z-services/player-history.service';
-import {AuthGuard} from './z-services/auth.guard';
-import {AppConstants} from './app-constants';
+import { AuthGuard } from './z-services/auth.guard';
+import { AppConstants } from './app-constants';
 import { FaqComponent } from './faq/faq.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { AdminComponent } from './admin/admin.component';
-import {AdminService} from './z-services/admin.service';
+import { AdminService } from './z-services/admin.service';
 import { TournamentsComponent } from './tournaments/tournaments.component';
 import { ElectionsComponent } from './elections/elections.component';
 import { ApComponent } from './elections/ap/ap.component';
 import { IndiaComponent } from './elections/india/india.component';
-import {ElectionsService} from './z-services/elections.service';
+import { ElectionsService } from './z-services/elections.service';
 
 const googleLoginOptions: LoginOpt = {
   scope: 'profile email',
