@@ -63,7 +63,7 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
                   if (this.groups && this.groups.length > 0) {
                       this.groups.forEach((group) => {
                           if (!this.groupRefs.some(x => (x.groupName === group.groupName))) {
-                              console.log('Inside dataSource..');
+                              // console.log('Inside dataSource..');
                               const element: GroupsTableInterface = {
                                   groupName: group.groupName,
                                   referralCd: group.referenceCds
@@ -73,7 +73,7 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
                           }
                       });
 
-                      console.log(this.groupRefs);
+                      // console.log(this.groupRefs);
                       this.dataSource = new MatTableDataSource(this.groupRefs);
                       setTimeout(() => {
                           this.dataSource.sort = this.sort;
@@ -97,15 +97,15 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
 
   onJoin(form: NgForm) {
     const gRefCode = form.value.groupRefCd;
-    console.log(gRefCode);
-    console.log('userName->' + this.user.userName);
-    console.log('userId->' + this.user.userId);
+    // console.log(gRefCode);
+    // console.log('userName->' + this.user.userName);
+    // console.log('userId->' + this.user.userId);
 
     this.user.referenceCd = gRefCode;
     if (gRefCode) {
       this.joinGpSubscription = this.loginService.joinGroup(this.user)
           .subscribe((response) => {
-                console.log(response);
+                // console.log(response);
                 if (response.statusCode === 'N') {
                   this.isJoinedErr = true;
                   this.isJoined = false;
@@ -127,7 +127,7 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
     if (gName) {
       this.createGpSubscription = this.loginService.createGroup(this.user.userName, this.user.userId, group)
           .subscribe((response) => {
-                console.log(response);
+                // console.log(response);
                 if (response.statusCode === 'N') {
                   this.isCreatedErr = true;
                   this.isCreated = false;

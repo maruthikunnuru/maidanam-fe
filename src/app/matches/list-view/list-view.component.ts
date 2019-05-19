@@ -35,7 +35,7 @@ export class ListViewComponent implements OnInit {
                   this.router.navigate(['/home']);
               }
 
-              console.log('Current User -->' + JSON.stringify(this.user));
+              // console.log('Current User -->' + JSON.stringify(this.user));
           },
           (error) => console.log(error)
       );

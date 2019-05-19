@@ -107,11 +107,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
             this.refGroup, refCd, 1700, null,
             null, null, null, 0);
 
-        console.log(this.user);
+        // console.log(this.user);
         if (displayNm) {
           this.dpSubscription = this.loginService.registerUser(this.user)
               .subscribe((response) => {
-                    console.log(response);
+                    // console.log(response);
                     if (response.statusCode === 'N') {
                       alert('Registration Failed');
                     } else {
@@ -136,12 +136,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
     }
 
   checkRefCode() {
-    console.log(this.refFormGroup.value.refCodeCtrl);
+    // console.log(this.refFormGroup.value.refCodeCtrl);
     const refCd = this.refFormGroup.value.refCodeCtrl;
     if (refCd) {
       this.refSubscription = this.loginService.validateReferralCode('', refCd)
           .subscribe((response) => {
-                console.log(response);
+                // console.log(response);
 
                 if (response.statusCode === 'N') {
                     this.validRef = true;
@@ -151,7 +151,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
                     this.stepper.selectedIndex = 2;
                     this.validRef = false;
                     this.refGroup = <GroupModel>response.result;
-                    console.log(this.refGroup);
+                    // console.log(this.refGroup);
                 }
               },
               (error) => console.log(error)

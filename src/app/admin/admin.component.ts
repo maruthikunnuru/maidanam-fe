@@ -48,11 +48,11 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.matchResult = matchResultForm.value;
     this.matchResult.toMatchStatus = 'RESULT';
 
-    console.log(this.matchResult);
+    // console.log(this.matchResult);
 
     this.submitMsSubscription = this.adminService.submitMatchResult(this.matchResult)
         .subscribe((response) => {
-              console.log(response);
+              // console.log(response);
               if (response.statusCode === 'N') {
                 this.isFailure = true;
                 this.isSuccess = false;

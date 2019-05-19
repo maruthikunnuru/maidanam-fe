@@ -65,7 +65,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
 
   changeSlide(slideEvent: any) {
     this.slideValue = slideEvent.value;
-    console.log(slideEvent);
+    // console.log(slideEvent);
   }
 
   formatNumber(num: number) {
@@ -84,7 +84,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
   selectWinner(winnerid: any) {
       this.selectedWinnerId = winnerid;
       this.selectWinnerFlag = false;
-      console.log(winnerid);
+      // console.log(winnerid);
 
       let oddsInfo = this.currentUserPrediction.match.additionalInfo;
       oddsInfo = oddsInfo.replace(/"/g, '');
@@ -92,7 +92,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
       oddsInfo = oddsInfo.replace(/}/g, '');
       oddsInfo = oddsInfo.replace(/,/g, ':');
       const oddsArr = oddsInfo.split(':');
-      console.log(oddsArr);
+      // console.log(oddsArr);
 
       if (oddsArr.length === 15 && oddsArr[1] === String(this.currentUserPrediction.match.team1Id)
           && oddsArr[8] === String(this.currentUserPrediction.match.team2Id) ) {
@@ -101,8 +101,8 @@ export class PredictionsComponent implements OnInit, OnDestroy {
           this.team2odds = new OddsModel(this.currentUserPrediction.match.oddsTeam2,
               oddsArr[10], oddsArr[12], oddsArr[14]);
       }
-      console.log(this.team1odds);
-      console.log(this.team2odds);
+      // console.log(this.team1odds);
+      // console.log(this.team2odds);
 
   }
 
@@ -113,7 +113,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
   selectMargin(margin: any) {
     this.selectedMargin = margin;
     this.selectMarginFlag = false;
-    console.log(margin);
+    // console.log(margin);
   }
 
   formatLabel(value: number | null) {
@@ -137,12 +137,12 @@ export class PredictionsComponent implements OnInit, OnDestroy {
               private spinnerService: Ng4LoadingSpinnerService) { }
 
   ngOnInit() {
-    console.log('Inside predictions');
+    // console.log('Inside predictions');
     this.route.params
         .subscribe(
             (params: Params) => {
               this.matchId = +params['id'];
-              console.log('matchId --->' + this.matchId);
+              // console.log('matchId --->' + this.matchId);
 
             }
         );
@@ -152,7 +152,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
             (res) => {
               this.user = res;
               this.loggedIn = (this.user != null);
-              console.log(this.user);
+              // console.log(this.user);
               this.username = this.user.userName;
               if (!this.loggedIn) {
                  this.router.navigate(['/home']);
@@ -184,14 +184,14 @@ export class PredictionsComponent implements OnInit, OnDestroy {
 
       this.targetSubscription = this.loginService.getUsersByGroupId(this.user.userName, this.user.groupId)
           .subscribe((resp) => {
-                  console.log(resp);
+                  // console.log(resp);
                   if (resp.statusCode === 'N') {
                       alert('No User Data Available');
                   } else {
                       this.targetList = resp.result as UserModel[];
-                      console.log(this.targetList);
+                      // console.log(this.targetList);
                       this.targetList = this.targetList.filter( usr => usr.userName !== this.user.userName);
-                      console.log(this.targetList);
+                      // console.log(this.targetList);
 
                   }
               },
@@ -208,25 +208,25 @@ export class PredictionsComponent implements OnInit, OnDestroy {
                   if (response.statusCode === 'N') {
                   } else {
                       this.predictions = <PredictionModel[]>response.result;
-                      console.log(this.predictions);
+                      // console.log(this.predictions);
 
                       if (this.predictions.length > 0) {
 
                           this.currentUserPrediction = this.predictions.filter( pred => pred.userId === this.user.userId)[0];
-                          console.log(this.currentUserPrediction);
+                          // console.log(this.currentUserPrediction);
 
                           if (this.currentUserPrediction.match.matchStatus !== 'SCHEDULED') {
                               this.showOthersPredictions = true;
                           }
-                          console.log('showOthersPredictions-->' + this.showOthersPredictions);
+                          // console.log('showOthersPredictions-->' + this.showOthersPredictions);
 
                           this.maxCoins = Math.max(this.currentUserPrediction.user.totalCoins
                               - this.currentUserPrediction.user.totalCoinsAtPlay + this.currentUserPrediction.coinsAtPlay,
                               this.currentUserPrediction.coinsAtPlay);
-                          console.log('maxCoins -->' + this.maxCoins);
+                          // console.log('maxCoins -->' + this.maxCoins);
 
                           this.predictions.forEach(pred => {
-                              console.log('Inside dataSource..');
+                              // console.log('Inside dataSource..');
 
                               if (pred.predictionId !== null && typeof pred.predictionId !== 'undefined') {
                                   const element: PredTableInterface = {
@@ -240,7 +240,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
                                   this.predictionList.push(element);
                                   this.predictionList = [...this.predictionList];
 
-                                  console.log(this.predictionList);
+                                  // console.log(this.predictionList);
                               }
                           });
                           this.dataSource = new MatTableDataSource(this.predictionList);
@@ -260,8 +260,8 @@ export class PredictionsComponent implements OnInit, OnDestroy {
                                   }
                               }
                           }
-                          console.log(this.isTeam1WinnerPredicted);
-                          console.log(this.isTeam2WinnerPredicted);
+                          // console.log(this.isTeam1WinnerPredicted);
+                          // console.log(this.isTeam2WinnerPredicted);
 
                       }
                   }
@@ -292,7 +292,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
        return;
    }
 
-   console.log(this.predictionForm);
+   // console.log(this.predictionForm);
 
    this.userPredictionToSubmit = this.currentUserPrediction;
 
@@ -314,14 +314,14 @@ export class PredictionsComponent implements OnInit, OnDestroy {
    this.userPredictionToSubmit.challengedUser = null;
    this.userPredictionToSubmit.winner = null;
 
-   console.log(this.userPredictionToSubmit);
+   // console.log(this.userPredictionToSubmit);
 
    this.spinnerService.show();
    this.submitPredictionSubscription = this.predictionService.submitPredictions(this.user.userId,
        this.user.userName, this.userPredictionToSubmit)
        .subscribe((resps) => {
                this.spinnerService.hide();
-               console.log(resps);
+               // console.log(resps);
                if (resps.statusCode === 'N') {
                    this.submitFail = true;
                    this.submitPass = false;
@@ -336,16 +336,16 @@ export class PredictionsComponent implements OnInit, OnDestroy {
   }
 
   onSelectGroup(groupid: number) {
-    console.log(groupid);
+    // console.log(groupid);
 
     this.userGroupSubscription = this.loginService.getUsersByGroupId(this.user.userName, groupid)
       .subscribe((resp) => {
-              console.log(resp);
+              // console.log(resp);
               if (resp.statusCode === 'N') {
                   alert('No User Data Available');
               } else {
                   this.usersList = resp.result as UserModel[];
-                  console.log(this.usersList);
+                  // console.log(this.usersList);
                   this.selectedUserGroup = this.usersList.filter( usr => usr.userName === this.username)[0];
                   console.log(this.selectedUserGroup);
 

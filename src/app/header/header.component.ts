@@ -31,9 +31,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.socialUser = googleUser;
         this.loggedIn = (googleUser != null);
 
-        console.log(this.socialUser);
+        // console.log(this.socialUser);
 
-        console.log('loggedIn--->' + this.loggedIn);
+        // console.log('loggedIn--->' + this.loggedIn);
 
         if (this.loggedIn) {
           this.groupSubscription = this.loginService.getGroupList(this.socialUser.email)
@@ -44,9 +44,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
                       this.groups = response.result as GroupModel[];
 
                       this.loginService.setGroups(this.groups);
-                      console.log(this.groups.map( gp => gp.groupName));
+                      // console.log(this.groups.map( gp => gp.groupName));
                       const firstGroupId = this.groups[0].groupId;
-                      console.log('firstGroupId->' + firstGroupId);
+                      // console.log('firstGroupId->' + firstGroupId);
 
                       this.userGroupSubscription = this.loginService.getUsersByGroupId(this.socialUser.email, firstGroupId)
                           .subscribe( (res) => {
@@ -57,11 +57,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
                                   // console.log('UserList -->' + JSON.stringify(userList));
 
                                   this.user = userList.filter(usr => usr.emailId === this.socialUser.email)[0];
-                                  console.log('Final User -->' + JSON.stringify(this.user));
+                                  // console.log('Final User -->' + JSON.stringify(this.user));
                                   this.loginService.setUser(this.user);
                                   this.router.navigate(['/tournaments']);
                                 } else {
-                                   console.log('Error in getUsersByGroup');
+                                   // console.log('Error in getUsersByGroup');
                                 }
                               },
                               (error) => console.log(error)
@@ -85,7 +85,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   signOut(): void {
     if (this.loggedIn) {
-      // confirm('Do you want to signout Mr.' + this.socialUser.name);
       this.authService.signOut();
       this.loginService.logout();
       this.router.navigate(['/home']);

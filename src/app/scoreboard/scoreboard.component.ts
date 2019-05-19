@@ -35,7 +35,7 @@ export class ScoreboardComponent implements AfterContentInit, OnDestroy {
               private loginService: LoginService) { }
 
   ngAfterContentInit(): void {
-    console.log('Inside Scoreboard');
+    // console.log('Inside Scoreboard');
     this.currentUserSubscription = this.loginService.currentUser
         .subscribe(
             (res) => {
@@ -60,16 +60,16 @@ export class ScoreboardComponent implements AfterContentInit, OnDestroy {
 
     this.scoresSubscription = this.loginService.getUsersByGroupId(this.user.userName, this.user.groupId)
         .subscribe((resp) => {
-              console.log(resp);
+              // console.log(resp);
               if (resp.statusCode === 'N') {
                 alert('No Scores Available');
               } else {
                 this.scoresList = resp.result as UserModel[];
-                console.log(this.scoresList);
+                // console.log(this.scoresList);
 
                 if (this.scoresList.length > 0) {
                   this.scoresList.forEach((score, index) => {
-                    console.log('Inside scores dataSource..');
+                    // console.log('Inside scores dataSource..');
                       const element: ScoresTableInterface = {
                         rank: index + 1,
                         player: score.displayName,
@@ -82,7 +82,7 @@ export class ScoreboardComponent implements AfterContentInit, OnDestroy {
                       this.scores.push(element);
                       this.scores = [...this.scores];
 
-                      console.log(this.scores);
+                      // console.log(this.scores);
                   });
                   this.dataSource = new MatTableDataSource(this.scores);
                     setTimeout(() => {
@@ -102,18 +102,18 @@ export class ScoreboardComponent implements AfterContentInit, OnDestroy {
   }
 
   onSelectGroup(groupid: number) {
-    console.log(groupid);
+    // console.log(groupid);
 
     this.userGroupSubscription = this.loginService.getUsersByGroupId(this.user.userName, groupid)
       .subscribe((resp) => {
-              console.log(resp);
+              // console.log(resp);
               if (resp.statusCode === 'N') {
                   // alert('No User Data Available');
               } else {
                   this.usersList = resp.result as UserModel[];
-                  console.log(this.usersList);
+                  // console.log(this.usersList);
                   this.selectedUserGroup = this.usersList.filter( usr => usr.userName === this.user.userName)[0];
-                  console.log(this.selectedUserGroup);
+                  // console.log(this.selectedUserGroup);
 
                   this.loginService.setUser(this.selectedUserGroup);
                   this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() =>

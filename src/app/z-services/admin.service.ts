@@ -15,7 +15,7 @@ export class AdminService {
         return this.http.post(AppConstants.API_ENDPOINT + '/nimda/match', matchResult)
             .map(
                 (response: Response) => {
-                    console.log(response);
+                    // console.log(response);
                     return <ResponseModel>response.json();
                 }
             )

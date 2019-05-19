@@ -41,7 +41,7 @@ export class PlayerHistoryComponent implements AfterContentInit, OnDestroy {
                 private historyService: PlayerHistoryService) { }
 
     ngAfterContentInit() {
-        console.log('Inside Player History');
+        // console.log('Inside Player History');
         this.currentUserSubscription = this.loginService.currentUser
             .subscribe(
                 (res) => {
@@ -66,18 +66,18 @@ export class PlayerHistoryComponent implements AfterContentInit, OnDestroy {
 
         this.historySubscription = this.historyService.getPlayerHistory(this.user.userId, this.user.userName, this.user.groupId)
             .subscribe((resp) => {
-                    console.log(resp);
+                    // console.log(resp);
                     if (resp.statusCode === 'N') {
                         // alert('No History Available');
                     } else {
                         this.historyList = resp.result as HistoryModel[];
-                        console.log(this.historyList);
+                        // console.log(this.historyList);
 
                         if (this.historyList.length > 0) {
 
                             this.historyList = this.historyList.filter( usr => usr.userId === this.user.userId);
                             this.historyList.forEach((hist, index) => {
-                                console.log('Inside history dataSource..');
+                                // console.log('Inside history dataSource..');
                                 const element: HistoryTableInterface = {
                                     matchId: hist.matchId,
                                     match: hist.team1 + ' vs ' + hist.team2,
@@ -113,18 +113,18 @@ export class PlayerHistoryComponent implements AfterContentInit, OnDestroy {
     }
 
     onSelectGroup(groupid: number) {
-        console.log(groupid);
+        // console.log(groupid);
 
         this.userGroupSubscription = this.loginService.getUsersByGroupId(this.user.userName, groupid)
             .subscribe((resp) => {
-                    console.log(resp);
+                    // console.log(resp);
                     if (resp.statusCode === 'N') {
                         // alert('No User Data Available');
                     } else {
                         this.usersList = resp.result as UserModel[];
-                        console.log(this.usersList);
+                        // console.log(this.usersList);
                         this.selectedUserGroup = this.usersList.filter( usr => usr.userName === this.user.userName)[0];
-                        console.log(this.selectedUserGroup);
+                        // console.log(this.selectedUserGroup);
 
                         this.loginService.setUser(this.selectedUserGroup);
                         this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() =>
