@@ -4,4 +4,5 @@ export class AppConstants {
 
     // public static API_ENDPOINT = 'http://maidanam.in:8081';
     // public static GOOGLE_KEY = '822418301367-fjni0d7bs06rrpkaoev8vg6d3aa50v98.apps.googleusercontent.com';
+    // public static GOOGLE_KEY = '822418301367-5vrrcuctnl4ovk25q38qrdqs4ggvbh8r.apps.googleusercontent.com';
 }
