@@ -107,7 +107,7 @@ export class ApComponent implements OnInit, OnDestroy {
                       alert('No Predictions Available');
                   } else {
                       this.currentApElectionPredictions = resp.result as ElectionPredictionModel[];
-                      console.log(this.currentApElectionPredictions);
+                      // console.log(this.currentApElectionPredictions);
 
                       if (this.currentApElectionPredictions.length  === 0 ) {
 
