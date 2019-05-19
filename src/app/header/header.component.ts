@@ -91,6 +91,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
+  onClickHome() {
+    if (this.loggedIn) {
+      this.router.navigate(['/tournaments']);
+    } else {
+      this.router.navigate(['/home']);
+    }
+  }
 
   ngOnDestroy(): void {
     this.userSubscription.unsubscribe();
