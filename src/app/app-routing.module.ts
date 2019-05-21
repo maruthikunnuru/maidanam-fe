@@ -14,12 +14,14 @@ import {AdminComponent} from './admin/admin.component';
 import {TournamentsComponent} from './tournaments/tournaments.component';
 import {ApComponent} from './elections/ap/ap.component';
 import {IndiaComponent} from './elections/india/india.component';
+import {ElectionScoresComponent} from './election-scores/election-scores.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' , canActivate: [AuthGuard]},
   { path: 'home', component: HomeComponent },
   // { path: 'matches', component: MatchesComponent},
   { path: 'elections/ap', pathMatch: 'full', component: ApComponent},
+  { path: 'elections/scores', pathMatch: 'full', component: ElectionScoresComponent},
   { path: 'elections/india', pathMatch: 'full', component: IndiaComponent},
   // { path: 'matches/:id/predictions', pathMatch: 'full', component: PredictionsComponent },
   // { path: 'scoreboard', component: ScoreboardComponent},

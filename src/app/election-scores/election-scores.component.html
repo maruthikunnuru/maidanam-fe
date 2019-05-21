@@ -1,0 +1,52 @@
+<div class="container-fluid sticky-top" style="padding:0px;">
+  <div class="d-flex justify-content-end">
+    <div class="dropdown">
+      <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{user.group.groupName}}
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <div *ngFor="let gp of groups">
+          <a class="dropdown-item" (click)="onSelectGroup(gp.groupId)">{{gp.groupName}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<button class="btn btn-link" (click)="goBack()">Go Back</button>
+
+<hr><div class="container-fluid">
+
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search / Filter">
+  </mat-form-field>
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width:100%;" matSort>
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Rank Column -->
+    <ng-container matColumnDef="rank">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Rank </th>
+      <td mat-cell [ngStyle]="{'color':element.playerId === user.userId? 'darkorange' : ''}"
+          *matCellDef="let element"> {{element.rank}} </td>
+    </ng-container>
+
+    <!-- Player Column -->
+    <ng-container matColumnDef="player">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Player </th>
+      <td mat-cell [ngStyle]="{'color':element.playerId === user.userId? 'darkorange' : ''}"
+          *matCellDef="let element"> {{element.player}} </td>
+    </ng-container>
+
+    <!-- Score Column -->
+    <ng-container matColumnDef="score">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Score </th>
+      <td mat-cell [ngStyle]="{'color':element.playerId === user.userId? 'darkorange' : ''}"
+          *matCellDef="let element">  {{element.score}}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

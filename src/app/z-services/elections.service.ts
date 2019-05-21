@@ -47,4 +47,25 @@ export class ElectionsService {
                 }
             );
     }
+
+    getElectionScores(electionType: string, simMode: string,
+                      userId: number, pollType: string): Observable<ResponseModel> {
+        const headers = new Headers();
+        headers.append('X-ELECTION-TYPE', electionType);
+        headers.append('X-SIMULATION-MODE', simMode);
+        headers.append('X-USER-ID', String(userId));
+        headers.append('X-POLL-ORG', pollType);
+
+        return this.http.get(AppConstants.API_ENDPOINT + '/elections/scores' , {headers: headers})
+            .map(
+                (response: Response) => {
+                    return <ResponseModel>response.json();
+                }
+            )
+            .catch(
+                (error: Response) => {
+                    return Observable.throw('Something went wrong with getElectionScores');
+                }
+            );
+    }
 }

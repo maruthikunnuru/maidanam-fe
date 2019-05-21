@@ -42,6 +42,12 @@ export class IndiaComponent implements OnInit, OnDestroy {
   isSuccess = false;
   isSeatCountFail = false;
   seatCountFailProvince: string;
+  totalSeatsNda = 0;
+  totalSeatsUpa = 0;
+  totalSeatsOth = 0;
+  displaySimButtons = false;
+  disableSim = false;
+
   constituencies = [
     'Uttar Pradesh',
     'Maharashtra',
@@ -151,7 +157,7 @@ export class IndiaComponent implements OnInit, OnDestroy {
                 alert('No India Predictions Available');
               } else {
                 this.currentIndiaElectionPredictions = resp.result as ElectionPredictionModel[];
-                console.log(this.currentIndiaElectionPredictions.length);
+                // console.log(this.currentIndiaElectionPredictions.length);
 
                 if (this.currentIndiaElectionPredictions.length  !== 36 ) {
 
@@ -184,6 +190,53 @@ export class IndiaComponent implements OnInit, OnDestroy {
 
                     this.currentIndiaElectionPredictions = electionPredictionArr;
                   });
+                } else {
+                  this.displaySimButtons = true;
+
+                  this.currentIndiaElectionPredictions.forEach( pred => {
+                    if (pred.province === 'Andhra Pradesh') {
+                      this.totalSeatsOth = this.totalSeatsOth +
+                          (pred.seatPredictionObject.predictions
+                          .filter(pre => pre.partyName === 'TDP') !== null ? pred.seatPredictionObject.predictions
+                            .filter(pre => pre.partyName === 'TDP')[0].numberOfSeats : 0) +
+                      (pred.seatPredictionObject.predictions
+                          .filter(pre => pre.partyName === 'YCP') !== null ? pred.seatPredictionObject.predictions
+                            .filter(pre => pre.partyName === 'YCP')[0].numberOfSeats : 0) +
+                      (pred.seatPredictionObject.predictions
+                          .filter(pre => pre.partyName === 'OTHERS') !== null ? pred.seatPredictionObject.predictions
+                          .filter(pre => pre.partyName === 'OTHERS')[0].numberOfSeats : 0);
+                    } else if (pred.province === 'West Bengal') {
+
+                      this.totalSeatsNda = this.totalSeatsNda +
+                          (pred.seatPredictionObject.predictions
+                              .filter(pre => pre.partyName === 'NDA') !== null ? pred.seatPredictionObject.predictions
+                              .filter(pre => pre.partyName === 'NDA')[0].numberOfSeats : 0 );
+
+                      this.totalSeatsOth = this.totalSeatsOth +
+                          (pred.seatPredictionObject.predictions
+                          .filter(pre => pre.partyName === 'AITC') !== null ? pred.seatPredictionObject.predictions
+                            .filter(pre => pre.partyName === 'AITC')[0].numberOfSeats : 0) +
+                          (pred.seatPredictionObject.predictions
+                              .filter(pre => pre.partyName === 'OTHERS') !== null ? pred.seatPredictionObject.predictions
+                              .filter(pre => pre.partyName === 'OTHERS')[0].numberOfSeats : 0);
+                    } else {
+                      this.totalSeatsNda = this.totalSeatsNda +
+                          (pred.seatPredictionObject.predictions
+                              .filter(pre => pre.partyName === 'NDA') !== null ? pred.seatPredictionObject.predictions
+                              .filter(pre => pre.partyName === 'NDA')[0].numberOfSeats : 0 );
+                      this.totalSeatsUpa = this.totalSeatsUpa +
+                          (pred.seatPredictionObject.predictions
+                              .filter(pre => pre.partyName === 'UPA') !== null ? pred.seatPredictionObject.predictions
+                              .filter(pre => pre.partyName === 'UPA')[0].numberOfSeats : 0 );
+                      this.totalSeatsOth = this.totalSeatsOth +
+                          (pred.seatPredictionObject.predictions
+                              .filter(pre => pre.partyName === 'OTHERS') !== null ? pred.seatPredictionObject.predictions
+                              .filter(pre => pre.partyName === 'OTHERS')[0].numberOfSeats : 0);
+
+
+                    }
+
+                  });
                 }
               }
             },
@@ -196,20 +249,34 @@ export class IndiaComponent implements OnInit, OnDestroy {
     this.isFailure = false;
     this.isSeatCountFail = false;
     let totalSeatsByProvince = 0;
+    this.totalSeatsNda = 0;
+    this.totalSeatsUpa = 0;
+    this.totalSeatsOth = 0;
 
     this.constituencies.forEach( (province, i) => {
       if (province === 'Andhra Pradesh') {
         totalSeatsByProvince = totalSeatsByProvince + indiaPredForm.value[province + '-TDP'] +
             indiaPredForm.value[province + '-YCP'] +
             indiaPredForm.value[province + '-OTHERS'];
+        this.totalSeatsOth = this.totalSeatsOth + indiaPredForm.value[province + '-TDP'] + indiaPredForm.value[province + '-YCP'] +
+            indiaPredForm.value[province + '-OTHERS'];
+
       } else if (province === 'West Bengal') {
         totalSeatsByProvince = totalSeatsByProvince + indiaPredForm.value[province + '-NDA'] +
             indiaPredForm.value[province + '-AITC'] +
             indiaPredForm.value[province + '-OTHERS'];
+
+        this.totalSeatsNda = this.totalSeatsNda + indiaPredForm.value[province + '-NDA']
+        this.totalSeatsOth = this.totalSeatsOth + indiaPredForm.value[province + '-AITC'] + indiaPredForm.value[province + '-OTHERS'];
+
       } else {
         totalSeatsByProvince = totalSeatsByProvince + indiaPredForm.value[province + '-NDA'] +
             indiaPredForm.value[province + '-UPA'] +
             indiaPredForm.value[province + '-OTHERS'];
+
+        this.totalSeatsNda = this.totalSeatsNda + indiaPredForm.value[province + '-NDA'];
+        this.totalSeatsUpa = this.totalSeatsUpa + indiaPredForm.value[province + '-UPA'];
+        this.totalSeatsOth = this.totalSeatsOth + indiaPredForm.value[province + '-OTHERS'];
       }
 
       // if (totalSeatsByProvince > this.counts[i]) {
@@ -271,6 +338,19 @@ export class IndiaComponent implements OnInit, OnDestroy {
   }
   goBack() {
     this.location.back();
+  }
+
+  onSelectPoll(event){
+    if (event.target.value !== '') {
+      this.disableSim = true;
+    } else {
+      this.disableSim = false;
+    }
+  }
+
+  onSimulate(simForm: NgForm) {
+    this.router.navigate(['elections/scores'],
+        {queryParams: {poll: simForm.value.exitpoll, electionType: 'GENERAL'}});
   }
 
   ngOnDestroy(): void {

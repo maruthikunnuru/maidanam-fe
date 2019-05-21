@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {UserModel} from '../../z-models/user.model';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {LoginService} from '../../z-services/login.service';
 import {AdminService} from '../../z-services/admin.service';
 import {Location} from '@angular/common';
@@ -24,6 +24,7 @@ export class ApComponent implements OnInit, OnDestroy {
               private loginService: LoginService,
               private adminService: AdminService,
               private location: Location,
+              private route: ActivatedRoute,
               private electionsService: ElectionsService,
               private spinnerService: Ng4LoadingSpinnerService) { }
 
@@ -42,7 +43,13 @@ export class ApComponent implements OnInit, OnDestroy {
   isSuccess = false;
   isSeatCountFail = false;
   seatCountFailProvince: string;
-  constituencies = [
+  totalSeatsTdp = 0;
+  totalSeatsYcp = 0;
+  totalSeatsOth = 0;
+  disableSim = false;
+  disableSimButtons = false;
+
+    constituencies = [
       'Anantapur', 'Chittoor', 'East Godavari', 'Guntur', 'Kadapa',
       'Krishna', 'Kurnool', 'Nellore', 'Prakasam', 'Srikakulam',
       'Visakhapatnam', 'Vizianagaram', 'West Godavari'
@@ -107,7 +114,7 @@ export class ApComponent implements OnInit, OnDestroy {
                       alert('No Predictions Available');
                   } else {
                       this.currentApElectionPredictions = resp.result as ElectionPredictionModel[];
-                      // console.log(this.currentApElectionPredictions);
+                       // console.log(this.currentApElectionPredictions);
 
                       if (this.currentApElectionPredictions.length  === 0 ) {
 
@@ -130,6 +137,24 @@ export class ApComponent implements OnInit, OnDestroy {
 
                               this.currentApElectionPredictions = electionPredictionArr;
                           });
+                      } else {
+                          this.disableSimButtons = true;
+
+                          this.currentApElectionPredictions.forEach( pred => {
+                              this.totalSeatsTdp = this.totalSeatsTdp +
+                                  (pred.seatPredictionObject.predictions
+                                    .filter(pre => pre.partyName === 'TDP') ? pred.seatPredictionObject.predictions
+                                      .filter(pre => pre.partyName === 'TDP')[0].numberOfSeats : 0 );
+                              this.totalSeatsYcp = this.totalSeatsYcp +
+                                  (pred.seatPredictionObject.predictions
+                                  .filter(pre => pre.partyName === 'YCP') !== null ? pred.seatPredictionObject.predictions
+                                      .filter(pre => pre.partyName === 'YCP')[0].numberOfSeats : 0 );
+                              this.totalSeatsOth = this.totalSeatsOth +
+                                  (pred.seatPredictionObject.predictions
+                                  .filter(pre => pre.partyName === 'OTHERS') !== null ? pred.seatPredictionObject.predictions
+                                      .filter(pre => pre.partyName === 'OTHERS')[0].numberOfSeats : 0 );
+
+                          });
                       }
                   }
               },
@@ -141,12 +166,19 @@ export class ApComponent implements OnInit, OnDestroy {
       this.isSuccess = false;
       this.isFailure = false;
       this.isSeatCountFail = false;
-      let totalSeatsByProvince = 0
+      let totalSeatsByProvince = 0;
+      this.totalSeatsTdp = 0;
+      this.totalSeatsYcp = 0;
+      this.totalSeatsOth = 0;
 
       this.constituencies.forEach( (province, i) => {
           totalSeatsByProvince = totalSeatsByProvince + apPredForm.value[province + '-TDP'] +
               apPredForm.value[province + '-YCP'] +
               apPredForm.value[province + '-OTHERS'];
+
+          this.totalSeatsTdp = this.totalSeatsTdp + apPredForm.value[province + '-TDP'];
+          this.totalSeatsYcp = this.totalSeatsYcp + apPredForm.value[province + '-YCP'];
+          this.totalSeatsOth = this.totalSeatsOth + apPredForm.value[province + '-OTHERS'];
 
           // if (totalSeatsByProvince > this.counts[i]) {
           if (totalSeatsByProvince > 175) {
@@ -210,6 +242,18 @@ export class ApComponent implements OnInit, OnDestroy {
     }
   goBack() {
     this.location.back();
+  }
+
+    onSelectPoll(event) {
+        if (event.target.value !== '') {
+            this.disableSim = true;
+        } else {
+            this.disableSim = false;
+        }
+    }
+  onSimulate(simForm: NgForm) {
+       this.router.navigate(['elections/scores'],
+           {queryParams: {poll: simForm.value.exitpoll, electionType: 'AP'}});
   }
 
   ngOnDestroy(): void {

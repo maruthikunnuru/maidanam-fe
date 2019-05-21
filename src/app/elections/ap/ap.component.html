@@ -14,7 +14,6 @@
 </div>
 <br>
 <button class="btn btn-link" (click)="goBack()">Go Back</button>
-
 <div class="container-fluid">
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-10 col-sm-offset-1 col-md-offset-2">
@@ -23,16 +22,16 @@
         <table >
             <tr style="color: darkred">
                 <th style="width: 45%; text-align: center">
-                    <span >Province</span>&nbsp;
+                    <span nowrap>Province</span>&nbsp;
                 </th>
                 <th style="width: 30%; text-align: center">
-                    <span >TDP</span>&nbsp;
+                    <span nowrap>TDP({{totalSeatsTdp}})</span>&nbsp;
                 </th>
-                <th style="width: 30%; text-align: center">
-                    <span >YCP</span>&nbsp;
+                <th style="width: 25%; text-align: center">
+                    <span nowrap>YCP({{totalSeatsYcp}})</span>&nbsp;
                 </th>
-                <th style="width: 30%; text-align: center">
-                    <span >Others</span>&nbsp;
+                <th style="width: 35%; text-align: center">
+                    <span nowrap>Others({{totalSeatsOth}})</span>&nbsp;
                 </th>
             </tr>
         </table>
@@ -59,7 +58,7 @@
                 </div>
               </td>
               &nbsp;&nbsp;
-              <td style="width: 15%">
+              <td style="width: 20%">
                 <div style="display:flex; flex-direction: row; justify-content: center; align-items: center">
                   <input id="othParty{{i}}" type="number" class="form-control" min="0" value="0"
                          placeholder="Others" name="{{electionPrediction.province}}-{{electionPrediction.seatPredictionObject.predictions[2].partyName}}"
@@ -85,6 +84,25 @@
         &nbsp;&nbsp;&nbsp;
         <button type="submit" class="btn btn-success">Submit</button>
       </form>
+        <br>
+        <div *ngIf="disableSimButtons">
+            <form (ngSubmit)="onSimulate(s)" #s="ngForm">
+                <div class="form-group">
+                    <select class="form-control" name="exitpoll" ngModel (change)="onSelectPoll($event)">
+                        <option value="">Select an Exit Poll</option>
+<!--                        <option value="India Today">India Today</option>-->
+<!--                        <option value="Times Now">Times Now</option>-->
+<!--                        <option value="Todays Chanakya">Todays Chanakyay</option>-->
+<!--                        <option value="Republic TV">Republic TV</option>-->
+<!--                        <option value="ABN-Nielsen">ABN-Nielsen</option>-->
+                        <option value="My Predictions">#My Predictions#</option>
+<!--                        <option value="Final Result">#Final Result#</option>-->
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary" [disabled]="!disableSim">Simulate</button>
+            </form>
+        </div>
     </div>
   </div>
 </div>

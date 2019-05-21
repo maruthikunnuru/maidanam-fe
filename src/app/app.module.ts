@@ -40,6 +40,7 @@ import { ElectionsComponent } from './elections/elections.component';
 import { ApComponent } from './elections/ap/ap.component';
 import { IndiaComponent } from './elections/india/india.component';
 import { ElectionsService } from './z-services/elections.service';
+import { ElectionScoresComponent } from './election-scores/election-scores.component';
 
 const googleLoginOptions: LoginOpt = {
   scope: 'profile email',
@@ -76,7 +77,8 @@ export function provideConfig() {
     TournamentsComponent,
     ElectionsComponent,
     ApComponent,
-    IndiaComponent
+    IndiaComponent,
+    ElectionScoresComponent
   ],
   imports: [
     BrowserModule,

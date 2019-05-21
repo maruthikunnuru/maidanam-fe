@@ -26,13 +26,13 @@
               <span style="">Province</span>&nbsp;
             </th>
             <th style="width: 30%; text-align: center">
-              <span >NDA</span>&nbsp;
+              <span >NDA({{totalSeatsNda}})</span>&nbsp;
             </th>
             <th style="width: 30%%; text-align: center">
-              <span >UPA</span>&nbsp;
+              <span >UPA({{totalSeatsUpa}})</span>&nbsp;
             </th>
             <th style="width: 30%; text-align: center">
-              <span >Others</span>&nbsp;
+              <span >Others({{totalSeatsOth}})</span>&nbsp;
             </th>
           </tr>
         </table>
@@ -153,6 +153,25 @@
         &nbsp;
         <button type="submit" class="btn btn-success">Submit</button>
       </form>
+      <br>
+      <div *ngIf="displaySimButtons">
+        <form (ngSubmit)="onSimulate(s)" #s="ngForm">
+          <div class="form-group">
+            <select class="form-control" name="exitpoll" ngModel (change)="onSelectPoll($event)">
+              <option value="">Select an Exit Poll</option>
+              <option value="India Today">India Today</option>
+              <option value="Times Now">Times Now</option>
+              <option value="Todays Chanakya">Todays Chanakyay</option>
+              <option value="Republic TV">Republic TV</option>
+              <option value="ABN-Nielsen">ABN-Nielsen</option>
+              <option value="My Predictions">#My Predictions#</option>
+<!--              <option value="Final Result">Final Result</option>-->
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary" [disabled]="!disableSim">Simulate</button>
+        </form>
+      </div>
     </div>
   </div>
 </div>
