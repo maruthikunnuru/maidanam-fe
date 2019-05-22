@@ -54,7 +54,7 @@ export class IndiaComponent implements OnInit, OnDestroy {
   disableSim = false;
   submitFlag = true;
   pointsToLose: number;
-
+  noSubmitMsgFlag: boolean;
   constituencies = [
     'Uttar Pradesh',
     'Maharashtra',
@@ -135,7 +135,7 @@ export class IndiaComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.submitFlag = true;
-
+    this.noSubmitMsgFlag = false;
     this.currentUserSubscription = this.loginService.currentUser
         .subscribe(
             (res) => {
@@ -293,6 +293,8 @@ export class IndiaComponent implements OnInit, OnDestroy {
                       this.submitPredictions(indiaPredForm);
                     } else if (this.pointsToLose > 0 && this.pointsToLose <= 60) {
                       this.openDialog(indiaPredForm);
+                    } else {
+                      this.noSubmitMsgFlag = true;
                     }
                   }
                 },

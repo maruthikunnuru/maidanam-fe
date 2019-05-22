@@ -48,6 +48,9 @@
         <div  class="alert alert-danger" *ngIf="isSeatCountFail">
             Total Seat Count > <span style="color: red; font-size: 1.5em">175</span> <br> Please correct and re-submit !!
         </div>
+        <div  class="alert alert-warning" *ngIf="noSubmitMsgFlag">
+            You cannot submit anymore now !!
+        </div>
             <br>
             <table >
             <tr style="color: darkred">

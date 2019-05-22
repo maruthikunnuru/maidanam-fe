@@ -53,6 +53,7 @@ export class ApComponent implements OnInit, OnDestroy {
   disableSim = false;
   disableSimButtons = false;
   pointsToLose: number;
+  noSubmitMsgFlag: boolean;
 
     constituencies = [
       'Anantapur', 'Chittoor', 'East Godavari', 'Guntur', 'Kadapa',
@@ -89,6 +90,7 @@ export class ApComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+      this.noSubmitMsgFlag = false;
     this.currentUserSubscription = this.loginService.currentUser
         .subscribe(
             (res) => {
@@ -214,9 +216,12 @@ export class ApComponent implements OnInit, OnDestroy {
                       if (response.statusCode === 'Y') {
                         this.pointsToLose =  response.result;
                         if (this.pointsToLose < 0) {
-                            this.submitPredictions(apPredForm);
+                            //this.submitPredictions(apPredForm);
+                            this.openDialog(apPredForm);
                         } else if (this.pointsToLose > 0 && this.pointsToLose <= 60) {
                             this.openDialog(apPredForm);
+                        } else {
+                            this.noSubmitMsgFlag = true;
                         }
                       }
                   },
