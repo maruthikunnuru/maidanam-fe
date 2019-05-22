@@ -39,7 +39,17 @@
             &nbsp;&nbsp;&nbsp;
             <button type="submit" class="btn btn-success">Submit</button>
         <br><br>
-        <table >
+        <div  class="alert alert-danger" *ngIf="isFailure">
+            Failed !
+        </div>
+        <div  class="alert alert-success" *ngIf="isSuccess">
+            Success !
+        </div>
+        <div  class="alert alert-danger" *ngIf="isSeatCountFail">
+            Total Seat Count > <span style="color: red; font-size: 1.5em">175</span> <br> Please correct and re-submit !!
+        </div>
+            <br>
+            <table >
             <tr style="color: darkred">
                 <th style="width: 45%; text-align: center">
                     <span nowrap>Province</span>&nbsp;
@@ -87,22 +97,7 @@
               </td>
             </tr>
           </table>
-
         </div>
-
-        <div  class="alert alert-danger" *ngIf="isFailure">
-          Failed !
-        </div>
-        <div  class="alert alert-success" *ngIf="isSuccess">
-          Success !
-        </div>
-        <div  class="alert alert-danger" *ngIf="isSeatCountFail">
-              Total Seat Count > <span style="color: red; font-size: 1.5em">175</span> <br> Please correct and re-submit !!
-        </div>
-        <div  class="alert alert-danger" *ngIf="isSeatCountFail">
-            Total Seat Count > <span style="color: red; font-size: 1.5em">175</span> <br> Please correct and re-submit !!
-        </div>
-
       </form>
 
     </div>
