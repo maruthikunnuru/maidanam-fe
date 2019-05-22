@@ -510,6 +510,7 @@ export class IndiaComponent implements OnInit, OnDestroy {
   onSubmit() {
     this.submitFlag = true;
   }
+
   ngOnDestroy(): void {
     this.currentUserSubscription.unsubscribe();
     this.currentUserGroupsSubscription.unsubscribe();

@@ -27,9 +27,9 @@
               <option value="Times Now">Times Now</option>
               <option value="Todays Chanakya">Todays Chanakyay</option>
               <option value="Republic TV">Republic TV</option>
-              <option value="ABN-Nielsen">ABN-Nielsen</option>
+              <option value="ABP-Nielsen">ABP-Nielsen</option>
               <option value="My Predictions">#My Predictions#</option>
-              <!--              <option value="Final Result">Final Result</option>-->
+              <!--<option value="Final Result">Final Result</option>-->
             </select>
           </div>
 
@@ -40,12 +40,13 @@
       <form (ngSubmit)="onSubmitResult(m)" #m="ngForm">
 
         <br>
-        <button type="reset" class="btn btn-info">Clear</button>
+        <button type="reset" (click)="onSubmit()" class="btn btn-info">Clear</button>
         &nbsp;
         <button (click)="onReset()" class="btn btn-secondary">Reset to Defaults</button>
         &nbsp;
         <button type="submit" (click)="onSubmit()" class="btn btn-success">Submit</button>
         <br><br>
+        <p *ngIf="!submitFlag" style="font-size: 0.8em; color: red;">*Defaulted to Average of all Exit Polls</p>
         <div  class="alert alert-danger" *ngIf="isFailure">
           Failed !
         </div>
