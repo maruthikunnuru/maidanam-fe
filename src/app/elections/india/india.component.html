@@ -18,7 +18,34 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-10 col-sm-offset-1 col-md-offset-2">
+      <div *ngIf="displaySimButtons">
+        <form (ngSubmit)="onSimulate(s)" #s="ngForm">
+          <div class="form-group">
+            <select class="form-control" name="exitpoll" ngModel (change)="onSelectPoll($event)">
+              <option value="">Select an Exit Poll</option>
+              <option value="India Today">India Today</option>
+              <option value="Times Now">Times Now</option>
+              <option value="Todays Chanakya">Todays Chanakyay</option>
+              <option value="Republic TV">Republic TV</option>
+              <option value="ABN-Nielsen">ABN-Nielsen</option>
+              <option value="My Predictions">#My Predictions#</option>
+              <!--              <option value="Final Result">Final Result</option>-->
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary" [disabled]="!disableSim">Simulate</button>
+        </form>
+      </div>
+
       <form (ngSubmit)="onSubmitResult(m)" #m="ngForm">
+
+        <br>
+        <button type="reset" class="btn btn-info">Clear</button>
+        &nbsp;
+        <button (click)="onReset()" class="btn btn-secondary">Reset to Defaults</button>
+        &nbsp;
+        <button type="submit" (click)="onSubmit()" class="btn btn-success">Submit</button>
+        <br>
         <br>
         <table >
           <tr style="color: darkred">
@@ -148,30 +175,9 @@
         <div  class="alert alert-danger" *ngIf="isSeatCountFail">
           Total Seat Count > <span style="color: red; font-size: 1.5em">543</span> <br>Please correct and re-submit !!
         </div>
-        <br>
-        <button type="reset" class="btn btn-info">Clear</button>
-        &nbsp;
-        <button type="submit" class="btn btn-success">Submit</button>
-      </form>
-      <br>
-      <div *ngIf="displaySimButtons">
-        <form (ngSubmit)="onSimulate(s)" #s="ngForm">
-          <div class="form-group">
-            <select class="form-control" name="exitpoll" ngModel (change)="onSelectPoll($event)">
-              <option value="">Select an Exit Poll</option>
-              <option value="India Today">India Today</option>
-              <option value="Times Now">Times Now</option>
-              <option value="Todays Chanakya">Todays Chanakyay</option>
-              <option value="Republic TV">Republic TV</option>
-              <option value="ABN-Nielsen">ABN-Nielsen</option>
-              <option value="My Predictions">#My Predictions#</option>
-<!--              <option value="Final Result">Final Result</option>-->
-            </select>
-          </div>
-
-          <button type="submit" class="btn btn-primary" [disabled]="!disableSim">Simulate</button>
         </form>
-      </div>
+      <br>
+
     </div>
   </div>
 </div>

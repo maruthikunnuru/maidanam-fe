@@ -12,6 +12,8 @@ import {SeatModel} from '../../z-models/seat.model';
 import {Ng4LoadingSpinnerService} from 'ng4-loading-spinner';
 import {ElectionsService} from '../../z-services/elections.service';
 import {GroupModel} from '../../z-models/group.model';
+import {MatDialog} from '@angular/material';
+import {ConfirmationDialogComponent} from "../../components/shared/confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'app-ap',
@@ -26,6 +28,7 @@ export class ApComponent implements OnInit, OnDestroy {
               private location: Location,
               private route: ActivatedRoute,
               private electionsService: ElectionsService,
+              public dialog: MatDialog,
               private spinnerService: Ng4LoadingSpinnerService) { }
 
   currentUserSubscription: Subscription;
@@ -33,6 +36,7 @@ export class ApComponent implements OnInit, OnDestroy {
   userGroupSubscription: Subscription;
   submitApElectionPredictionSubscription: Subscription;
   getApElectionPredictionSubscription: Subscription;
+  getTimeSubscription: Subscription;
   loggedIn: boolean;
   user: UserModel;
   groups: GroupModel[];
@@ -48,6 +52,7 @@ export class ApComponent implements OnInit, OnDestroy {
   totalSeatsOth = 0;
   disableSim = false;
   disableSimButtons = false;
+  pointsToLose: number;
 
     constituencies = [
       'Anantapur', 'Chittoor', 'East Godavari', 'Guntur', 'Kadapa',
@@ -162,6 +167,18 @@ export class ApComponent implements OnInit, OnDestroy {
           );
   }
 
+    openDialog(apPredForm: NgForm): void {
+        const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+            width: '350px',
+            data: 'You will loose ' + this.pointsToLose + ' points if u submit now. Are you sure ?'
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                console.log('Yes clicked');
+                this.submitPredictions(apPredForm);
+            }
+        });
+    }
   onSubmitResult(apPredForm: NgForm) {
       this.isSuccess = false;
       this.isFailure = false;
@@ -191,30 +208,47 @@ export class ApComponent implements OnInit, OnDestroy {
       if (this.isSeatCountFail) {
           return;
       } else {
-          this.submitApElectionPredictions = this.convertToElectionPrediction(apPredForm.value);
-
-          console.log(this.submitApElectionPredictions);
-
-          this.spinnerService.show();
-          this.submitApElectionPredictionSubscription = this.electionsService.submitElectionPredictions(this.user.userId,
-              'AP', this.submitApElectionPredictions)
-              .subscribe((resps) => {
-                      this.spinnerService.hide();
-                      console.log(resps);
-                      if (resps.statusCode === 'Y') {
-                          this.isSuccess = true;
-                          this.isFailure = false;
-                          this.isSeatCountFail = false;
-                      } else {
-                          this.isSuccess = false;
-                          this.isFailure = true;
-                          this.isSeatCountFail = false;
+          this.getTimeSubscription = this.electionsService.getTime()
+              .subscribe((response) => {
+                      console.log(response);
+                      if (response.statusCode === 'Y') {
+                        this.pointsToLose =  response.result;
+                        if (this.pointsToLose < 0) {
+                            this.submitPredictions(apPredForm);
+                        } else if (this.pointsToLose > 0 && this.pointsToLose <= 60) {
+                            this.openDialog(apPredForm);
+                        }
                       }
                   },
                   (error) => console.log(error)
               );
       }
 
+  }
+
+  submitPredictions(apPredForm1: NgForm) {
+      this.submitApElectionPredictions = this.convertToElectionPrediction(apPredForm1.value);
+
+      console.log(this.submitApElectionPredictions);
+
+      this.spinnerService.show();
+      this.submitApElectionPredictionSubscription = this.electionsService.submitElectionPredictions(this.user.userId,
+          'AP', this.submitApElectionPredictions)
+          .subscribe((resps) => {
+                  this.spinnerService.hide();
+                  console.log(resps);
+                  if (resps.statusCode === 'Y') {
+                      this.isSuccess = true;
+                      this.isFailure = false;
+                      this.isSeatCountFail = false;
+                  } else {
+                      this.isSuccess = false;
+                      this.isFailure = true;
+                      this.isSeatCountFail = false;
+                  }
+              },
+              (error) => console.log(error)
+          );
   }
 
     onSelectGroup(groupid: number) {
@@ -256,6 +290,11 @@ export class ApComponent implements OnInit, OnDestroy {
            {queryParams: {poll: simForm.value.exitpoll, electionType: 'AP'}});
   }
 
+    onClear(){
+       this.totalSeatsTdp = 0;
+       this.totalSeatsOth = 0;
+       this.totalSeatsYcp = 0;
+    }
   ngOnDestroy(): void {
     this.currentUserSubscription.unsubscribe();
       this.currentUserGroupsSubscription.unsubscribe();

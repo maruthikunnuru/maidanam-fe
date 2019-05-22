@@ -12,6 +12,8 @@ import {SeatModel} from '../../z-models/seat.model';
 import {Ng4LoadingSpinnerService} from 'ng4-loading-spinner';
 import {ElectionsService} from '../../z-services/elections.service';
 import {GroupModel} from '../../z-models/group.model';
+import {ConfirmationDialogComponent} from '../../components/shared/confirmation-dialog/confirmation-dialog.component';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-india',
@@ -24,6 +26,7 @@ export class IndiaComponent implements OnInit, OnDestroy {
               private loginService: LoginService,
               private adminService: AdminService,
               private location: Location,
+              public dialog: MatDialog,
               private electionsService: ElectionsService,
               private spinnerService: Ng4LoadingSpinnerService) { }
 
@@ -32,6 +35,8 @@ export class IndiaComponent implements OnInit, OnDestroy {
   userGroupSubscription: Subscription;
   submitIndiaElectionPredictionSubscription: Subscription;
   getIndiaElectionPredictionSubscription: Subscription;
+  defaultElectionPredictions: ElectionPredictionModel[] = [];
+  getTimeSubscription: Subscription;
   loggedIn: boolean;
   user: UserModel;
   groups: GroupModel[];
@@ -47,6 +52,8 @@ export class IndiaComponent implements OnInit, OnDestroy {
   totalSeatsOth = 0;
   displaySimButtons = false;
   disableSim = false;
+  submitFlag = true;
+  pointsToLose: number;
 
   constituencies = [
     'Uttar Pradesh',
@@ -127,6 +134,8 @@ export class IndiaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.submitFlag = true;
+
     this.currentUserSubscription = this.loginService.currentUser
         .subscribe(
             (res) => {
@@ -160,36 +169,7 @@ export class IndiaComponent implements OnInit, OnDestroy {
                 // console.log(this.currentIndiaElectionPredictions.length);
 
                 if (this.currentIndiaElectionPredictions.length  !== 36 ) {
-
-                  const electionPredictionArr: ElectionPredictionModel[] = [];
-
-                  this.constituencies.forEach( (province) => {
-                    const seatModel: SeatModel[] = [];
-
-                    if ( province === 'Andhra Pradesh') {
-                      seatModel.push(new SeatModel('TDP', 0));
-                      seatModel.push(new SeatModel('YCP', 0));
-                      seatModel.push(new SeatModel('OTHERS', 0));
-                    } else if ( province === 'West Bengal') {
-                      seatModel.push(new SeatModel('NDA', 0));
-                      seatModel.push(new SeatModel('AITC', 0));
-                      seatModel.push(new SeatModel('OTHERS', 0));
-                    } else {
-                      seatModel.push(new SeatModel('NDA', 0));
-                      seatModel.push(new SeatModel('UPA', 0));
-                      seatModel.push(new SeatModel('OTHERS', 0));
-                    }
-
-                    const seatPredictionObject: SeatListModel = new SeatListModel(seatModel);
-
-                    const tmpElectionPrediction: ElectionPredictionModel =
-                        new ElectionPredictionModel(null, this.user.userId, this.user, 'GENERAL',
-                            province, seatPredictionObject);
-
-                    electionPredictionArr.push(tmpElectionPrediction);
-
-                    this.currentIndiaElectionPredictions = electionPredictionArr;
-                  });
+                  this.onReset();
                 } else {
                   this.displaySimButtons = true;
 
@@ -244,6 +224,19 @@ export class IndiaComponent implements OnInit, OnDestroy {
         );
   }
 
+  openDialog(apPredForm: NgForm): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      data: 'You will loose ' + this.pointsToLose + ' points if u submit now. Are you sure ?'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Yes clicked');
+        this.submitPredictions(apPredForm);
+      }
+    });
+  }
+
   onSubmitResult(indiaPredForm: NgForm) {
     this.isSuccess = false;
     this.isFailure = false;
@@ -266,7 +259,7 @@ export class IndiaComponent implements OnInit, OnDestroy {
             indiaPredForm.value[province + '-AITC'] +
             indiaPredForm.value[province + '-OTHERS'];
 
-        this.totalSeatsNda = this.totalSeatsNda + indiaPredForm.value[province + '-NDA']
+        this.totalSeatsNda = this.totalSeatsNda + indiaPredForm.value[province + '-NDA'];
         this.totalSeatsOth = this.totalSeatsOth + indiaPredForm.value[province + '-AITC'] + indiaPredForm.value[province + '-OTHERS'];
 
       } else {
@@ -290,28 +283,48 @@ export class IndiaComponent implements OnInit, OnDestroy {
     if (this.isSeatCountFail) {
       return;
     } else {
-      this.submitIndiaElectionPredictions = this.convertToElectionPrediction(indiaPredForm.value);
-
-      this.spinnerService.show();
-      this.submitIndiaElectionPredictionSubscription = this.electionsService.submitElectionPredictions(this.user.userId,
-          'GENERAL', this.submitIndiaElectionPredictions)
-          .subscribe((resps) => {
-                this.spinnerService.hide();
-                if (resps.statusCode === 'Y') {
-                  this.isSuccess = true;
-                  this.isFailure = false;
-                  this.isSeatCountFail = false;
-                } else {
-                  this.isSuccess = false;
-                  this.isFailure = true;
-                  this.isSeatCountFail = false;
-                }
-              },
-              (error) => console.log(error)
-          );
+      if (this.submitFlag) {
+        this.getTimeSubscription = this.electionsService.getTime()
+            .subscribe((response) => {
+                  console.log(response);
+                  if (response.statusCode === 'Y') {
+                    this.pointsToLose =  response.result;
+                    if (this.pointsToLose < 0) {
+                      this.submitPredictions(indiaPredForm);
+                    } else if (this.pointsToLose > 0 && this.pointsToLose <= 60) {
+                      this.openDialog(indiaPredForm);
+                    }
+                  }
+                },
+                (error) => console.log(error)
+            );
+      }
     }
 
   }
+
+  submitPredictions(indiaPredForm1: NgForm) {
+    this.submitIndiaElectionPredictions = this.convertToElectionPrediction(indiaPredForm1.value);
+
+    this.spinnerService.show();
+    this.submitIndiaElectionPredictionSubscription = this.electionsService.submitElectionPredictions(this.user.userId,
+        'GENERAL', this.submitIndiaElectionPredictions)
+        .subscribe((resps) => {
+              this.spinnerService.hide();
+              if (resps.statusCode === 'Y') {
+                this.isSuccess = true;
+                this.isFailure = false;
+                this.isSeatCountFail = false;
+              } else {
+                this.isSuccess = false;
+                this.isFailure = true;
+                this.isSeatCountFail = false;
+              }
+            },
+            (error) => console.log(error)
+        );
+  }
+
 
   onSelectGroup(groupid: number) {
     console.log(groupid);
@@ -340,7 +353,7 @@ export class IndiaComponent implements OnInit, OnDestroy {
     this.location.back();
   }
 
-  onSelectPoll(event){
+  onSelectPoll(event) {
     if (event.target.value !== '') {
       this.disableSim = true;
     } else {
@@ -353,6 +366,148 @@ export class IndiaComponent implements OnInit, OnDestroy {
         {queryParams: {poll: simForm.value.exitpoll, electionType: 'GENERAL'}});
   }
 
+  onReset() {
+    this.submitFlag = false;
+    this.setDefaultPredictions();
+    this.currentIndiaElectionPredictions = this.defaultElectionPredictions;
+  }
+
+  setDefaultPredictions() {
+    const electionPredictionArr1: ElectionPredictionModel[] = [];
+
+    this.constituencies.forEach( (province) => {
+      const seatModel1: SeatModel[] = [];
+
+      if ( province === 'Andhra Pradesh') {
+        seatModel1.push(new SeatModel('TDP', 10));
+        seatModel1.push(new SeatModel('YCP', 15));
+        seatModel1.push(new SeatModel('OTHERS', 0));
+      } else if ( province === 'West Bengal') {
+        seatModel1.push(new SeatModel('NDA', 15));
+        seatModel1.push(new SeatModel('AITC', 21));
+        seatModel1.push(new SeatModel('OTHERS', 5));
+      } else if ( province === 'Uttar Pradesh') {
+        seatModel1.push(new SeatModel('NDA', 49));
+        seatModel1.push(new SeatModel('UPA', 2));
+        seatModel1.push(new SeatModel('OTHERS', 28));
+      } else if ( province === 'Maharashtra') {
+        seatModel1.push(new SeatModel('NDA', 37));
+        seatModel1.push(new SeatModel('UPA', 11));
+        seatModel1.push(new SeatModel('OTHERS', 0));
+      } else if ( province === 'Telangana') {
+        seatModel1.push(new SeatModel('NDA', 1));
+        seatModel1.push(new SeatModel('UPA', 1));
+        seatModel1.push(new SeatModel('OTHERS', 15));
+      } else if ( province === 'Bihar') {
+        seatModel1.push(new SeatModel('NDA', 34));
+        seatModel1.push(new SeatModel('UPA', 6));
+        seatModel1.push(new SeatModel('OTHERS', 0));
+      } else if ( province === 'Tamil Nadu') {
+        seatModel1.push(new SeatModel('NDA', 7));
+        seatModel1.push(new SeatModel('UPA', 31));
+        seatModel1.push(new SeatModel('OTHERS', 1));
+      } else if ( province === 'Madhya Pradesh') {
+        seatModel1.push(new SeatModel('NDA', 25));
+        seatModel1.push(new SeatModel('UPA', 4));
+        seatModel1.push(new SeatModel('OTHERS', 0));
+      } else if ( province === 'Karnataka') {
+        seatModel1.push(new SeatModel('NDA', 20));
+        seatModel1.push(new SeatModel('UPA', 8));
+        seatModel1.push(new SeatModel('OTHERS', 0));
+      } else if ( province === 'Gujarat') {
+        seatModel1.push(new SeatModel('NDA', 24));
+        seatModel1.push(new SeatModel('UPA', 2));
+        seatModel1.push(new SeatModel('OTHERS', 0));
+      } else if ( province === 'Rajasthan') {
+        seatModel1.push(new SeatModel('NDA', 22));
+        seatModel1.push(new SeatModel('UPA', 3));
+        seatModel1.push(new SeatModel('OTHERS', 0));
+      } else if ( province === 'Odisha') {
+        seatModel1.push(new SeatModel('NDA', 12));
+        seatModel1.push(new SeatModel('UPA', 0));
+        seatModel1.push(new SeatModel('OTHERS', 8));
+      } else if ( province === 'Kerala') {
+        seatModel1.push(new SeatModel('NDA', 1));
+        seatModel1.push(new SeatModel('UPA', 15));
+        seatModel1.push(new SeatModel('OTHERS', 3));
+      } else if ( province === 'Assam') {
+        seatModel1.push(new SeatModel('NDA', 9));
+        seatModel1.push(new SeatModel('UPA', 4));
+        seatModel1.push(new SeatModel('OTHERS', 1));
+      } else if ( province === 'Jharkhand') {
+        seatModel1.push(new SeatModel('NDA', 8));
+        seatModel1.push(new SeatModel('UPA', 6));
+        seatModel1.push(new SeatModel('OTHERS', 0));
+      } else if ( province === 'Punjab') {
+        seatModel1.push(new SeatModel('NDA', 4));
+        seatModel1.push(new SeatModel('UPA', 9));
+        seatModel1.push(new SeatModel('OTHERS', 0));
+      } else if ( province === 'Chhattisgarh') {
+        seatModel1.push(new SeatModel('NDA', 7));
+        seatModel1.push(new SeatModel('UPA', 4));
+        seatModel1.push(new SeatModel('OTHERS', 0));
+      } else if ( province === 'Haryana') {
+        seatModel1.push(new SeatModel('NDA', 8));
+        seatModel1.push(new SeatModel('UPA', 2));
+        seatModel1.push(new SeatModel('OTHERS', 0));
+      } else if ( province === 'NCT OF Delhi') {
+        seatModel1.push(new SeatModel('NDA', 6));
+        seatModel1.push(new SeatModel('UPA', 1));
+        seatModel1.push(new SeatModel('OTHERS', 0));
+      } else if ( province === 'Jammu & Kashmir') {
+        seatModel1.push(new SeatModel('NDA', 2));
+        seatModel1.push(new SeatModel('UPA', 4));
+        seatModel1.push(new SeatModel('OTHERS', 0));
+      } else if ( province === 'Uttarakhand') {
+        seatModel1.push(new SeatModel('NDA', 5));
+        seatModel1.push(new SeatModel('UPA', 0));
+        seatModel1.push(new SeatModel('OTHERS', 0));
+      } else if ( province === 'Himachal Pradesh') {
+        seatModel1.push(new SeatModel('NDA', 4));
+        seatModel1.push(new SeatModel('UPA', 0));
+        seatModel1.push(new SeatModel('OTHERS', 0));
+      } else if ( province === 'Arunachal Pradesh' || province === 'Tripura') {
+        seatModel1.push(new SeatModel('NDA', 2));
+        seatModel1.push(new SeatModel('UPA', 0));
+        seatModel1.push(new SeatModel('OTHERS', 0));
+      } else if ( province === 'Goa' || province === 'Manipur' || province === 'Meghalaya') {
+        seatModel1.push(new SeatModel('NDA', 1));
+        seatModel1.push(new SeatModel('UPA', 1));
+        seatModel1.push(new SeatModel('OTHERS', 0));
+      } else if ( province === 'Mizoram' || province === 'Nagaland'
+          || province === 'Sikkim' || province === 'Lakshadweep') {
+        seatModel1.push(new SeatModel('NDA', 0));
+        seatModel1.push(new SeatModel('UPA', 1));
+        seatModel1.push(new SeatModel('OTHERS', 0));
+      } else if ( province === 'Andaman & Nicobar Islands' || province === 'Chandigarh'
+          || province === 'Dadra & Nagar Haveli' || province === 'Daman & Diu' || province === 'Puducherry') {
+        seatModel1.push(new SeatModel('NDA', 1));
+        seatModel1.push(new SeatModel('UPA', 0));
+        seatModel1.push(new SeatModel('OTHERS', 0));
+      } else {
+        seatModel1.push(new SeatModel('NDA', 0));
+        seatModel1.push(new SeatModel('UPA', 0));
+        seatModel1.push(new SeatModel('OTHERS', 0));
+      }
+
+      const seatPredictionObject1: SeatListModel = new SeatListModel(seatModel1);
+
+      const tmpElectionPrediction1: ElectionPredictionModel =
+          new ElectionPredictionModel(null, this.user.userId, this.user, 'GENERAL',
+              province, seatPredictionObject1);
+
+      electionPredictionArr1.push(tmpElectionPrediction1);
+    });
+
+    this.defaultElectionPredictions = electionPredictionArr1;
+    this.totalSeatsNda = 312;
+    this.totalSeatsUpa = 120;
+    this.totalSeatsOth = 107;
+  }
+
+  onSubmit() {
+    this.submitFlag = true;
+  }
   ngOnDestroy(): void {
     this.currentUserSubscription.unsubscribe();
     this.currentUserGroupsSubscription.unsubscribe();

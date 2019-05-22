@@ -13,9 +13,14 @@
   </div>
 </div>
 <button class="btn btn-link" (click)="goBack()">Go Back</button>
+<br>
 
+<div class="container-fluid">
+  <div style="text-align:center; color:blue">
+    <h4>{{this.pollNameParam}} ( {{this.electionTypeParam}} ) </h4>
+  </div>
+</div>
 <hr><div class="container-fluid">
-
   <mat-form-field>
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search / Filter">
   </mat-form-field>

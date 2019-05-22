@@ -41,6 +41,8 @@ import { ApComponent } from './elections/ap/ap.component';
 import { IndiaComponent } from './elections/india/india.component';
 import { ElectionsService } from './z-services/elections.service';
 import { ElectionScoresComponent } from './election-scores/election-scores.component';
+import { MatDialogModule} from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from './components/shared/confirmation-dialog/confirmation-dialog.component';
 
 const googleLoginOptions: LoginOpt = {
   scope: 'profile email',
@@ -78,7 +80,8 @@ export function provideConfig() {
     ElectionsComponent,
     ApComponent,
     IndiaComponent,
-    ElectionScoresComponent
+    ElectionScoresComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -95,9 +98,13 @@ export function provideConfig() {
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatDialogModule,
     MatPaginatorModule,
     MatSortModule,
     Ng4LoadingSpinnerModule.forRoot()
+  ],
+  entryComponents: [
+    ConfirmationDialogComponent
   ],
   providers: [
     {

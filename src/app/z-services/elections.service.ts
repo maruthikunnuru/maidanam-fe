@@ -68,4 +68,23 @@ export class ElectionsService {
                 }
             );
     }
+
+    getTime(): Observable<ResponseModel> {
+        const headers = new Headers();
+        headers.append('X-TIME-ZONE', 'IST');
+        headers.append('X-START-TIME', '2019-05-23 08:00:00');
+        headers.append('X-TIME-UNIT', 'MINUTE');
+
+        return this.http.get(AppConstants.API_ENDPOINT + '/util/time-since' , {headers: headers})
+            .map(
+                (response: Response) => {
+                    return <ResponseModel>response.json();
+                }
+            )
+            .catch(
+                (error: Response) => {
+                    return Observable.throw('Something went wrong with getTime');
+                }
+            );
+    }
 }
