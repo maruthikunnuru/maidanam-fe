@@ -216,8 +216,7 @@ export class ApComponent implements OnInit, OnDestroy {
                       if (response.statusCode === 'Y') {
                         this.pointsToLose =  response.result;
                         if (this.pointsToLose < 0) {
-                            //this.submitPredictions(apPredForm);
-                            this.openDialog(apPredForm);
+                            this.submitPredictions(apPredForm);
                         } else if (this.pointsToLose > 0 && this.pointsToLose <= 60) {
                             this.openDialog(apPredForm);
                         } else {
