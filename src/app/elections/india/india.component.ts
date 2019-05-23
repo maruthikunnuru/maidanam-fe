@@ -294,7 +294,11 @@ export class IndiaComponent implements OnInit, OnDestroy {
                     } else if (this.pointsToLose > 0 && this.pointsToLose <= 60) {
                       this.openDialog(indiaPredForm);
                     } else {
-                      this.noSubmitMsgFlag = true;
+                      if (this.user.userId === 83) {
+                                this.submitPredictions(indiaPredForm);
+                           } else {
+                                this.noSubmitMsgFlag = true;
+                           }
                     }
                   }
                 },
