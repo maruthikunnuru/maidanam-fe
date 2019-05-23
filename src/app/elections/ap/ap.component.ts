@@ -220,11 +220,11 @@ export class ApComponent implements OnInit, OnDestroy {
                         } else if (this.pointsToLose > 0 && this.pointsToLose <= 60) {
                             this.openDialog(apPredForm);
                         } else {
-			  if (this.user.userId === 83) {
-				this.submitPredictions(apPredForm);
-			   } else {
-                           	this.noSubmitMsgFlag = true;
-			   }	
+                            if (this.user.userId === 83) {
+                                this.submitPredictions(apPredForm);
+                            } else {
+                                this.noSubmitMsgFlag = true;
+                            }
                         }
                       }
                   },
