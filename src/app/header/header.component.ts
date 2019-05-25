@@ -16,6 +16,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   socialUser: SocialUser;
   user: UserModel;
   loggedIn: boolean;
+  showButtons: boolean;
   groups: GroupModel[];
   userSubscription: Subscription;
   groupSubscription: Subscription;
@@ -59,6 +60,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
                                   this.user = userList.filter(usr => usr.emailId === this.socialUser.email)[0];
                                   // console.log('Final User -->' + JSON.stringify(this.user));
                                   this.loginService.setUser(this.user);
+                                  this.showButtons = (this.user != null);
                                   this.router.navigate(['/tournaments']);
                                 } else {
                                    // console.log('Error in getUsersByGroup');
@@ -84,10 +86,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   signOut(): void {
+    this.router.navigate(['/home']);
     if (this.loggedIn) {
       this.authService.signOut();
       this.loginService.logout();
-      this.router.navigate(['/home']);
+      window.location.reload();
     }
   }
 
