@@ -1,4 +1,17 @@
+<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 <!--The content below is only a placeholder and can be replaced.-->
+<!--replaced app-header with new header that supports sidenav-->
+<!--
 <app-header></app-header>
-<router-outlet></router-outlet>
+-->
+<mat-sidenav-container style="height:100%;">
+    <mat-sidenav #sidenav position="end">
+        <app-sidnav-list (sideNavClose)="sidenav.close()"></app-sidnav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <app-nav-header (sideNavToggle)="sidenav.toggle()"></app-nav-header>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+
 <ng4-loading-spinner> </ng4-loading-spinner>

@@ -1,14 +1,15 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Nova+Mono|Roboto+Mono" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 
 <div class="container-fluid sticky-top" style="padding:0px;">
     <div class="d-flex justify-content-end">
         <div class="dropdown">
-            <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button style="font-size:0.5em;" class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                {{user.group.groupName}}
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -21,7 +22,7 @@
 </div>
 <p>{{currentUserPrediction.user.totalCoins}}
     <img src="assets/images/coins.jpg" width="30" height="20">&nbsp;
-    <a class="btn btn-warning btn-sml" href="mailto:maidanam.in@gmail.com?subject=Need Coins" target="_blank"> <b>+ BUY MORE</b> </a>
+    <a style="font-size:0.5em;" class="btn btn-outline-secondary btn-sml" href="mailto:maidanam.in@gmail.com?subject=Need Coins" target="_blank"> <b>+ Buy</b> </a>
 </p>
 <div class="container-fluid">
     <!--<div class="row no-gutters open-close-container col-sm-8 col-md-6 col-lg-4 mx-auto" [ngClass]="getMatchClass(currentUserPrediction.match)">-->
@@ -45,38 +46,55 @@
     <!--</div>-->
 
     <div class="d-flex col-sm-8 col-md-6 col-lg-4  mx-auto " [ngClass]="getMatchClass(currentUserPrediction.match)">
-        <div style="width:30%;" class="d-flex justify-content-start align-items-center">
-            <img class="img-fluid rounded" [src]="'assets/images/' + currentUserPrediction.match.team1.teamName + '.jpg'" style="max-height: 50px;border-radius:0px;box-shadow:0px 0px 5px 1px #dddddd;">
-        </div>
-        <div style="width:30%;" class="d-flex justify-content-start align-items-center">
-            <span *ngIf="currentUserPrediction.match.team1Id === currentUserPrediction.match.winnerId">
-                <i class="fa fa-trophy" style="font-size:20px;color:gold"></i>
-            </span>
-            <span>{{currentUserPrediction.match.team1.teamName}}</span>
-            <span style="font-size: 0.8em; color: lime;" *ngIf="currentUserPrediction.match.team1Id === currentUserPrediction.match.winnerId">
-                ({{currentUserPrediction.match.resultType.charAt(0)}})
-            </span>
-        </div>
-
-        <div class="d-flex justify-content-center align-items-center" style="font-size: 0.5em;width:80%;" >
+            <div style="width:10%;" class="d-flex justify-content-center align-items-center">
+                    <span *ngIf="currentUserPrediction.match.team1Id === currentUserPrediction.match.winnerId">
+                        <i class="fa fa-trophy" style="font-size:20px;color:grey"></i>
+                    </span>
+            </div>
+            <div style="width:10%;font-size:0.8em;" class="d-flex justify-content-end align-items-center">
+                    <span>
+                        {{currentUserPrediction.match.team1.teamName}}&nbsp;
+                    </span>            
+            </div>  
+            <div style="width:10%;font-size:0.8em;color:lime" class="d-flex justify-content-end align-items-center" *ngIf="currentUserPrediction.match.team1Id === currentUserPrediction.match.winnerId">
+                    <span>
+                            ({{currentUserPrediction.match.resultType.charAt(0)}})                    
+                    </span>            
+            </div>  
+            
+        
+            <div style="width:30%;" class="d-flex justify-content-start align-items-center">
+                <img class="img-fluid rounded" [src]="'assets/images/' + currentUserPrediction.match.team1.teamName + '.jpg'" style="max-height: 50px;border-radius:0px;box-shadow:0px 0px 5px 1px #dddddd;">
+            </div>
+        
+            <div class="d-flex justify-content-center align-items-center" style="font-size: 0.5em;width:80%;" >
             {{currentUserPrediction.match.maidanam.location}} , {{currentUserPrediction.match.maidanam.country}}
             <br>
-            {{currentUserPrediction.match.localDate}} {{currentUserPrediction.match.localTime}} {{currentUserPrediction.match.maidanam.timeZone}}
-        </div>
+            {{currentUserPrediction.match.localDate | date: 'MMM d'}} {{currentUserPrediction.match.localTime}} {{currentUserPrediction.match.maidanam.timeZone}}
+            </div>
 
-        <div style="width:30%;" class="d-flex justify-content-end align-items-center">
-            <span *ngIf="currentUserPrediction.match.team2Id === currentUserPrediction.match.winnerId">
-                <i class="fa fa-trophy" style="font-size:20px;color:gold"></i>
-            </span>
-            <span>{{currentUserPrediction.match.team2.teamName}} </span>
-            <span style="font-size: 0.8em; color: lime;" *ngIf="currentUserPrediction.match.team2Id === currentUserPrediction.match.winnerId">
-                ({{currentUserPrediction.match.resultType.charAt(0)}})
-            </span>
-        </div>
+            <div style="width:30%;" class="d-flex justify-content-end align-items-center">
+                    <img class="img-fluid rounded" [src]="'assets/images/' + currentUserPrediction.match.team2.teamName + '.jpg'" style="max-height: 50px;border-radius:0px;box-shadow:0px 0px 5px 1px #dddddd;">
+            </div>
 
-        <div style="width:30%;" class="d-flex justify-content-end align-items-center">
-            <img class="img-fluid rounded" [src]="'assets/images/' + currentUserPrediction.match.team2.teamName + '.jpg'" style="max-height: 50px;border-radius:0px;box-shadow:0px 0px 5px 1px #dddddd;">
-        </div>
+            <div style="width:10%;font-size:0.8em;" class="d-flex justify-content-start align-items-center">
+                    <span>
+                        &nbsp;{{currentUserPrediction.match.team2.teamName}}
+                    </span>            
+            </div>  
+
+            <div style="width:10%;" class="d-flex justify-content-center align-items-center">
+                    <span *ngIf="currentUserPrediction.match.team2Id === currentUserPrediction.match.winnerId">
+                        <i class="fa fa-trophy" style="font-size:20px;color:grey"></i>
+                    </span>
+            </div>
+
+            <div style="width:10%;font-size:0.8em;color:lime" class="d-flex justify-content-end align-items-center" *ngIf="currentUserPrediction.match.team2Id === currentUserPrediction.match.winnerId">
+                    <span>
+                            ({{currentUserPrediction.match.resultType.charAt(0)}})                    
+                    </span>            
+            </div>  
+        
     </div>
 </div>
 <button class="btn btn-link" (click)="goBack()">Go Back</button>
@@ -122,7 +140,7 @@
 
           <div class="d-flex justify-content-end" style="width:60%;" >
               <div class="btn-group btn-group-toggle" data-toggle="buttons" style="width:90%;">
-                  <label class="btn btn-outline-success btn-sm"
+                  <label class="btn btn-outline-dark btn-sm"
                          [ngClass]="isTeam1WinnerPredicted ? 'active' : ''"
                          (click)="selectWinner(currentUserPrediction.match.team1Id)">
                     <input type="radio" id="team1" name="winner"
@@ -132,7 +150,7 @@
                       <p style="color: darkred" *ngIf="selectedWinnerId===currentUserPrediction.match.team1Id">{{team1odds.winOdds}}x</p>
                       <p style="color: blue" *ngIf="selectedWinnerId===currentUserPrediction.match.team1Id">={{formatNumber(team1odds.winOdds * currentUserPrediction.coinsAtPlay)}}</p>
                   </label>
-                  <label class="btn btn-outline-success btn-sm"
+                  <label class="btn btn-outline-dark btn-sm"
                          [ngClass]="isTeam2WinnerPredicted ? 'active' : ''"
                          (click)="selectWinner(currentUserPrediction.match.team2Id)">
                     <input type="radio" id="team2" name="winner"
@@ -154,7 +172,7 @@
             </div>
             <div class="d-flex justify-content-end" style="width:60%;padding:1%;">
                 <div class="btn-group btn-group-toggle" data-toggle="buttons" style="width:90%;">
-                    <label class="btn btn-outline-info btn-sm" style="font-size:0.7em;"
+                    <label class="btn btn-outline-dark btn-sm" style="font-size:0.7em;"
                            [ngClass]="currentUserPrediction.margin === 'EASY' ? 'active' : ''"
                            (click)="selectMargin('EASY')">
                       <input type="radio" name="marginOption" value="EASY" ngModel
@@ -165,7 +183,7 @@
                         <p style="color: blue" *ngIf="selectedWinnerId===currentUserPrediction.match.team2Id">={{formatNumber(team2odds.easyOdds * currentUserPrediction.coinsAtPlay)}}</p>
                         EASY
                     </label>
-                    <label class="btn btn-outline-info btn-sm" style="font-size:0.7em;"
+                    <label class="btn btn-outline-dark btn-sm" style="font-size:0.7em;"
                            [ngClass]="currentUserPrediction.margin === 'MEDIUM' ? 'active' : ''"
                            (click)="selectMargin('MEDIUM')">
                         <input type="radio" name="marginOption" value="MEDIUM" ngModel
@@ -176,7 +194,7 @@
                         <p style="color: blue" *ngIf="selectedWinnerId===currentUserPrediction.match.team2Id">={{formatNumber(team2odds.mediumOdds * currentUserPrediction.coinsAtPlay)}}</p>
                         MEDIUM
                     </label>
-                    <label class="btn btn-outline-info btn-sm" style="font-size:0.7em;"
+                    <label class="btn btn-outline-dark btn-sm" style="font-size:0.7em;"
                            [ngClass]="currentUserPrediction.margin === 'HARD' ? 'active' : ''"
                            (click)="selectMargin('HARD')">
                         <input type="radio" name="marginOption" value="HARD" ngModel
@@ -221,7 +239,7 @@
               <br>
 
             <div class="d-flex justify-content-center align-items-center">
-                <button class="btn btn-dark btn-block" type="submit" [disabled]="!p.valid || showOthersPredictions">Submit</button>
+                <button class="btn btn-secondary btn-block" type="submit" [disabled]="!p.valid || showOthersPredictions">Submit</button>
             </div>
 
 

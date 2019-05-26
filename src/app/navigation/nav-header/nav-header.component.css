@@ -1,0 +1,11 @@
+mat-toolbar {
+    background: whitesmoke;
+    display:flex;
+    justify-content: space-between;
+}
+
+.right-nav {
+    display:flex;
+    flex-direction: row;
+    justify-content:flex-end;
+}

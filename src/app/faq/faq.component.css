@@ -10,10 +10,15 @@ p {
 /*}*/
 
 h5 {
-    color: darkblue;
+    color: grey;
     font-size: 1.5em;
 }
 
 h6 {
     color: green;
+}
+
+p {
+    font-size:0.8em;
+    color:black;
 }

@@ -6,7 +6,7 @@ import { MatPaginatorModule, MatSelectModule, MatSliderModule, MatSortModule} fr
 import { MatTableModule} from '@angular/material/table';
 import { HttpModule } from '@angular/http';
 import { MatStepperModule} from '@angular/material/stepper';
-import { MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MatFormFieldModule, MatInputModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
 import { MatButtonModule} from '@angular/material/button';
 
 
@@ -43,6 +43,9 @@ import { ElectionsService } from './z-services/elections.service';
 import { ElectionScoresComponent } from './election-scores/election-scores.component';
 import { MatDialogModule} from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './components/shared/confirmation-dialog/confirmation-dialog.component';
+import { SidnavListComponent } from './navigation/sidnav-list/sidnav-list.component';
+import { NavHeaderComponent } from './navigation/nav-header/nav-header.component';
+
 
 const googleLoginOptions: LoginOpt = {
   scope: 'profile email',
@@ -81,7 +84,10 @@ export function provideConfig() {
     ApComponent,
     IndiaComponent,
     ElectionScoresComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    SidnavListComponent,
+    NavHeaderComponent
+
   ],
   imports: [
     BrowserModule,
@@ -101,6 +107,10 @@ export function provideConfig() {
     MatDialogModule,
     MatPaginatorModule,
     MatSortModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
     Ng4LoadingSpinnerModule.forRoot()
   ],
   entryComponents: [

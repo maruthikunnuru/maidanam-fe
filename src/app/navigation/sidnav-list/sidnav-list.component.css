@@ -1,0 +1,7 @@
+.icon {
+    background: url('/src/assets/images/match_icon.png');
+    height: parent;
+    width: parent;
+    display: block;
+    /* Other styles here */
+}

@@ -1,0 +1,32 @@
+<mat-toolbar>
+  
+  <div>
+      <a (click)="onClickHome()" >
+          <img src="assets/images/Sumo_sm.jpg" width="50" height="45"  style="cursor:pointer;">
+      </a>
+  </div>
+  <div class="right-nav">
+
+      <div style="display:flex;align-items: center;" *ngIf="loggedIn">
+          {{ socialUser.firstName }}
+      </div>
+
+      <div *ngIf=loggedIn>
+        <button mat-icon-button (click)="onToggleSidenav()">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </div>
+      
+      <div (signOutEmit)="signOut()"></div> 
+
+      <button class="btn" (click)="signInWithGoogle()" *ngIf="!loggedIn">
+      <!--        Sign In With Google-->
+              <a>
+                <div class="left">
+                  <img class="rounded" width="150px" alt="Google &quot;G&quot; Logo" src="assets/images/Google1_sm.jpg"/>
+      <!--            <span style="color: red;"><b><u>Sign In With Google</u></b></span>-->
+                </div>
+              </a>
+      </button>
+  </div>    
+</mat-toolbar>

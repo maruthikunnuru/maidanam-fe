@@ -1,41 +1,53 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 
-<div class="container-fluid" *ngFor="let match of allMatches">
-  <a role="button" (click)="onMatchClick(match.matchId)" style="cursor: pointer">
-    <div class="d-flex col-sm-8 col-md-6 col-lg-4  mx-auto " [ngClass]="getMatchClass(match)">
+<div class="container-fluid px-3" *ngFor="let match of allMatches">
+  <a role="button" (click)="onMatchClick(match.matchId)" style="cursor: pointer;">
+    <div class="d-flex col-sm-8 col-md-6 col-lg-4  mx-auto" [ngClass]="getMatchClass(match)">
       <!--
         border-left:15px solid #cb3d12;
       -->
-      <div class="d-flex justify-content-center align-items-center" style="font-size: 0.8em;border-radius:0.5em 0 0 0.5em;width:35%;" >
-        {{match.localDate}}<br>{{match.localTime}} {{match.maidanam.timeZone}}
-
-      </div>
       
+      <div style="width:10%;" class="d-flex justify-content-center align-items-center">
+            <span style="color: lime;" *ngIf="match.team1Id === match.winnerId">
+              <i class="fa fa-trophy" style="font-size:20px;color:grey"></i>
+            </span>            
+      </div>  
+
+      <div style="width:10%;font-size:0.8em;" class="d-flex justify-content-end align-items-center">
+          <span>
+           {{match.team1.teamName}}&nbsp;
+          </span>            
+    </div>  
+
       <div style="width:20%;" class="d-flex justify-content-center align-items-center">
-          <img class="img-fluid rounded" [src]="'assets/images/' + match.team1.teamName + '.jpg'" style="max-height: 50px;border-radius:0px;box-shadow:0px 0px 5px 1px #dddddd;">
+          <img class="img-fluid rounded" [src]="'assets/images/' + match.team1.teamName + '.jpg'" style="height: 50px;width:100%;border-radius:0px;box-shadow:0px 0px 5px 1px #dddddd;">
+      </div>
+     
+      <div class="d-flex flex-column justify-content-center align-items-center" style="font-size: 0.5em;border-radius:0.5em 0 0 0.5em;width:20%;" >
+          <div>{{match.localDate | date:'MMM d'}}</div>
+          <div>{{match.localTime}} {{match.maidanam.timeZone}}</div>
+  
+      </div>
+  
+
+      <div style="width:20%;" class="d-flex justify-content-center align-items-center">
+          <img class="img-fluid rounded" [src]="'assets/images/' + match.team2.teamName + '.jpg'" style="height: 50px;width:100%;border-radius:0px;box-shadow:0px 0px 5px 1px #dddddd;">
       </div>
 
-      <div style="width:55%;" class="d-flex justify-content-center align-items-center">
-        <span style="color: lime;" *ngIf="match.team1Id === match.winnerId">
-          <i class="fa fa-trophy" style="font-size:20px;color:gold"></i>
-        </span>
+      <div style="width:10%;font-size:0.8em;" class="d-flex justify-content-start align-items-center">
         <span>
-         {{match.team1.teamName}} vs {{match.team2.teamName}}
-        </span>
-<!--      </div>-->
+            &nbsp;{{match.team2.teamName}}
+        </span>            
+      </div>  
 
-<!--      <div class="d-flex justify-content-center align-items-center" style="width:10%;font-size:0.8em;">vs</div>-->
+      <div style="width:10%;" class="d-flex justify-content-center align-items-center">
+          <span style="color: lime;" *ngIf="match.team2Id === match.winnerId">
+            <i class="fa fa-trophy" style="font-size:20px;color:grey"></i>
+          </span>            
+      </div>  
 
-<!--      <div style="width:10%;" class="d-flex justify-content-center align-items-center">-->
-
-        <span style="color: lime;" *ngIf="match.team2Id === match.winnerId">
-          <i class="fa fa-trophy" style="font-size:20px;color:gold"></i>
-        </span>
-      </div>
-
-      <div style="width:20%;" class="d-flex justify-content-end align-items-center">
-          <img class="img-fluid rounded" [src]="'assets/images/' + match.team2.teamName + '.jpg'" style="max-height: 50px;border-radius:0px;box-shadow:0px 0px 5px 1px #dddddd;">
-      </div>
+      
     </div>
   </a>
 </div>

@@ -7,7 +7,7 @@
 <div class="container-fluid">
   <br><br>
   <div>
-    <h4  class="text-center">Groups</h4>
+    <h5  class="text-center">Groups</h5>
   </div>
   <hr>
 
@@ -22,7 +22,7 @@
       <ng-container matColumnDef="referralCd">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Referral Code </th>
         <td mat-cell *matCellDef="let element">
-          <span style="color: green">{{element.referralCd}} </span>
+          <span style="color: black;">{{element.referralCd}} </span>
         </td>
       </ng-container>
 
@@ -32,8 +32,8 @@
 
      <br>
   <div class="d-flex justify-content-center">
-    &nbsp;<button class="btn btn-primary" type="submit" (click)="joinGroup()">Join Group</button>&nbsp;
-    &nbsp;<button class="btn btn-info" type="submit" (click)="createGroup()">Create Group</button>&nbsp;
+    &nbsp;<button class="btn btn-secondary" type="submit" (click)="joinGroup()">Join Group</button>&nbsp;
+    &nbsp;<button class="btn btn-secondary" type="submit" (click)="createGroup()">Create Group</button>&nbsp;
   </div>
   <br><br>
 
