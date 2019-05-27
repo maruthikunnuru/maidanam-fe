@@ -46,7 +46,8 @@
     <ng-container matColumnDef="player">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Player </th>
       <td mat-cell [ngStyle]="{'color':element.playerId === user.userId? 'darkorange' : ''}"
-          *matCellDef="let element"> {{element.player}} </td>
+          *matCellDef="let element" style="cursor: pointer"
+          (click)="onClickUser(element.playerId)"> <u>{{element.player}}</u> </td>
     </ng-container>
 
     <!-- Score Column -->

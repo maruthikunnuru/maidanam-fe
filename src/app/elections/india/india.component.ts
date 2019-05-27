@@ -231,7 +231,7 @@ export class IndiaComponent implements OnInit, OnDestroy {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('Yes clicked');
+        // console.log('Yes clicked');
         this.submitPredictions(apPredForm);
       }
     });
@@ -286,7 +286,7 @@ export class IndiaComponent implements OnInit, OnDestroy {
       if (this.submitFlag) {
         this.getTimeSubscription = this.electionsService.getTime()
             .subscribe((response) => {
-                  console.log(response);
+                  // console.log(response);
                   if (response.statusCode === 'Y') {
                     this.pointsToLose =  response.result;
                     if (this.pointsToLose < 0) {
@@ -333,11 +333,11 @@ export class IndiaComponent implements OnInit, OnDestroy {
 
 
   onSelectGroup(groupid: number) {
-    console.log(groupid);
+    // console.log(groupid);
 
     this.userGroupSubscription = this.loginService.getUsersByGroupId(this.user.userName, groupid)
         .subscribe((resp) => {
-              console.log(resp);
+              // console.log(resp);
               if (resp.statusCode === 'N') {
                 alert('No User Data Available');
               } else {

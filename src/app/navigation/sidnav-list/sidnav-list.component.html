@@ -5,7 +5,7 @@
   <a mat-list-item routerLink="/scoreboard" (click)="onSidenavClose()" *ngIf="showButtons">
     <mat-icon>assignment</mat-icon> <span class="nav-caption">&nbsp; Scoreboard</span>
   </a>
-  <a mat-list-item routerLink="/history" (click)="onSidenavClose()" *ngIf="showButtons">
+  <a mat-list-item (click)="onClickHistory()" *ngIf="showButtons">
     <mat-icon>receipt</mat-icon> <span class="nav-caption">&nbsp; My History</span>
   </a>
   <a mat-list-item routerLink="/groups" (click)="onSidenavClose()" *ngIf="showButtons">

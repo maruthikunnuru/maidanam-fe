@@ -237,14 +237,14 @@ export class ApComponent implements OnInit, OnDestroy {
   submitPredictions(apPredForm1: NgForm) {
       this.submitApElectionPredictions = this.convertToElectionPrediction(apPredForm1.value);
 
-      console.log(this.submitApElectionPredictions);
+      // console.log(this.submitApElectionPredictions);
 
       this.spinnerService.show();
       this.submitApElectionPredictionSubscription = this.electionsService.submitElectionPredictions(this.user.userId,
           'AP', this.submitApElectionPredictions)
           .subscribe((resps) => {
                   this.spinnerService.hide();
-                  console.log(resps);
+                  // console.log(resps);
                   if (resps.statusCode === 'Y') {
                       this.isSuccess = true;
                       this.isFailure = false;
@@ -260,18 +260,18 @@ export class ApComponent implements OnInit, OnDestroy {
   }
 
     onSelectGroup(groupid: number) {
-        console.log(groupid);
+        // console.log(groupid);
 
         this.userGroupSubscription = this.loginService.getUsersByGroupId(this.user.userName, groupid)
             .subscribe((resp) => {
-                    console.log(resp);
+                    // console.log(resp);
                     if (resp.statusCode === 'N') {
                         alert('No User Data Available');
                     } else {
                         this.usersList = resp.result as UserModel[];
-                        console.log(this.usersList);
+                        // console.log(this.usersList);
                         this.selectedUserGroup = this.usersList.filter( usr => usr.userName === this.username)[0];
-                        console.log(this.selectedUserGroup);
+                        // console.log(this.selectedUserGroup);
 
                         this.loginService.setUser(this.selectedUserGroup);
 

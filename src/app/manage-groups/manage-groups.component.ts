@@ -34,7 +34,6 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
 
   displayedColumns: string[] = ['groupName', 'referralCd'];
   groupRefs: GroupsTableInterface[] = [];
-  finalGroupRefs: GroupsTableInterface[] = [];
   dataSource: MatTableDataSource<GroupsTableInterface>;
   @ViewChild(MatSort) sort: MatSort;
 
