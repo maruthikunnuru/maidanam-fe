@@ -1,7 +1,10 @@
 mat-toolbar {
-    background: whitesmoke;
+    background-image: url("../../../assets/images/ground_bg.jpg");
+    background-repeat: repeat-x;
     display:flex;
     justify-content: space-between;
+    color: white;
+    padding: 1px;
 }
 
 .right-nav {

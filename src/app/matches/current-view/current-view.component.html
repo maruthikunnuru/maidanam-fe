@@ -16,11 +16,11 @@
           
             <div class="d-flex justify-content-around py-2">
                 <img class="img-fluid rounded" [src]="'assets/images/' + match.team1.teamName + '.jpg'" style="max-height: 80px;border-radius:15px;box-shadow:0px 0px 5px 1px #dddddd;">
-                <p style="font-weight:normal;font-family: 'Ubuntu', sans-serif;" class="align-self-center">
+                <div style="font-weight:normal;font-size:0.8em;" class="align-self-center">
                     {{match.team1.teamName}}
                         <span style="color: red; font-size: 0.7em">vs</span>
                     {{match.team2.teamName}}&nbsp;
-                </p>
+                </div>
                 <img class="img-fluid rounded" [src]="'assets/images/' + match.team2.teamName + '.jpg'" style="max-height: 80px;border-radius:15px;box-shadow:0px 0px 5px 1px #dddddd;">
             </div>
           </div>

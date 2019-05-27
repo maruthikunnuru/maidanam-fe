@@ -2,17 +2,18 @@
   
   <div>
       <a (click)="onClickHome()" >
-          <img src="assets/images/Sumo_sm.jpg" width="50" height="45"  style="cursor:pointer;">
+          <img src="assets/images/ball_icon.jpg" width="50" height="45"  style="cursor:pointer;"> Maidanam
       </a>
   </div>
+  
   <div class="right-nav">
 
-      <div style="display:flex;align-items: center;" *ngIf="loggedIn">
-          {{ socialUser.firstName }} {{ socialUser.lastName }}
+      <div style="display:flex;align-items: center;font-size:0.6em;" *ngIf="loggedIn">
+          {{ socialUser.lastName | uppercase}}
       </div>
 
       <div *ngIf=loggedIn>
-        <button mat-icon-button (click)="onToggleSidenav()">
+        <button mat-icon-button (click)="onToggleSidenav()" style="outline:none;">
           <mat-icon>menu</mat-icon>
         </button>
       </div>
