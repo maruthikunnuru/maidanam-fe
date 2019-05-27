@@ -29,8 +29,8 @@
   <mat-form-field>
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search / Filter">
   </mat-form-field>
-  &nbsp;&nbsp;
-  <span class="btn btn-outline-dark" *ngIf="headerName != null">{{headerName}}'s History</span>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <span *ngIf="headerName != null"><i>{{headerName}}'s History</i></span>
 
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"  matSort>
 
