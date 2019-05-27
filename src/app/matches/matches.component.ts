@@ -51,7 +51,7 @@ export class MatchesComponent implements OnInit, OnDestroy {
               (res) => {
                   this.user = res;
                   this.loggedIn = (this.user != null);
-                  console.log(this.user);
+                  // console.log(this.user);
                   if (!this.loggedIn) {
                       this.router.navigate(['/home']);
                   }
@@ -93,14 +93,14 @@ export class MatchesComponent implements OnInit, OnDestroy {
 
       this.userGroupSubscription = this.loginService.getUsersByGroupId(this.user.userName, groupid)
           .subscribe((resp) => {
-                  console.log(resp);
+                  // console.log(resp);
                   if (resp.statusCode === 'N') {
                       alert('No User Data Available');
                   } else {
                       this.usersList = resp.result as UserModel[];
-                      console.log(this.usersList);
+                      // console.log(this.usersList);
                       this.selectedUserGroup = this.usersList.filter( usr => usr.userName === this.user.userName)[0];
-                      console.log(this.selectedUserGroup);
+                      // console.log(this.selectedUserGroup);
 
                       this.loginService.setUser(this.selectedUserGroup);
 

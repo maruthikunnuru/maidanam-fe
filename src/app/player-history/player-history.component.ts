@@ -1,4 +1,4 @@
-import {AfterContentInit, Component, OnDestroy, ViewChild} from '@angular/core';
+import {AfterContentInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {PlayerHistoryService} from '../z-services/player-history.service';
 import {HistoryModel} from '../z-models/history.model';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -15,17 +15,20 @@ import {HistoryTableInterface} from '../z-models/history-table.interface';
   templateUrl: './player-history.component.html',
   styleUrls: ['./player-history.component.css']
 })
-export class PlayerHistoryComponent implements AfterContentInit, OnDestroy {
+export class PlayerHistoryComponent implements OnInit, AfterContentInit, OnDestroy {
 
 
     currentUserSubscription: Subscription;
     currentUserGroupsSubscription: Subscription;
     historySubscription: Subscription;
     userGroupSubscription: Subscription;
+    paramsSubscription: Subscription;
     user: UserModel;
     selectedUserGroup: UserModel;
     historyList: HistoryModel[];
+    histUserIdParam: number;
     usersList: UserModel[];
+    headerName: string;
     loggedIn: boolean;
     groups: GroupModel[];
     @ViewChild(MatSort) sort: MatSort;
@@ -39,6 +42,13 @@ export class PlayerHistoryComponent implements AfterContentInit, OnDestroy {
                 private router: Router,
                 private loginService: LoginService,
                 private historyService: PlayerHistoryService) { }
+
+    ngOnInit(): void {
+        this.paramsSubscription = this.route.queryParams.subscribe(params => {
+            this.histUserIdParam = params['histUserId'];
+            // console.log(this.histUserIdParam);
+        });
+    }
 
     ngAfterContentInit() {
         // console.log('Inside Player History');
@@ -75,7 +85,18 @@ export class PlayerHistoryComponent implements AfterContentInit, OnDestroy {
 
                         if (this.historyList.length > 0) {
 
-                            this.historyList = this.historyList.filter( usr => usr.userId === this.user.userId);
+                            if (this.histUserIdParam) {
+                                this.historyList = this.historyList.filter(usr => usr.userId == this.histUserIdParam);
+                            } else {
+                                this.historyList = this.historyList.filter(usr => usr.userId === this.user.userId);
+                            }
+                            if (this.historyList.length > 0) {
+                                this.headerName = this.historyList[0].displayName;
+                            } else {
+                                this.headerName = null;
+                            }
+                            // console.log(this.historyList);
+
                             this.historyList.forEach((hist, index) => {
                                 // console.log('Inside history dataSource..');
                                 const element: HistoryTableInterface = {
