@@ -233,6 +233,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
                                       player: pred.user.displayName,
                                       prediction: pred.winner.teamName + '(' + pred.margin + ')',
                                       challenged: pred.challengedUser ? pred.challengedUser.displayName : 'N/A',
+                                      challengedUserId: pred.challengedUser ? pred.challengedUser.userId : null,
                                       coins: pred.coinsAtPlay,
                                       validFasak: pred.validFasak,
                                       playerId: pred.userId
@@ -362,6 +363,15 @@ export class PredictionsComponent implements OnInit, OnDestroy {
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
+    onClickUser(selectedUserId) {
+        // console.log(selectedUserId);
+        if (selectedUserId) {
+            this.router.navigate(['history'],
+                {queryParams: {histUserId: selectedUserId}});
+        }
+
+    }
 
   ngOnDestroy(): void {
       this.currentUserSubscription.unsubscribe();

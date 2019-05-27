@@ -267,7 +267,8 @@
                 <ng-container matColumnDef="player">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header> Player </th>
                   <td mat-cell [ngStyle]="{'color':element.playerId === currentUserPrediction.userId? 'darkorange' : ''}"
-                   *matCellDef="let element"> {{element.player}} </td>
+                      (click)="onClickUser(element.playerId)" style="cursor: pointer"
+                      *matCellDef="let element"> <u>{{element.player}} </u></td>
                 </ng-container>
 
                 <!-- prediction Column -->
@@ -281,9 +282,10 @@
                 <ng-container matColumnDef="challenged">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header> Fasak </th>
                     <td mat-cell [ngStyle]="{'color':element.playerId === currentUserPrediction.userId? 'darkorange' : ''}"
-                        *matCellDef="let element">
-                        <span [ngStyle]="{'text-decoration':!element.validFasak? 'line-through' : ''}">
-                            {{element.challenged}}
+                        *matCellDef="let element" >
+                        <span [ngStyle]="{'text-decoration':!element.validFasak? 'line-through' : ''}"
+                              (click)="onClickUser(element.challengedUserId)" style="cursor: pointer">
+                            <u>{{element.challenged}}</u>
                         </span>
                     </td>
                 </ng-container>
