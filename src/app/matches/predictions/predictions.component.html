@@ -258,7 +258,8 @@
                   <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search / Filter">
               </mat-form-field>
 
-              <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width:100%;" matSort>
+              <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width:100%;"
+                     matSortActive="player" matSortDirection="asc" matSort>
 
                 <!--- Note that these columns can be defined in any order.
                       The actual rendered columns are set as a property on the row definition" -->

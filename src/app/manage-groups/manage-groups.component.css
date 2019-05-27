@@ -8,3 +8,7 @@ th.mat-header-cell {
     background-color: grey;
 
 }
+
+::ng-deep .mat-sort-header-arrow {
+    color: darkblue;
+}

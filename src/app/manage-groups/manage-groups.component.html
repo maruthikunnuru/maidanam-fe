@@ -12,7 +12,8 @@
   <hr>
 
   <div>
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width:100%;" matSort>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width:100%;"
+           matSortActive="groupName" matSortDirection="asc" matSort>
 
       <ng-container matColumnDef="groupName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Group Name </th>

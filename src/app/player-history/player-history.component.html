@@ -32,7 +32,8 @@
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <span *ngIf="headerName != null"><i>{{headerName}}'s History</i></span>
 
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"  matSort>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
+         matSort matSortActive="no" matSortDirection="desc">
 
     <ng-container matColumnDef="no">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> # </th>
