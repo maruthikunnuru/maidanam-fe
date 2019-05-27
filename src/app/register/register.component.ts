@@ -104,7 +104,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
         this.user = new UserModel(null, this.socialUser.email, this.socialUser.firstName,
             this.socialUser.lastName, displayNm, this.socialUser.email, this.refGroup.groupId,
-            this.refGroup, refCd, 1700, null,
+            this.refGroup, refCd, 500, null,
             null, null, null, 0);
 
         // console.log(this.user);

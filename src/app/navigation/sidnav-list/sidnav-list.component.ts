@@ -1,10 +1,9 @@
 import { AfterContentInit, Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import {Subscription} from 'rxjs';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {LoginService} from '../../z-services/login.service';
 import {UserModel} from '../../z-models/user.model';
 import {AuthService} from 'angularx-social-login';
-// import { EventEmitter } from 'events';
 
 @Component({
   selector: 'app-sidnav-list',
@@ -21,8 +20,7 @@ export class SidnavListComponent implements AfterContentInit, OnInit, OnDestroy 
   loggedIn: boolean;
   showButtons: boolean;
 
-  constructor(private route: ActivatedRoute,
-    private router: Router,
+  constructor(private router: Router,
     private loginService: LoginService,
     private authService: AuthService) { }
 
@@ -30,7 +28,6 @@ export class SidnavListComponent implements AfterContentInit, OnInit, OnDestroy 
   }
 
   ngAfterContentInit() {
-    // console.log('Inside Player History');
     this.currentUserSubscription = this.loginService.currentUser
         .subscribe(
             (res) => {
@@ -49,16 +46,13 @@ export class SidnavListComponent implements AfterContentInit, OnInit, OnDestroy 
   }
 
   signout(): void {
-    // console.log('emit received');
-    this.router.navigate(['/home']);
-    if (this.loggedIn) {
       this.authService.signOut();
       this.loginService.logout();
+      this.router.navigate(['/home']);
       window.location.reload();
-    }
   }
 
-  public onSideNavClose() {
+  onSidenavClose() {
     this.sideNavClose.emit();
   }
 
