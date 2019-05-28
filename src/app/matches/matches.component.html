@@ -52,7 +52,7 @@
   <app-list-view></app-list-view>  
 </div>
 <div>
-    <span>
+    <span *ngIf="user.groupId === 2">
         <a class="btn btn-block btn-secondary" routerLink="/admin"><b>Submit Match Result</b></a>
     </span>
 </div>

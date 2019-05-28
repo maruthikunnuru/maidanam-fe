@@ -9,7 +9,7 @@
   <div class="right-nav">
 
       <div style="display:flex;align-items: center;font-size:0.6em;" *ngIf="loggedIn">
-          {{ socialUser.lastName | uppercase}}
+          {{ socialUser.firstName | uppercase}} {{ socialUser.lastName | uppercase}}
       </div>
 
       <div *ngIf=loggedIn>
