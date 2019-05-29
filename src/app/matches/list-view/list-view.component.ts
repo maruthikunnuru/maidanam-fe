@@ -45,7 +45,11 @@ export class ListViewComponent implements OnInit {
               if (response.statusCode === 'N') {
               } else {
                 this.allMatches = response.result as MatchModel[];
-                this.allMatches = this.allMatches.filter( tournament => tournament.tournamentId === 4 );
+                if (this.user.groupId === 2) {
+                    this.allMatches = this.allMatches.filter(tournament => tournament.tournamentId === 2);
+                } else {
+                    this.allMatches = this.allMatches.filter(tournament => tournament.tournamentId === 4);
+                }
               }
             },
             (error) => console.log(error)

@@ -54,7 +54,12 @@ export class CurrentViewComponent implements OnInit, OnDestroy {
               if (response.statusCode === 'N') {
               } else {
                 this.allMatches = response.result as MatchModel[];
-                this.allMatches = this.allMatches.filter( tournament => tournament.tournamentId === 4 );
+                if (this.user.groupId === 2) {
+                    this.allMatches = this.allMatches.filter( tournament => tournament.tournamentId === 2 );
+                } else {
+                    this.allMatches = this.allMatches.filter( tournament => tournament.tournamentId === 4 );
+                }
+
                 if (this.allMatches !== null) {
                   this.currentMatches = this.allMatches.filter(match => match.matchStatus === 'SCHEDULED'
                       || match.matchStatus === 'PROGRESS').slice(0, 2);
