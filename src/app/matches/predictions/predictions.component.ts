@@ -59,7 +59,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
   @ViewChild('p') predictionForm: NgForm;
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns: string[] = ['player', 'prediction', 'challenged', 'coins'];
+  displayedColumns: string[] = ['player', 'coins', 'prediction', 'challenged'];
   predictionList: PredTableInterface[] = [];
   dataSource: MatTableDataSource<PredTableInterface>;
 

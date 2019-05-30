@@ -1,6 +1,6 @@
 .open-close-list-past {
     border: 1px solid #cccccc;
-    background:white;
+    background:lightslategrey;
     margin: 1.5em 0em;
     padding: 0px 0px 0px 0px;
     color: #000000;
@@ -11,7 +11,7 @@
 
   .open-close-list-current {
     border: 1px solid #cccccc;
-    background: white;
+    background: lightyellow;
     margin: 1.5em 0em;
     padding: 0px 0px 0px 0px;
     color: #000000;
