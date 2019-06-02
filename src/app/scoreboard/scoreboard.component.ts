@@ -5,7 +5,7 @@ import {LoginService} from '../z-services/login.service';
 import {Subscription} from 'rxjs';
 import {GroupModel} from '../z-models/group.model';
 import {ScoresTableInterface} from '../z-models/scores-table.interface';
-import {MatSort, MatTableDataSource} from '@angular/material';
+import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 
 @Component({
   selector: 'app-scoreboard',
@@ -25,6 +25,7 @@ export class ScoreboardComponent implements AfterContentInit, OnDestroy {
   loggedIn: boolean;
   groups: GroupModel[];
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   displayedColumns: string[] = ['rank', 'player', 'score', 'coins', 'loan', 'change'];
   scores: ScoresTableInterface[] = [];
@@ -87,7 +88,7 @@ export class ScoreboardComponent implements AfterContentInit, OnDestroy {
                   this.dataSource = new MatTableDataSource(this.scores);
                     setTimeout(() => {
                         this.dataSource.sort = this.sort;
-
+                        this.dataSource.paginator = this.paginator;
                     });
                 }
               }

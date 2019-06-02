@@ -48,7 +48,11 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Player </th>
       <td mat-cell [ngStyle]="{'color':element.playerId === user.userId? 'darkorange' : ''}"
           *matCellDef="let element" style="cursor: pointer"
-          (click)="onClickUser(element.playerId)"> <u>{{element.player}}</u> </td>
+          (click)="onClickUser(element.playerId)">
+        <span style="text-decoration: underline; text-decoration-color: blue; color: royalblue">
+          {{element.player}}
+        </span>
+      </td>
     </ng-container>
 
     <!-- Score Column -->
@@ -83,4 +87,6 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+
+  <mat-paginator style="padding:0px;" [pageSizeOptions]="[10, 20, 50]" ></mat-paginator>
 </div>
