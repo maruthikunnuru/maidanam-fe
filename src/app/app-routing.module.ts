@@ -15,6 +15,7 @@ import {TournamentsComponent} from './tournaments/tournaments.component';
 import {ApComponent} from './elections/ap/ap.component';
 import {IndiaComponent} from './elections/india/india.component';
 import {ElectionScoresComponent} from './election-scores/election-scores.component';
+import {LoanComponent} from "./loan/loan.component";
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' , canActivate: [AuthGuard]},
@@ -31,7 +32,9 @@ const appRoutes: Routes = [
   { path: 'history', component: PlayerHistoryComponent},
   { path: 'faq', pathMatch: 'full', component: FaqComponent },
   { path: 'tournaments', pathMatch: 'full', component: TournamentsComponent },
-  { path: 'admin', pathMatch: 'full', component: AdminComponent}
+  { path: 'admin', pathMatch: 'full', component: AdminComponent},
+  { path: 'loan', pathMatch: 'full', component: LoanComponent}
+
 ];
 
 @NgModule({

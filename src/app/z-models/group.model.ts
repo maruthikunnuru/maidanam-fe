@@ -6,10 +6,11 @@ export class GroupModel {
     public coinsPrice: number;
     public groupStatus: string;
     public defaultCoins: number;
+    public averageScore: number;
 
     constructor(groupId: number, groupName: string, referenceCds: string,
                 coinsToPurchase: number, coinsPrice: number, groupStatus: string,
-                defaultCoins: number) {
+                defaultCoins: number, averageScore: number) {
         this.groupId = groupId;
         this.groupName = groupName;
         this.referenceCds = referenceCds;
@@ -17,5 +18,6 @@ export class GroupModel {
         this.coinsPrice = coinsPrice;
         this.groupStatus = groupStatus;
         this.defaultCoins = defaultCoins;
+        this.averageScore = averageScore;
     }
 }

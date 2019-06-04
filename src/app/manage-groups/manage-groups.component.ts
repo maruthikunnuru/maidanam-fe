@@ -122,7 +122,7 @@ export class ManageGroupsComponent implements OnInit, OnDestroy {
   onCreate(form: NgForm) {
     const gName = form.value.groupName;
     const group: GroupModel = new GroupModel(null, gName, null,
-        0, 1, 'ACTIVE', 500);
+        0, 1, 'ACTIVE', 500, null);
     if (gName) {
       this.createGpSubscription = this.loginService.createGroup(this.user.userName, this.user.userId, group)
           .subscribe((response) => {

@@ -45,6 +45,7 @@ import { MatDialogModule} from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './components/shared/confirmation-dialog/confirmation-dialog.component';
 import { SidnavListComponent } from './navigation/sidnav-list/sidnav-list.component';
 import { NavHeaderComponent } from './navigation/nav-header/nav-header.component';
+import { LoanComponent } from './loan/loan.component';
 
 
 const googleLoginOptions: LoginOpt = {
@@ -86,7 +87,8 @@ export function provideConfig() {
     ElectionScoresComponent,
     ConfirmationDialogComponent,
     SidnavListComponent,
-    NavHeaderComponent
+    NavHeaderComponent,
+    LoanComponent
 
   ],
   imports: [
