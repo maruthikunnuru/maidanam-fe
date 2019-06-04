@@ -373,6 +373,10 @@ export class PredictionsComponent implements OnInit, OnDestroy {
 
     }
 
+    onBuyLoan() {
+        this.router.navigate(['/loan']);
+    }
+
   ngOnDestroy(): void {
       this.currentUserSubscription.unsubscribe();
       this.currentUserGroupsSubscription.unsubscribe();

@@ -20,7 +20,7 @@
   </div>
   <p>{{user.totalCoins}} <img src="assets/images/coins.jpg" width="30" height="20">&nbsp;
     <a style="font-size:0.8em;" class="btn btn-outline-secondary btn-sml"
-       href="mailto:maidanam.in@gmail.com?subject=Need Coins"
+       (click)="onBuyLoan()"
        target="_blank"> <b>+ Buy</b></a>
   </p>
 </div>
@@ -88,5 +88,5 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
-  <mat-paginator style="padding:0px;" [pageSizeOptions]="[10, 20, 50]" ></mat-paginator>
+  <mat-paginator style="padding:0px;" [pageSizeOptions]="[20, 50]" ></mat-paginator>
 </div>

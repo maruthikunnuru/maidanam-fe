@@ -1,3 +1,65 @@
-<p>
-  loan works!
-</p>
+<br>
+<div class="container-fluid sticky-top">
+  <button class="btn btn-link" (click)="goBack()">Go Back</button>
+</div>
+<br>
+<div class="container-fluid">
+  <div class="d-flex col-sm-8 col-md-6 col-lg-4 mx-auto" >
+    <div class="d-flex-column" style="width:100%;">
+      <div>
+        <h4 class="text-center">Loan</h4>
+        <hr>
+        <form (ngSubmit)="submitLoan(l)" #l="ngForm">
+          <div class="d-flex" style="width:100%;">
+            <div class="d-flex justify-content-start align-items-center" style="width:40%;font-size:1.4em;font-weight:normal;font-family: 'Ubuntu', sans-serif;">
+              Groups:
+            </div>
+            <div class="d-flex justify-content-end" style="width:60%;padding:1%;">
+              <mat-form-field >
+                <mat-select name="gpName" ngModel>
+                  <mat-option [value]="" (click)="onSelectGp(null)"> - Select Group - </mat-option>
+                  <mat-option *ngFor="let gp of groups"
+                              [value]="gp.groupId"
+                              (click)="onSelectGp(gp)">
+                    {{gp.groupName}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+            <div  class="alert alert-warning" *ngIf="exchangeRate != null">
+              For each donation in this group,
+              <br>You will receive <span style="color: red; font-size: 1.5em">{{exchangeRate}}</span> coins as loan
+            </div>
+
+            <div class="d-flex justify-content-center align-items-center">
+              <button class="btn btn-primary btn-block" type="submit" [disabled]="!selectGroup">Proceed</button>
+            </div>
+          <br>
+          <div  class="alert alert-danger text-danger" *ngIf="submitFail">
+            Submission Failed !!
+            <br><br>
+            <p style="font-size: 0.8em; color: black"> <i>{{errorMessage}}</i></p>
+          </div>
+          <br>
+          <div  class="alert alert-success" *ngIf="submitPass">
+            <span>
+              <span style="color: black">Your Loan is initiated Successfully !! (ETA <= 3hrs) </span>
+              <br><br>
+              <span style="color: blue; font-size: 1.5em"><b>{{refKey}}</b></span>
+              <br><br>
+              <span>Please <b>Copy & Paste </b> above Key while
+                making the transaction using below links for our reference.
+              </span>
+              <br><br>
+              <a href="https://paypal.me/pools/c/8fhtTNYvq3"> Paypal : https://paypal.me/pools/c/8fhtTNYvq3</a>
+              <br><br>
+              <span style="color: dodgerblue">Paytm : <br> +91 97030 80720</span>
+            </span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

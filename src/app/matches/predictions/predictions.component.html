@@ -22,7 +22,7 @@
 </div>
 <p>{{currentUserPrediction.user.totalCoins}}
     <img src="assets/images/coins.jpg" width="30" height="20">&nbsp;
-    <a style="font-size:0.8em;" class="btn btn-outline-secondary btn-sml" href="mailto:maidanam.in@gmail.com?subject=Need Coins" target="_blank"> <b>+ Buy</b> </a>
+    <a style="font-size:0.8em;" class="btn btn-outline-secondary btn-sml" (click)="onBuyLoan()" target="_blank"> <b>+ Buy</b> </a>
 </p>
 <div class="container-fluid">
     <!--<div class="row no-gutters open-close-container col-sm-8 col-md-6 col-lg-4 mx-auto" [ngClass]="getMatchClass(currentUserPrediction.match)">-->

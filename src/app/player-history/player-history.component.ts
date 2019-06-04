@@ -156,6 +156,10 @@ export class PlayerHistoryComponent implements OnInit, AfterContentInit, OnDestr
             );
     }
 
+    onBuyLoan() {
+        this.router.navigate(['/loan']);
+    }
+
     ngOnDestroy(): void {
         this.currentUserSubscription.unsubscribe();
         this.currentUserGroupsSubscription.unsubscribe();

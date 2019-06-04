@@ -132,6 +132,10 @@ export class ScoreboardComponent implements AfterContentInit, OnDestroy {
 
     }
 
+    onBuyLoan() {
+        this.router.navigate(['/loan']);
+    }
+
   ngOnDestroy(): void {
     this.currentUserSubscription.unsubscribe();
     this.currentUserGroupsSubscription.unsubscribe();

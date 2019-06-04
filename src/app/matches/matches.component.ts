@@ -114,6 +114,9 @@ export class MatchesComponent implements OnInit, OnDestroy {
           this.router.navigate(['/matches']));
   }
 
+  onBuyLoan() {
+      this.router.navigate(['/loan']);
+  }
 
   ngOnDestroy(): void {
       this.currentUserSubscription.unsubscribe();
