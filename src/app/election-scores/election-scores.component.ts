@@ -89,7 +89,7 @@ export class ElectionScoresComponent implements OnInit, AfterContentInit, OnDest
                     const element: ScoresTableInterface = {
                       rank: score.rank,
                       player: score.user.displayName,
-                      score: score.score,
+                      score: score.score.toString(),
                       coins: null,
                       loan: null,
                       playerId: score.user.userId,

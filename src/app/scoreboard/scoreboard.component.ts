@@ -74,11 +74,11 @@ export class ScoreboardComponent implements AfterContentInit, OnDestroy {
                       const element: ScoresTableInterface = {
                         rank: index + 1,
                         player: score.displayName,
-                        score: score.effectiveCoins,
-                        coins: score.totalCoins,
-                        loan: score.totalLoan,
+                        score: (score.effectiveCoins / 1000 ).toFixed(1),
+                        coins: (score.totalCoins / 1000 ).toFixed(1),
+                        loan: (score.totalLoan / 1000 ).toFixed(1),
                         playerId: score.userId,
-                        changeInCoins: score.changeInTotalCoins
+                        changeInCoins: (score.changeInTotalCoins / 1000 ).toFixed(2)
                       };
                       this.scores.push(element);
                       this.scores = [...this.scores];

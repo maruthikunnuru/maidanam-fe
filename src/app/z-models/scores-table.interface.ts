@@ -1,9 +1,9 @@
 export interface ScoresTableInterface {
     rank: number;
     player: string;
-    score: number;
-    coins: number;
-    loan: number;
+    score: string;
+    coins: string;
+    loan: string;
     playerId: number;
-    changeInCoins: number;
+    changeInCoins: string;
 }

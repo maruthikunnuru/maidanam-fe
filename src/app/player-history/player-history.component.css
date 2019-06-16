@@ -20,3 +20,7 @@ td.mat-cell {
 ::ng-deep .mat-sort-header-arrow {
     color: darkblue;
 }
+
+td.mat-cell {
+    border: 1px dotted lightgray;
+}
