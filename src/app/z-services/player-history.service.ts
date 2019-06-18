@@ -13,7 +13,7 @@ export class PlayerHistoryService {
         headers.append('X-USER-NAME', userName);
         headers.append('X-USER-ID', String(userId));
 
-        return this.http.get(AppConstants.API_ENDPOINT + '/groups/' + groupId + '/playSummary/', {headers: headers})
+        return this.http.get(AppConstants.API_ENDPOINT + '/groups/' + groupId + '/playSummary/user/' + userId, {headers: headers})
             .map(
                 (response: Response) => {
                     return <ResponseModel>response.json();

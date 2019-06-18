@@ -74,7 +74,9 @@ export class PlayerHistoryComponent implements OnInit, AfterContentInit, OnDestr
                 (error) => console.log(error)
             );
 
-        this.historySubscription = this.historyService.getPlayerHistory(this.user.userId, this.user.userName, this.user.groupId)
+        this.historySubscription = this.historyService.getPlayerHistory(
+        this.histUserIdParam != null ? this.histUserIdParam : this.user.userId,
+            this.user.userName, this.user.groupId)
             .subscribe((resp) => {
                     // console.log(resp);
                     if (resp.statusCode === 'N') {
@@ -85,11 +87,11 @@ export class PlayerHistoryComponent implements OnInit, AfterContentInit, OnDestr
 
                         if (this.historyList.length > 0) {
 
-                            if (this.histUserIdParam) {
+                            /*if (this.histUserIdParam) {
                                 this.historyList = this.historyList.filter(usr => usr.userId == this.histUserIdParam);
                             } else {
                                 this.historyList = this.historyList.filter(usr => usr.userId === this.user.userId);
-                            }
+                            }*/
                             if (this.historyList.length > 0) {
                                 this.headerName = this.historyList[0].displayName;
                             } else {
