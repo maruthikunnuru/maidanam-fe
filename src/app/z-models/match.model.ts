@@ -25,6 +25,7 @@ export class MatchModel {
     public lastUpdatedUserId: number;
     public lastUpdatedTs: Date;
     public additionalInfo: string;
+    public tourMatchId: number;
 
 
     constructor(matchId: number, tournamentId: number, tournament: TournamentModel,
@@ -32,7 +33,7 @@ export class MatchModel {
                 team2Id: number, team2: TeamModel, winnerId: number, winner: TeamModel,
                 localDate: string, localTime: string, maidanamId: number, maidanam: MaidanamModel,
                 matchResult: string, resultType: string, oddsTeam1: string, oddsTeam2: string,
-                lastUpdatedUserId: number, lastUpdatedTs: Date, additionalInfo: string) {
+                lastUpdatedUserId: number, lastUpdatedTs: Date, additionalInfo: string, tourMatchId: number) {
         this.matchId = matchId;
         this.tournamentId = tournamentId;
         this.tournament = tournament;
@@ -55,5 +56,6 @@ export class MatchModel {
         this.lastUpdatedUserId = lastUpdatedUserId;
         this.lastUpdatedTs = lastUpdatedTs;
         this.additionalInfo = additionalInfo;
+        this.tourMatchId = tourMatchId;
     }
 }

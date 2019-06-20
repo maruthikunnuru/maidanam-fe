@@ -12,3 +12,12 @@ mat-toolbar {
     flex-direction: row;
     justify-content:flex-end;
 }
+
+.blinking{
+    animation:blinkingText 0.8s infinite;
+}
+@keyframes blinkingText{
+    0%{     color: blue }
+    50%{    color: red; }
+    100%{   color: green;}
+}

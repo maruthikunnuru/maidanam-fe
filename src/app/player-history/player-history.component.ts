@@ -102,7 +102,7 @@ export class PlayerHistoryComponent implements OnInit, AfterContentInit, OnDestr
                             this.historyList.forEach((hist, index) => {
                                 // console.log('Inside history dataSource..');
                                 const element: HistoryTableInterface = {
-                                    matchId: hist.matchId,
+                                    matchId: hist.tourMatchId,
                                     match: hist.team1 + ' vs ' + hist.team2,
                                     prediction: hist.pwinnerTeamName + '(' + hist.presultType.charAt(0) + ')',
                                     coinsAtPlay: hist.coinsAtPlay,
