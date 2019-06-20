@@ -17,7 +17,7 @@ mat-toolbar {
     animation:blinkingText 0.8s infinite;
 }
 @keyframes blinkingText{
-    0%{     color: blue }
-    50%{    color: red; }
-    100%{   color: green;}
+    0%{     color: black }
+    50%{    color: darkred }
+    100%{   color: black }
 }
