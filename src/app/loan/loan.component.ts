@@ -55,10 +55,10 @@ export class LoanComponent implements OnInit, OnDestroy {
             (error) => console.log(error)
         );
 
-    this.currentUserGroupsSubscription = this.loginService.currentUserGroups
+    this.currentUserGroupsSubscription = this.loginService.getGroupList(this.user.userName)
         .subscribe(
             (res) => {
-              this.groups = res;
+                this.groups = res.result as GroupModel[];
             },
             (error) => console.log(error)
         );

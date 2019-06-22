@@ -75,7 +75,7 @@ export class ScoreboardComponent implements AfterContentInit, OnDestroy {
                 if (this.scoresList.length > 0) {
 
                     const maxValueOfEffCoins = Math.max(...this.scoresList.map(o => o.effectiveCoins), 0);
-                    console.log(maxValueOfEffCoins.toString().length);
+                    // console.log(maxValueOfEffCoins.toString().length);
 
                     this.showInOOOs = maxValueOfEffCoins.toString().length > 5;
                     this.divideByOOOor1 = this.showInOOOs ? 1000 : 1 ;
