@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { SocialLoginModule, AuthServiceConfig, LoginOpt, GoogleLoginProvider} from 'angularx-social-login';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatPaginatorModule, MatSelectModule, MatSliderModule, MatSortModule} from '@angular/material';
+import {MatPaginatorModule, MatSelectModule, MatSliderModule, MatSortModule, MatTabsModule} from '@angular/material';
 import { MatTableModule} from '@angular/material/table';
 import { HttpModule } from '@angular/http';
 import { MatStepperModule} from '@angular/material/stepper';
@@ -91,30 +91,31 @@ export function provideConfig() {
     LoanComponent
 
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    AppRoutingModule,
-    SocialLoginModule,
-    MatSelectModule,
-    MatSliderModule,
-    MatTableModule,
-    HttpModule,
-    MatStepperModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
-    Ng4LoadingSpinnerModule.forRoot()
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        AppRoutingModule,
+        SocialLoginModule,
+        MatSelectModule,
+        MatSliderModule,
+        MatTableModule,
+        HttpModule,
+        MatStepperModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatToolbarModule,
+        MatSidenavModule,
+        MatIconModule,
+        MatListModule,
+        Ng4LoadingSpinnerModule.forRoot(),
+        MatTabsModule
+    ],
   entryComponents: [
     ConfirmationDialogComponent
   ],

@@ -8,6 +8,11 @@ th.mat-header-cell {
 
 }
 
+td.mat-cell {
+    font-size: 0.7em;
+    white-space:nowrap;
+}
+
 .btn-sml {
     font-size: 11px;
     border-radius: 100px;

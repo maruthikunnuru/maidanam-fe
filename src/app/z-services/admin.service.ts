@@ -4,7 +4,8 @@ import {ResponseModel} from '../z-models/response.model';
 import {Headers, Http, Response} from '@angular/http';
 import {AppConstants} from '../app-constants';
 import {MatchResultModel} from '../z-models/match-result.model';
-import {LoanModel} from "../z-models/loan.model";
+import {LoanModel} from '../z-models/loan.model';
+import {LoanProcessModel} from '../z-models/loan-process.model';
 
 
 @Injectable()
@@ -23,6 +24,22 @@ export class AdminService {
             .catch(
                 (error: Response) => {
                     return Observable.throw('Something went wrong with submitMatchResult');
+                }
+            );
+    }
+
+    processLoan(loanProcess: LoanProcessModel): Observable<ResponseModel> {
+
+        return this.http.post(AppConstants.API_ENDPOINT + '/nimda/loan', loanProcess)
+            .map(
+                (response: Response) => {
+                    // console.log(response);
+                    return <ResponseModel>response.json();
+                }
+            )
+            .catch(
+                (error: Response) => {
+                    return Observable.throw('Something went wrong with processLoan');
                 }
             );
     }

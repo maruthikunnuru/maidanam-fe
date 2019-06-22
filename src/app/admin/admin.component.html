@@ -4,76 +4,111 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
-      <form (ngSubmit)="onSubmitResult(m)" #m="ngForm">
-          <br>
-          <div class="form-group">
-              <label for="winner">Winner :</label>
-              <select id="winner" class="form-control"
-                      ngModel name="winnerTeamName" required>
-                <option value=""> - Select Winner - </option>
-                <option value="AUS">Australia</option>
-                <option value="IND">India</option>
-                <option value="SA">South Africa</option>
-                <option value="NZ">New Zealand</option>
-                <option value="ENG">England</option>
-                <option value="PAK">Pakistan</option>
-                <option value="SL">Srilanka</option>
-                <option value="WI">West Indies</option>
-                <option value="BAN">Bangladesh</option>
-                <option value="AFG">Afghanistan</option>
-<!--                  <option value="MI">MI</option>-->
-<!--                  <option value="KKR">KKR</option>-->
-<!--                  <option value="RR">RR</option>-->
-<!--                  <option value="RCB">RCB</option>-->
-                  <option value="TIE">~No Result / Tie / Draw~</option>
-              </select>
-          </div>
+        <mat-tab-group>
+            <mat-tab label = "Match Result">
+                <form (ngSubmit)="onSubmitResult(m)" #m="ngForm">
+                <br>
+                    <div class="form-group">
+                        <label for="winner">Winner :</label>
+                          <select id="winner" class="form-control"
+                                  ngModel name="winnerTeamName" required>
+                            <option value=""> - Select Winner - </option>
+                            <option value="AUS">Australia</option>
+                            <option value="IND">India</option>
+                            <option value="SA">South Africa</option>
+                            <option value="NZ">New Zealand</option>
+                            <option value="ENG">England</option>
+                            <option value="PAK">Pakistan</option>
+                            <option value="SL">Srilanka</option>
+                            <option value="WI">West Indies</option>
+                            <option value="BAN">Bangladesh</option>
+                            <option value="AFG">Afghanistan</option>
+            <!--                  <option value="MI">MI</option>-->
+            <!--                  <option value="KKR">KKR</option>-->
+            <!--                  <option value="RR">RR</option>-->
+            <!--                  <option value="RCB">RCB</option>-->
+                              <option value="TIE">~No Result / Tie / Draw~</option>
+                          </select>
+                      </div>
 
-          <div class="form-group">
-              <label for="margin">Margin :</label>
-              <select id="margin" class="form-control"
-                      ngModel name="resultType" required>
-                <option value=""> - Select Margin - </option>
-                <option value="EASY">EASY</option>
-                <option value="MEDIUM">MEDIUM</option>
-                <option value="HARD">HARD</option>
-                <option value="NORESULT">~No Result~</option>
-              </select>
-          </div>
+                      <div class="form-group">
+                          <label for="margin">Margin :</label>
+                          <select id="margin" class="form-control"
+                                  ngModel name="resultType" required>
+                            <option value=""> - Select Margin - </option>
+                            <option value="EASY">EASY</option>
+                            <option value="MEDIUM">MEDIUM</option>
+                            <option value="HARD">HARD</option>
+                            <option value="NORESULT">~No Result~</option>
+                          </select>
+                      </div>
 
-          <div class="form-group">
-              <label for="result">Result :</label>
-              <textarea type="text" id="result"
-                     class="form-control"
-                     ngModel name="matchResult" required>
-              </textarea>
-          </div>
+                      <div class="form-group">
+                          <label for="result">Result :</label>
+                          <textarea type="text" id="result"
+                                 class="form-control"
+                                 ngModel name="matchResult" required>
+                          </textarea>
+                      </div>
 
-          <div class="form-group">
-            <label for="mdate">Match Date :</label>
-            <input type="date" id="mdate"
-                   class="form-control"
-                   ngModel name="localMatchDate" required>
-          </div>
+                      <div class="form-group">
+                        <label for="mdate">Match Date :</label>
+                        <input type="date" id="mdate"
+                               class="form-control"
+                               ngModel name="localMatchDate" required>
+                      </div>
 
-          <div class="form-group">
-              <label for="token">Admin Token :</label>
-              <input type="text" id="token"
-                     class="form-control"
-                     ngModel name="adminToken" required>
-          </div>
+                      <div class="form-group">
+                          <label for="token">Admin Token :</label>
+                          <input type="text" id="token"
+                                 class="form-control"
+                                 ngModel name="adminToken" required>
+                      </div>
 
-            <div  class="alert alert-danger" *ngIf="isFailure">
-              Failed !
-            </div>
-            <div  class="alert alert-success" *ngIf="isSuccess">
-              Success !
-            </div>
-          <br>
-          <button type="reset" class="btn btn-info" [disabled]="!m.touched">Clear</button>
-          &nbsp;&nbsp;&nbsp;
-          <button type="submit" class="btn btn-success" [disabled]="!m.valid">Submit</button>
-      </form>
+                    <div  class="alert alert-danger" *ngIf="isFailure">
+                      Failed !
+                    </div>
+                    <div  class="alert alert-success" *ngIf="isSuccess">
+                      Success !
+                    </div>
+                  <br>
+                  <button type="reset" class="btn btn-info" [disabled]="!m.touched">Clear</button>
+                  &nbsp;&nbsp;&nbsp;
+                  <button type="submit" class="btn btn-success" [disabled]="!m.valid">Submit</button>
+              </form>
+            </mat-tab>
+
+            <mat-tab label = "Process Loan">
+                <form (ngSubmit)="onSubmitLoan(l)" #l="ngForm">
+                    <br>
+
+                    <div class="form-group">
+                        <label for="loanRef">Loan Reference Code :</label>
+                        <input type="text" id="loanRef"
+                                  class="form-control"
+                                  ngModel name="loanRefCode" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="token1">Admin Token :</label>
+                        <input type="text" id="token1"
+                               class="form-control"
+                               ngModel name="adminToken" required>
+                    </div>
+
+                    <div  class="alert alert-danger" *ngIf="isFailure1">
+                        Failed !
+                    </div>
+                    <div  class="alert alert-success" *ngIf="isSuccess1">
+                        Success !
+                    </div>
+                    <br>
+                    <button type="reset" class="btn btn-info" [disabled]="!l.touched">Clear</button>
+                    &nbsp;&nbsp;&nbsp;
+                    <button type="submit" class="btn btn-success" [disabled]="!l.valid">Submit</button>
+                </form>
+            </mat-tab>
+        </mat-tab-group>
     </div>
   </div>
 </div>
