@@ -26,6 +26,10 @@ export class ScoreboardComponent implements AfterContentInit, OnDestroy {
   groups: GroupModel[];
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  showInOOOs: boolean;
+  divideByOOOor1: number;
+  decimal1: number;
+  decimal2: number;
 
   displayedColumns: string[] = ['rank', 'player', 'score', 'coins', 'loan', 'change'];
   scores: ScoresTableInterface[] = [];
@@ -69,16 +73,25 @@ export class ScoreboardComponent implements AfterContentInit, OnDestroy {
                 // console.log(this.scoresList);
 
                 if (this.scoresList.length > 0) {
-                  this.scoresList.forEach((score, index) => {
+
+                    const maxValueOfEffCoins = Math.max(...this.scoresList.map(o => o.effectiveCoins), 0);
+                    console.log(maxValueOfEffCoins.toString().length);
+
+                    this.showInOOOs = maxValueOfEffCoins.toString().length > 5;
+                    this.divideByOOOor1 = this.showInOOOs ? 1000 : 1 ;
+                    this.decimal1 = this.showInOOOs ? 1 : 0 ;
+                    this.decimal2 = this.showInOOOs ? 2 : 0 ;
+
+                    this.scoresList.forEach((score, index) => {
                     // console.log('Inside scores dataSource..');
                       const element: ScoresTableInterface = {
                         rank: index + 1,
                         player: score.displayName,
-                        score: (score.effectiveCoins / 1000 ).toFixed(1),
-                        coins: (score.totalCoins / 1000 ).toFixed(1),
-                        loan: (score.totalLoan / 1000 ).toFixed(1),
+                        score: (score.effectiveCoins / this.divideByOOOor1 ).toFixed(this.decimal1),
+                        coins: (score.totalCoins / this.divideByOOOor1 ).toFixed(this.decimal1),
+                        loan: (score.totalLoan / this.divideByOOOor1 ).toFixed(this.decimal1),
                         playerId: score.userId,
-                        changeInCoins: (score.changeInTotalCoins / 1000 ).toFixed(2)
+                        changeInCoins: (score.changeInTotalCoins / this.divideByOOOor1 ).toFixed(this.decimal2)
                       };
                       this.scores.push(element);
                       this.scores = [...this.scores];
