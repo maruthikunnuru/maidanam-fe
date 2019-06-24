@@ -62,6 +62,12 @@ export class SidnavListComponent implements AfterContentInit, OnInit, OnDestroy 
           this.router.navigate(['/history']));
   }
 
+    onClickProfile() {
+        this.onSidenavClose();
+        this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() =>
+            this.router.navigate(['/profile']));
+    }
+
   ngOnDestroy(): void {
     this.currentUserSubscription.unsubscribe();
   }

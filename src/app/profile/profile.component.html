@@ -1,0 +1,97 @@
+<link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Nova+Mono|Roboto+Mono" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+<div class="container-fluid sticky-top" style="padding:0px;">
+  <div class="d-flex justify-content-end">
+    <div class="dropdown ">
+      <button style="font-size:0.8em;" class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{user.group.groupName}}
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <div *ngFor="let gp of groups">
+          <a class="dropdown-item" (click)="onSelectGroup(gp.groupId)">{{gp.groupName}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="container">
+  <span style="color: darkred; font-size: 0.6em"><i>*All numbers are in 000's</i></span>
+
+    <table border="1px solid;" style="font-size: 0.8em">
+    <tr>
+      <td>Display Name : {{spendSummary.user.displayName}}</td>
+      <td>Prediction Accuracy: {{spendSummary.predAccuracy}}%</td>
+    </tr>
+    <tr>
+      <td>Current Score : {{spendSummary.user.effectiveCoins / 1000}}</td>
+      <td>Favourite: {{spendSummary.favPredPercent}}%</td>
+    </tr>
+    <tr>
+      <td>Max Score : {{spendSummary.maxScore / 1000}}</td>
+      <td>Underdog: %</td>
+    </tr>
+    <tr>
+      <td>Max Coins in a match : {{spendSummary.maxCoins / 1000}}</td>
+      <td>Max Coins per match: {{spendSummary.avgCoins / 1000}}</td>
+    </tr>
+  </table>
+
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search / Filter">
+  </mat-form-field>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
+         matSort matSortActive="no" matSortDirection="desc">
+
+    <ng-container matColumnDef="team">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Team </th>
+      <td align="center" mat-cell *matCellDef="let element"> {{element.teamName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="pick">
+      <th mat-header-cell style="text-align: center;" *matHeaderCellDef mat-sort-header> Pick </th>
+      <td align="center" mat-cell *matCellDef="let element"> {{element.pick}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="avg-coins">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Avg. Coins </th>
+      <td align="center" mat-cell *matCellDef="let element">  {{element.avgCoins}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="e-m-h">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> E / M / H </th>
+      <td align="center" mat-cell *matCellDef="let element">{{element.emh}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="won">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Won </th>
+      <td align="center" mat-cell *matCellDef="let element">{{element.won}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="lost">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Lost </th>
+      <td align="center" mat-cell *matCellDef="let element">{{element.lost}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="net">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Net </th>
+      <td align="center" mat-cell *matCellDef="let element">{{element.net}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="bonus-fasak">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Bonus - Fasak </th>
+      <td align="center" mat-cell *matCellDef="let element">{{element.bonus_fasak}}</td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
