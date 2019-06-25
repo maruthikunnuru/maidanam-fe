@@ -25,6 +25,7 @@
 <div class="container">
   <span style="color: darkred; font-size: 0.6em"><i>*All numbers are in 000's</i></span>
 
+  <!--
     <table border="1px solid;" style="font-size: 0.8em">
     <tr>
       <td>Display Name : {{spendSummary.user.displayName}}</td>
@@ -43,6 +44,33 @@
       <td>Max Coins per match: {{spendSummary.avgCoins / 1000}}</td>
     </tr>
   </table>
+  -->
+  <div class="d-flex flex-column" style="font-size:0.7em;">
+    <div class="d-flex justify-content-between pb-1">
+       <div>Current Score</div>
+       <div>{{spendSummary.user.effectiveCoins / 1000}}</div> 
+    </div>
+    <div class="d-flex justify-content-between pb-1">
+     <div>Max Coins in a match</div>
+     <div>{{spendSummary.maxCoins / 1000}}</div>
+    </div>
+    <div class="d-flex justify-content-between  pb-1">
+     <div>Avg Coins/match</div>
+     <div>{{spendSummary.avgCoins / 1000}}</div>
+    </div>
+    <div class="d-flex justify-content-between  pb-1">
+      <div style="width:70%;">Favourite/Underdog</div>
+      <div class="progress" style="width:30%;font-size:0.7em;">
+        <div class="progress-bar text-center" [style.width.%]="spendSummary.favPredPercent">{{spendSummary.favPredPercent}}%</div>
+        <div class="progress-bar bg-success text-center" [style.width.%]="100-spendSummary.favPredPercent">{{100-spendSummary.favPredPercent}}%</div>
+
+        <!--
+        <div class="text-center rounded-left" [style.width.%]="spendSummary.favPredPercent" style="background:green;">{{spendSummary.favPredPercent}}%</div>
+        <div class="text-center rounded-right" [style.width.%]="100-spendSummary.favPredPercent" style="background:yellow;">{{spendSummary.favPredPercent}}%</div>
+        -->
+      </div> 
+    </div>
+  </div>
 
   <mat-form-field>
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search / Filter">
@@ -50,14 +78,14 @@
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
          matSort matSortActive="no" matSortDirection="desc">
 
-    <ng-container matColumnDef="team">
+    <ng-container matColumnDef="team" sticky>
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Team </th>
       <td align="center" mat-cell *matCellDef="let element"> {{element.teamName}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="pick">
-      <th mat-header-cell style="text-align: center;" *matHeaderCellDef mat-sort-header> Pick </th>
-      <td align="center" mat-cell *matCellDef="let element"> {{element.pick}} </td>
+    <ng-container matColumnDef="pick" sticky>
+      <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header> Pick </th>
+      <td  align="center" mat-cell *matCellDef="let element"> {{element.pick}} </td>
     </ng-container>
 
     <ng-container matColumnDef="avg-coins">
