@@ -231,7 +231,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
                               if (pred.predictionId !== null && typeof pred.predictionId !== 'undefined') {
                                   const element: PredTableInterface = {
                                       player: pred.user.displayName,
-                                      prediction: pred.winner.teamName + '(' + pred.margin.charAt(0) + ')',
+                                      prediction: pred.winner.teamName + '(' + pred.margin + ')',
                                       challenged: pred.challengedUser ? pred.challengedUser.displayName : 'N/A',
                                       challengedUserId: pred.challengedUser ? pred.challengedUser.userId : null,
                                       coins: pred.coinsAtPlay.toString(),
@@ -368,8 +368,8 @@ export class PredictionsComponent implements OnInit, OnDestroy {
     onClickUser(selectedUserId) {
         // console.log(selectedUserId);
         if (selectedUserId) {
-            this.router.navigate(['history'],
-                {queryParams: {histUserId: selectedUserId}});
+            this.router.navigate(['profile'],
+                {queryParams: {profileUserId: selectedUserId}});
         }
 
     }

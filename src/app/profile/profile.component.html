@@ -22,76 +22,47 @@
 
 <hr>
 
-<h4 class="text-center">{{spendSummary.user.displayName}}</h4>
+<h4 class="blinking1">{{headerName}}</h4>
 
 <div class="container">
-  <span style="color: darkred; font-size: 0.6em"><i>*All numbers are in 000's</i></span>
-
+  <span *ngIf="showInOOOs" style="color: darkred; font-size: 0.6em"><i>*All numbers are in 000's</i></span>
 <br>
 
-
-  <!--
-    <table border="1px solid;" style="font-size: 0.8em">
-    <tr>
-      <td>Display Name : {{spendSummary.user.displayName}}</td>
-      <td>Prediction Accuracy: {{spendSummary.predAccuracy}}%</td>
-    </tr>
-    <tr>
-      <td>Current Score : {{spendSummary.user.effectiveCoins / 1000}}</td>
-      <td>Favourite: {{spendSummary.favPredPercent}}%</td>
-    </tr>
-    <tr>
-      <td>Max Score : {{spendSummary.maxScore / 1000}}</td>
-      <td>Underdog: %</td>
-    </tr>
-    <tr>
-      <td>Max Coins in a match : {{spendSummary.maxCoins / 1000}}</td>
-      <td>Max Coins per match: {{spendSummary.avgCoins / 1000}}</td>
-    </tr>
-  </table>
-  -->
   <div class="d-flex flex-column px-4 px-md-6">
     <div class="d-flex justify-content-between align-items-center py-2 stat-line">
        <div class="stat-label">Current Score</div>
-       <div class="stat-value">{{spendSummary.user.effectiveCoins / 1000}}</div> 
+       <div class="stat-value">{{spendSummary != null ? spendSummary.user.effectiveCoins / divideByOOOor1 : null}}</div>
     </div>
     <div class="d-flex justify-content-between  align-items-center py-1  stat-line">
       <div class="stat-label">Max Score</div>
-      <div class="stat-value">{{spendSummary.maxScore / 1000}}</div> 
+      <div class="stat-value">{{spendSummary != null ? spendSummary.maxScore / divideByOOOor1 : null}}</div>
    </div>
     <div class="d-flex justify-content-between  align-items-center py-1 stat-line">
       <div  class="stat-label">Prediction Accuracy</div>
-      <div class="stat-value">{{spendSummary.predAccuracy}}%</div> 
+      <div class="stat-value">{{spendSummary != null ? spendSummary.predAccuracy : null}}%</div>
    </div>
     <div class="d-flex justify-content-between  align-items-center py-1 stat-line">
      <div class="stat-label">Max Coins in a match</div>
-     <div class="stat-value">{{spendSummary.maxCoins / 1000}}</div>
+     <div class="stat-value">{{spendSummary != null ? spendSummary.maxCoins / divideByOOOor1 : null}}</div>
     </div>
     <div class="d-flex justify-content-between  align-items-center  py-1 stat-line">
      <div class="stat-label">Avg Coins/match</div>
-     <div class="stat-value">{{spendSummary.avgCoins / 1000}}</div>
+     <div class="stat-value">{{spendSummary != null ? spendSummary.avgCoins / divideByOOOor1 : null}}</div>
     </div>
     <div class="d-flex justify-content-between  align-items-center  py-1 stat-line">
       <div  class="stat-label" style="width:70%;">Favourite/Underdog</div>
       <div class="progress" style="width:30%;font-size:0.7em;">
-        <div class="progress-bar text-center" [style.width.%]="spendSummary.favPredPercent">{{spendSummary.favPredPercent}}%</div>
-        <div class="progress-bar bg-success text-center" [style.width.%]="100-spendSummary.favPredPercent">{{100-spendSummary.favPredPercent}}%</div>
-
-        <!--
-        <div class="text-center rounded-left" [style.width.%]="spendSummary.favPredPercent" style="background:green;">{{spendSummary.favPredPercent}}%</div>
-        <div class="text-center rounded-right" [style.width.%]="100-spendSummary.favPredPercent" style="background:yellow;">{{spendSummary.favPredPercent}}%</div>
-        -->
+        <div class="progress-bar text-center" [style.width.%]="favPred">{{favPred}}%</div>
+        <div class="progress-bar bg-success text-center" [style.width.%]="udPred">{{udPred}}%</div>
       </div> 
     </div>
   </div>
 
-<!--  <mat-form-field>-->
-<!--    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search / Filter">-->
-<!--  </mat-form-field>-->
-  <br>
-  <span style="background: lightcoral" *ngIf="headerName != null"><i>{{headerName}}'s Profile</i></span>
-  (<a style="font-size:0.8em;" class="btn btn-link" (click)="onClickHistory()"> Click Here for Detailed History</a>)
-  <br>
+
+  <a style="font-size:0.8em; color: blue" class="btn" (click)="onClickHistory()"><u><i> Click here for Detailed History </i></u></a>
+<!--    <mat-form-field>-->
+<!--      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search / Filter">-->
+<!--    </mat-form-field>-->
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
          matSort matSortActive="team" matSortDirection="desc">
 

@@ -4,9 +4,10 @@
   </a>
   <a mat-list-item (click)="onClickProfile()" *ngIf="showButtons">
     <mat-icon>person</mat-icon> <span class="nav-caption">&nbsp; My Profile</span>
+    <span class="badge badge-success">New</span>
   </a>
   <a mat-list-item (click)="onClickHistory()" *ngIf="showButtons">
-    <mat-icon>receipt</mat-icon> <span class="nav-caption">&nbsp; My History</span>
+    <mat-icon>history</mat-icon> <span class="nav-caption">&nbsp; My History</span>
   </a>
   <a mat-list-item routerLink="/scoreboard" (click)="onSidenavClose()" *ngIf="showButtons">
     <mat-icon>assignment</mat-icon> <span class="nav-caption">&nbsp; Scoreboard</span>

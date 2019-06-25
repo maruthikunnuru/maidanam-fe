@@ -37,6 +37,12 @@ export class ProfileComponent implements OnInit, AfterContentInit, OnDestroy {
   profileUserIdParam: number;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  showInOOOs: boolean;
+  divideByOOOor1: number;
+  decimal1: number;
+  decimal2: number;
+  favPred: number;
+  udPred: number;
 
   displayedColumns: string[] = ['team', 'pick', 'avg-coins', 'e-m-h', 'won', 'lost', 'net', 'bonus-fasak'];
   picks: ProfileTableInterface[] = [];
@@ -86,7 +92,12 @@ export class ProfileComponent implements OnInit, AfterContentInit, OnDestroy {
                 this.spendSummary = this.spendSummaryList[0];
 
                   if (this.spendSummaryList.length > 0) {
-                      this.headerName = this.spendSummary.user.displayName;
+                      this.headerName = this.spendSummary.user.firstName + ' '
+                          + this.spendSummary.user.lastName
+                          + ' (' + this.spendSummary.user.displayName + ')';
+                      this.favPred = this.spendSummary.favPredPercent;
+                      this.udPred = 100 - this.spendSummary.favPredPercent;
+
                   } else {
                       this.headerName = null;
                   }
@@ -104,15 +115,24 @@ export class ProfileComponent implements OnInit, AfterContentInit, OnDestroy {
                 this.pickSummaryList = resp.result as PickSummaryModel[];
 
                 if (this.pickSummaryList.length > 0) {
-                  this.pickSummaryList.forEach(pick => {
+
+                    const maxValueOfEffCoins = Math.max(...this.pickSummaryList.map(o => o.winCoins), 0);
+                    // console.log(maxValueOfEffCoins.toString().length);
+
+                    this.showInOOOs = maxValueOfEffCoins.toString().length > 5;
+                    this.divideByOOOor1 = this.showInOOOs ? 1000 : 1 ;
+                    this.decimal1 = this.showInOOOs ? 1 : 0 ;
+                    this.decimal2 = this.showInOOOs ? 2 : 0 ;
+
+                    this.pickSummaryList.forEach(pick => {
                     const element: ProfileTableInterface = {
                       teamName: pick.teamName,
                       pick: pick.picksPercent + '%',
-                      avgCoins: (pick.avgCoinsPlayed / 1000).toFixed(1),
+                      avgCoins: (pick.avgCoinsPlayed / this.divideByOOOor1).toFixed(this.decimal1),
                       emh: pick.marginEasy + ' / ' + pick.marginMedium + ' / ' + pick.marginHard,
-                      won: (pick.winCoins / 1000).toFixed(1),
-                      lost: (pick.lossCoins / 1000).toFixed(1),
-                      net: ( (pick.winCoins + pick.lossCoins) / 1000).toFixed(1),
+                      won: (pick.winCoins / this.divideByOOOor1).toFixed(this.decimal1),
+                      lost: (pick.lossCoins / this.divideByOOOor1).toFixed(this.decimal1),
+                      net: ( (pick.winCoins + pick.lossCoins) / this.divideByOOOor1).toFixed(this.decimal1),
                       bonus_fasak: (pick.bonusCoins == null ? 0 : pick.bonusCoins) + ' - ' +
                           (pick.fasakCoins == null ? 0 : pick.fasakCoins),
                     };
