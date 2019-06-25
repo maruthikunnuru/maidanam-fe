@@ -1,7 +1,7 @@
 <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Nova+Mono|Roboto+Mono" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 
@@ -22,8 +22,13 @@
 
 <hr>
 
+<h4 class="text-center">{{spendSummary.user.displayName}}</h4>
+
 <div class="container">
   <span style="color: darkred; font-size: 0.6em"><i>*All numbers are in 000's</i></span>
+
+<br>
+
 
   <!--
     <table border="1px solid;" style="font-size: 0.8em">
@@ -45,21 +50,29 @@
     </tr>
   </table>
   -->
-  <div class="d-flex flex-column" style="font-size:0.7em;">
-    <div class="d-flex justify-content-between pb-1">
-       <div>Current Score</div>
-       <div>{{spendSummary.user.effectiveCoins / 1000}}</div> 
+  <div class="d-flex flex-column px-4 px-md-6">
+    <div class="d-flex justify-content-between align-items-center py-2 stat-line">
+       <div class="stat-label">Current Score</div>
+       <div class="stat-value">{{spendSummary.user.effectiveCoins / 1000}}</div> 
     </div>
-    <div class="d-flex justify-content-between pb-1">
-     <div>Max Coins in a match</div>
-     <div>{{spendSummary.maxCoins / 1000}}</div>
+    <div class="d-flex justify-content-between  align-items-center py-1  stat-line">
+      <div class="stat-label">Max Score</div>
+      <div class="stat-value">{{spendSummary.maxScore / 1000}}</div> 
+   </div>
+    <div class="d-flex justify-content-between  align-items-center py-1 stat-line">
+      <div  class="stat-label">Prediction Accuracy</div>
+      <div class="stat-value">{{spendSummary.predAccuracy}}%</div> 
+   </div>
+    <div class="d-flex justify-content-between  align-items-center py-1 stat-line">
+     <div class="stat-label">Max Coins in a match</div>
+     <div class="stat-value">{{spendSummary.maxCoins / 1000}}</div>
     </div>
-    <div class="d-flex justify-content-between  pb-1">
-     <div>Avg Coins/match</div>
-     <div>{{spendSummary.avgCoins / 1000}}</div>
+    <div class="d-flex justify-content-between  align-items-center  py-1 stat-line">
+     <div class="stat-label">Avg Coins/match</div>
+     <div class="stat-value">{{spendSummary.avgCoins / 1000}}</div>
     </div>
-    <div class="d-flex justify-content-between  pb-1">
-      <div style="width:70%;">Favourite/Underdog</div>
+    <div class="d-flex justify-content-between  align-items-center  py-1 stat-line">
+      <div  class="stat-label" style="width:70%;">Favourite/Underdog</div>
       <div class="progress" style="width:30%;font-size:0.7em;">
         <div class="progress-bar text-center" [style.width.%]="spendSummary.favPredPercent">{{spendSummary.favPredPercent}}%</div>
         <div class="progress-bar bg-success text-center" [style.width.%]="100-spendSummary.favPredPercent">{{100-spendSummary.favPredPercent}}%</div>
