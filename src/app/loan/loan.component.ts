@@ -28,6 +28,7 @@ export class LoanComponent implements OnInit, OnDestroy {
   groups: GroupModel[];
   exchangeRate: number;
   selectGroup = false;
+  selectedGroup: GroupModel;
   submitFail = false;
   submitPass = false;
   loanResponse: LoanModel;
@@ -77,6 +78,7 @@ export class LoanComponent implements OnInit, OnDestroy {
     } else {
       this.exchangeRate = group.averageScore;
       this.selectGroup = true;
+      this.selectedGroup = group;
     }
   }
 
@@ -100,6 +102,25 @@ export class LoanComponent implements OnInit, OnDestroy {
             },
             (error) => console.log(error)
         );
+  }
+
+  sendEmail() {
+      const email = 'maidanam.in@gmail.com';
+      const cc = this.user.emailId;
+      const subject = 'Loan Request : (' + this.refKey + ')';
+      const emailBody = 'Hi,' +
+                        '\n Please process my loan with the below details ' +
+                        '\n\n\n Loan Details: ' +
+                        '\n ============ ' +
+                        '\n\n Full Name: ' + this.user.firstName + ' ' + this.user.lastName +
+                        '\n Display Name: ' + this.user.displayName +
+                        '\n Group Name: ' + this.selectedGroup.groupName +
+                        '\n Reference Key: ' + this.refKey +
+                        '\n\n *****************************************************************' +
+                        '\n Click send to inform MAIDANAM for processing your loan.' +
+                        '\n You will receive an email shortly with loan processing details' +
+                        '\n *****************************************************************';
+      window.open('mailto:' + email + '?cc=' + cc + '&subject=' + subject + '&body=' + encodeURIComponent(emailBody));
   }
 
   ngOnDestroy(): void {

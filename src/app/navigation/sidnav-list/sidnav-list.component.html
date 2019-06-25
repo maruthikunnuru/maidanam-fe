@@ -2,11 +2,15 @@
   <a mat-list-item routerLink="/matches" (click)="onSidenavClose()" *ngIf="showButtons">
     <mat-icon>home</mat-icon> <span class="nav-caption">&nbsp; Matches</span>
   </a>
-  <a mat-list-item routerLink="/scoreboard" (click)="onSidenavClose()" *ngIf="showButtons">
-    <mat-icon>assignment</mat-icon> <span class="nav-caption">&nbsp; Scoreboard</span>
+  <a mat-list-item (click)="onClickProfile()" *ngIf="showButtons">
+    <mat-icon>person</mat-icon> <span class="nav-caption">&nbsp; My Profile</span>
+    <span class="badge badge-success">New</span>
   </a>
   <a mat-list-item (click)="onClickHistory()" *ngIf="showButtons">
-    <mat-icon>receipt</mat-icon> <span class="nav-caption">&nbsp; My History</span>
+    <mat-icon>history</mat-icon> <span class="nav-caption">&nbsp; My History</span>
+  </a>
+  <a mat-list-item routerLink="/scoreboard" (click)="onSidenavClose()" *ngIf="showButtons">
+    <mat-icon>assignment</mat-icon> <span class="nav-caption">&nbsp; Scoreboard</span>
   </a>
   <a mat-list-item routerLink="/groups" (click)="onSidenavClose()" *ngIf="showButtons">
     <mat-icon>group</mat-icon> <span class="nav-caption">&nbsp; Groups</span>
@@ -15,7 +19,7 @@
     <mat-icon>monetization_on</mat-icon> <span class="nav-caption">&nbsp; Loans</span>
   </a>
   <a mat-list-item routerLink="/faq" (click)="onSidenavClose()" *ngIf="showButtons">
-    <mat-icon>help</mat-icon> <span class="nav-caption">&nbsp; FAQ</span>
+    <mat-icon>help</mat-icon> <span class="nav-caption">&nbsp; FAQs</span>
   </a>
   <a mat-list-item (click)="signout()">
     <mat-icon>exit_to_app</mat-icon> <span class="nav-caption">&nbsp; Logout</span>

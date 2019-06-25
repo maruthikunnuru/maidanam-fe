@@ -1,0 +1,113 @@
+<link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Nova+Mono|Roboto+Mono" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+<div class="container-fluid sticky-top" style="padding:0px;">
+  <div class="d-flex justify-content-end">
+    <div class="dropdown ">
+      <button style="font-size:0.8em;" class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{user.group.groupName}}
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <div *ngFor="let gp of groups">
+          <a class="dropdown-item" (click)="onSelectGroup(gp.groupId)">{{gp.groupName}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<h4 class="blinking1">{{headerName}}</h4>
+
+<div class="container">
+  <span *ngIf="showInOOOs" style="color: darkred; font-size: 0.6em"><i>*All numbers are in 000's</i></span>
+<br>
+
+  <div class="d-flex flex-column px-4 px-md-6">
+    <div class="d-flex justify-content-between align-items-center py-2 stat-line">
+       <div class="stat-label">Current Score</div>
+       <div class="stat-value">{{spendSummary != null ? spendSummary.user.effectiveCoins / divideByOOOor1 : null}}</div>
+    </div>
+    <div class="d-flex justify-content-between  align-items-center py-1  stat-line">
+      <div class="stat-label">Max Score</div>
+      <div class="stat-value">{{spendSummary != null ? spendSummary.maxScore / divideByOOOor1 : null}}</div>
+   </div>
+    <div class="d-flex justify-content-between  align-items-center py-1 stat-line">
+      <div  class="stat-label">Prediction Accuracy</div>
+      <div class="stat-value">{{spendSummary != null ? spendSummary.predAccuracy : null}}%</div>
+   </div>
+    <div class="d-flex justify-content-between  align-items-center py-1 stat-line">
+     <div class="stat-label">Max Coins in a match</div>
+     <div class="stat-value">{{spendSummary != null ? spendSummary.maxCoins / divideByOOOor1 : null}}</div>
+    </div>
+    <div class="d-flex justify-content-between  align-items-center  py-1 stat-line">
+     <div class="stat-label">Avg Coins/match</div>
+     <div class="stat-value">{{spendSummary != null ? spendSummary.avgCoins / divideByOOOor1 : null}}</div>
+    </div>
+    <div class="d-flex justify-content-between  align-items-center  py-1 stat-line">
+      <div  class="stat-label" style="width:70%;">Favourite/Underdog</div>
+      <div class="progress" style="width:30%;font-size:0.7em;">
+        <div class="progress-bar text-center" [style.width.%]="favPred">{{favPred}}%</div>
+        <div class="progress-bar bg-success text-center" [style.width.%]="udPred">{{udPred}}%</div>
+      </div> 
+    </div>
+  </div>
+
+
+  <a style="font-size:0.8em; color: blue" class="btn" (click)="onClickHistory()"><u><i> Click here for Detailed History </i></u></a>
+<!--    <mat-form-field>-->
+<!--      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search / Filter">-->
+<!--    </mat-form-field>-->
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
+         matSort matSortActive="team" matSortDirection="desc">
+
+    <ng-container matColumnDef="team" sticky>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Team </th>
+      <td align="center" mat-cell *matCellDef="let element"> {{element.teamName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="pick" >
+      <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header> Pick </th>
+      <td  align="center" mat-cell *matCellDef="let element"> {{element.pick}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="avg-coins">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Avg. Coins </th>
+      <td align="center" mat-cell *matCellDef="let element">  {{element.avgCoins}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="e-m-h">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> E / M / H (%)</th>
+      <td align="center" mat-cell *matCellDef="let element">{{element.emh}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="won">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Won </th>
+      <td align="center" mat-cell *matCellDef="let element">{{element.won}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="lost">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Lost </th>
+      <td align="center" mat-cell *matCellDef="let element">{{element.lost}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="net">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Net </th>
+      <td align="center" mat-cell *matCellDef="let element">{{element.net}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="bonus-fasak">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Bonus - Fasak</th>
+      <td align="center" mat-cell *matCellDef="let element">{{element.bonus_fasak}}</td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

@@ -46,6 +46,7 @@ import { ConfirmationDialogComponent } from './components/shared/confirmation-di
 import { SidnavListComponent } from './navigation/sidnav-list/sidnav-list.component';
 import { NavHeaderComponent } from './navigation/nav-header/nav-header.component';
 import { LoanComponent } from './loan/loan.component';
+import { ProfileComponent } from './profile/profile.component';
 
 
 const googleLoginOptions: LoginOpt = {
@@ -88,7 +89,8 @@ export function provideConfig() {
     ConfirmationDialogComponent,
     SidnavListComponent,
     NavHeaderComponent,
-    LoanComponent
+    LoanComponent,
+    ProfileComponent
 
   ],
     imports: [

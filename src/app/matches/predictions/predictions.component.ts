@@ -59,7 +59,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
   @ViewChild('p') predictionForm: NgForm;
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns: string[] = ['player', 'coins', 'prediction', 'challenged'];
+  displayedColumns: string[] = ['player', 'coins', 'pred-percent', 'prediction', 'challenged'];
   predictionList: PredTableInterface[] = [];
   dataSource: MatTableDataSource<PredTableInterface>;
 
@@ -234,9 +234,10 @@ export class PredictionsComponent implements OnInit, OnDestroy {
                                       prediction: pred.winner.teamName + '(' + pred.margin + ')',
                                       challenged: pred.challengedUser ? pred.challengedUser.displayName : 'N/A',
                                       challengedUserId: pred.challengedUser ? pred.challengedUser.userId : null,
-                                      coins: pred.coinsAtPlay,
+                                      coins: pred.coinsAtPlay.toString(),
                                       validFasak: pred.validFasak,
-                                      playerId: pred.userId
+                                      playerId: pred.userId,
+                                      predPercent: Math.round((pred.coinsAtPlay / pred.user.totalCoins) * 100)
                                   };
                                   this.predictionList.push(element);
                                   this.predictionList = [...this.predictionList];
@@ -367,8 +368,8 @@ export class PredictionsComponent implements OnInit, OnDestroy {
     onClickUser(selectedUserId) {
         // console.log(selectedUserId);
         if (selectedUserId) {
-            this.router.navigate(['history'],
-                {queryParams: {histUserId: selectedUserId}});
+            this.router.navigate(['profile'],
+                {queryParams: {profileUserId: selectedUserId}});
         }
 
     }

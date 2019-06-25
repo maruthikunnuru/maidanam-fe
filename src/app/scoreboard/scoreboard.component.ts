@@ -139,9 +139,8 @@ export class ScoreboardComponent implements AfterContentInit, OnDestroy {
   }
 
     onClickUser(selectedUserId) {
-        // console.log(selectedUserId);
-        this.router.navigate(['history'],
-            {queryParams: {histUserId: selectedUserId}});
+        this.router.navigate(['profile'],
+            {queryParams: {profileUserId: selectedUserId}});
 
     }
 

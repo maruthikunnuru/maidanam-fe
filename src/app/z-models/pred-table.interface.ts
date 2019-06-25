@@ -3,7 +3,8 @@ export interface PredTableInterface {
     prediction: string;
     challenged: string;
     challengedUserId: number;
-    coins: number;
+    coins: string;
     validFasak: boolean;
     playerId: number;
+    predPercent: number;
 }

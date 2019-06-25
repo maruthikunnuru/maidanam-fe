@@ -1,0 +1,44 @@
+
+.stat-label {
+    font-size:0.8em;
+}
+
+.stat-value {
+    font-size:0.7em;
+}
+
+.stat-line {
+    background: linear-gradient(#eeeeee 10%, 30%,#ffffff)
+}
+th.mat-header-cell {
+    font-weight: bold;
+    font-size: 0.4em;
+    color: black;
+    background-color: lightgreen;
+    border: 1px dotted lightgray;
+    justify-content:center;
+    white-space:nowrap;
+
+}
+
+td.mat-cell {
+    font-size: 0.4em;
+    white-space:nowrap;
+}
+
+::ng-deep .mat-sort-header-arrow {
+    color: darkblue;
+}
+
+td.mat-cell {
+    border: 1px dotted lightgray;
+}
+
+.blinking1{
+    animation:blinkingText1 2s infinite;
+    text-align: center;
+}
+@keyframes blinkingText1{
+    0%{     color: lightgray }
+    100%{   color: black }
+}
