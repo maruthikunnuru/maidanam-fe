@@ -72,18 +72,22 @@
     </div>
   </div>
 
-  <mat-form-field>
-    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search / Filter">
-  </mat-form-field>
+<!--  <mat-form-field>-->
+<!--    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search / Filter">-->
+<!--  </mat-form-field>-->
+  <br>
+  <span style="background: lightcoral" *ngIf="headerName != null"><i>{{headerName}}'s Profile</i></span>
+  (<a style="font-size:0.8em;" class="btn btn-link" (click)="onClickHistory()"> Click Here for Detailed History</a>)
+  <br>
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
-         matSort matSortActive="no" matSortDirection="desc">
+         matSort matSortActive="team" matSortDirection="desc">
 
     <ng-container matColumnDef="team" sticky>
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Team </th>
       <td align="center" mat-cell *matCellDef="let element"> {{element.teamName}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="pick" sticky>
+    <ng-container matColumnDef="pick" >
       <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header> Pick </th>
       <td  align="center" mat-cell *matCellDef="let element"> {{element.pick}} </td>
     </ng-container>
@@ -94,7 +98,7 @@
     </ng-container>
 
     <ng-container matColumnDef="e-m-h">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> E / M / H </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> E / M / H (%)</th>
       <td align="center" mat-cell *matCellDef="let element">{{element.emh}}</td>
     </ng-container>
 
@@ -114,7 +118,7 @@
     </ng-container>
 
     <ng-container matColumnDef="bonus-fasak">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Bonus - Fasak </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Bonus - Fasak</th>
       <td align="center" mat-cell *matCellDef="let element">{{element.bonus_fasak}}</td>
     </ng-container>
 

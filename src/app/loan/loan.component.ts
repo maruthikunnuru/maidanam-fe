@@ -102,6 +102,13 @@ export class LoanComponent implements OnInit, OnDestroy {
         );
   }
 
+  sendEmail() {
+      const email = 'vinod.aripaka@gmail.com';
+      const subject = 'test mail';
+      const emailBody = 'Hi Vinod';
+      window.location.href = 'mailto:' + email + '?subject=' + subject + '&body=' + emailBody;
+  }
+
   ngOnDestroy(): void {
     this.currentUserSubscription.unsubscribe();
     this.currentUserGroupsSubscription.unsubscribe();

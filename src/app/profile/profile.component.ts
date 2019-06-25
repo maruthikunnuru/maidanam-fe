@@ -1,4 +1,4 @@
-import {AfterContentInit, Component, OnDestroy, ViewChild} from '@angular/core';
+import {AfterContentInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {PlayerHistoryService} from '../z-services/player-history.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
@@ -16,7 +16,7 @@ import {ProfileTableInterface} from '../z-models/profile-table.interface';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements AfterContentInit, OnDestroy {
+export class ProfileComponent implements OnInit, AfterContentInit, OnDestroy {
 
 
   currentUserSubscription: Subscription;
@@ -24,6 +24,7 @@ export class ProfileComponent implements AfterContentInit, OnDestroy {
   pickSubscription: Subscription;
   spendSubscription: Subscription;
   userGroupSubscription: Subscription;
+  paramsSubscription: Subscription;
   user: UserModel;
   selectedUserGroup: UserModel;
   pickSummaryList: PickSummaryModel[];
@@ -31,7 +32,9 @@ export class ProfileComponent implements AfterContentInit, OnDestroy {
   spendSummary: SpendSummaryModel;
   usersList: UserModel[];
   loggedIn: boolean;
+  headerName: string;
   groups: GroupModel[];
+  profileUserIdParam: number;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -43,6 +46,13 @@ export class ProfileComponent implements AfterContentInit, OnDestroy {
               private router: Router,
               private loginService: LoginService,
               private historyService: PlayerHistoryService) { }
+
+  ngOnInit(): void {
+    this.paramsSubscription = this.route.queryParams.subscribe(params => {
+        this.profileUserIdParam = params['profileUserId'];
+        // console.log(this.histUserIdParam);
+    });
+  }
 
   ngAfterContentInit() {
     this.currentUserSubscription = this.loginService.currentUser
@@ -67,20 +77,26 @@ export class ProfileComponent implements AfterContentInit, OnDestroy {
         );
 
     this.spendSubscription = this.historyService.getSpendSummary(
-        this.user.userId,
+        this.profileUserIdParam != null ? this.profileUserIdParam : this.user.userId,
         this.user.userName, this.user.groupId)
         .subscribe((resp) => {
               if (resp.statusCode === 'N') {
               } else {
                 this.spendSummaryList = resp.result as SpendSummaryModel[];
                 this.spendSummary = this.spendSummaryList[0];
+
+                  if (this.spendSummaryList.length > 0) {
+                      this.headerName = this.spendSummary.user.displayName;
+                  } else {
+                      this.headerName = null;
+                  }
               }
             },
             (error) => console.log(error)
         );
 
     this.pickSubscription = this.historyService.getPickSummary(
-        this.user.userId,
+        this.profileUserIdParam != null ? this.profileUserIdParam : this.user.userId,
         this.user.userName, this.user.groupId)
         .subscribe((resp) => {
               if (resp.statusCode === 'N') {
@@ -93,12 +109,12 @@ export class ProfileComponent implements AfterContentInit, OnDestroy {
                       teamName: pick.teamName,
                       pick: pick.picksPercent + '%',
                       avgCoins: (pick.avgCoinsPlayed / 1000).toFixed(1),
-                      emh: pick.marginEasy + '% / ' + pick.marginMedium + '% / ' + pick.marginHard + '% ',
+                      emh: pick.marginEasy + ' / ' + pick.marginMedium + ' / ' + pick.marginHard,
                       won: (pick.winCoins / 1000).toFixed(1),
                       lost: (pick.lossCoins / 1000).toFixed(1),
                       net: ( (pick.winCoins + pick.lossCoins) / 1000).toFixed(1),
-                      bonus_fasak: (pick.bonusCoins == null ? 0 : pick.bonusCoins) + '% - ' +
-                          (pick.fasakCoins == null ? 0 : pick.fasakCoins) + '%',
+                      bonus_fasak: (pick.bonusCoins == null ? 0 : pick.bonusCoins) + ' - ' +
+                          (pick.fasakCoins == null ? 0 : pick.fasakCoins),
                     };
                     this.picks.push(element);
                     this.picks = [...this.picks];
@@ -114,8 +130,10 @@ export class ProfileComponent implements AfterContentInit, OnDestroy {
         );
   }
 
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  onClickHistory() {
+      this.router.navigate(['history'],
+          {queryParams: {histUserId: this.profileUserIdParam}});
+
   }
 
   onSelectGroup(groupid: number) {

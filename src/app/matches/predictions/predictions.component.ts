@@ -59,7 +59,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
   @ViewChild('p') predictionForm: NgForm;
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns: string[] = ['player', 'coins', 'prediction', 'challenged'];
+  displayedColumns: string[] = ['player', 'coins', 'pred-percent', 'prediction', 'challenged'];
   predictionList: PredTableInterface[] = [];
   dataSource: MatTableDataSource<PredTableInterface>;
 
@@ -231,12 +231,13 @@ export class PredictionsComponent implements OnInit, OnDestroy {
                               if (pred.predictionId !== null && typeof pred.predictionId !== 'undefined') {
                                   const element: PredTableInterface = {
                                       player: pred.user.displayName,
-                                      prediction: pred.winner.teamName + '(' + pred.margin + ')',
+                                      prediction: pred.winner.teamName + '(' + pred.margin.charAt(0) + ')',
                                       challenged: pred.challengedUser ? pred.challengedUser.displayName : 'N/A',
                                       challengedUserId: pred.challengedUser ? pred.challengedUser.userId : null,
-                                      coins: pred.coinsAtPlay,
+                                      coins: pred.coinsAtPlay.toString(),
                                       validFasak: pred.validFasak,
-                                      playerId: pred.userId
+                                      playerId: pred.userId,
+                                      predPercent: Math.round((pred.coinsAtPlay / pred.user.totalCoins) * 100)
                                   };
                                   this.predictionList.push(element);
                                   this.predictionList = [...this.predictionList];

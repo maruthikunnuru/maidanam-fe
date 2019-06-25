@@ -63,7 +63,7 @@ export class NavHeaderComponent implements OnInit, OnDestroy {
                                               // console.log('Final User -->' + JSON.stringify(this.user));
                                               this.loginService.setUser(this.user);
                                               this.showButtons = (this.user != null);
-                                               this.router.navigate(['/tournaments']);
+                                               this.router.navigate(['/matches']);
                                             } else {
                                                // console.log('Error in getUsersByGroup');
                                             }
@@ -101,7 +101,7 @@ export class NavHeaderComponent implements OnInit, OnDestroy {
 
   onClickHome() {
     if (this.loggedIn) {
-      this.router.navigate(['/tournaments']);
+      this.router.navigate(['/matches']);
     } else {
       this.router.navigate(['/home']);
     }

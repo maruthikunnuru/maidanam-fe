@@ -49,13 +49,18 @@ td, span {
 
 th.mat-header-cell {
     font-weight: bold;
-    font-size: 1em;
+    font-size: 0.7em;
     color: blue;
     background-color: lightskyblue;
     border: blue;
-
+    white-space: nowrap;
+    border: 1px dotted lightgray;
 }
 
+td.mat-cell {
+    font-size: 0.6em;
+    border: 1px dotted lightgray;
+}
 .btn-sml {
     font-size: 11px;
     border-radius: 100px;

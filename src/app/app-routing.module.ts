@@ -32,7 +32,7 @@ const appRoutes: Routes = [
   { path: 'groups', component: ManageGroupsComponent, canActivate: [AuthGuard]},
   { path: 'history', component: PlayerHistoryComponent},
   { path: 'faq', pathMatch: 'full', component: FaqComponent },
-  { path: 'tournaments', pathMatch: 'full', component: TournamentsComponent },
+  // { path: 'tournaments', pathMatch: 'full', component: TournamentsComponent },
   { path: 'profile', pathMatch: 'full', component: ProfileComponent },
   { path: 'admin', pathMatch: 'full', component: AdminComponent},
   { path: 'loan', pathMatch: 'full', component: LoanComponent}
