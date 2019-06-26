@@ -299,10 +299,10 @@
                 </ng-container>
 
                   <!-- prediction Column -->
-                  <ng-container matColumnDef="pred-percent">
+                  <ng-container matColumnDef="coinspercent">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header> Coins % </th>
                       <td mat-cell align="center" [ngStyle]="{'color':element.playerId === currentUserPrediction.userId? 'darkorange' : ''}"
-                          *matCellDef="let element"> {{element.predPercent}} % </td>
+                          *matCellDef="let element"> {{element.predPercent}} %</td>
                   </ng-container>
 
                   <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
