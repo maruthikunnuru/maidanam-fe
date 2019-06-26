@@ -8,11 +8,11 @@
 }
 
 .stat-line {
-    background: linear-gradient(#eeeeee 10%, 30%,#ffffff)
+    background: linear-gradient(#eeeeee 10%, 30%, #ffffff)
 }
 th.mat-header-cell {
     font-weight: bold;
-    font-size: 0.4em;
+    font-size: 0.6em;
     color: black;
     background-color: lightgreen;
     border: 1px dotted lightgray;
@@ -22,7 +22,7 @@ th.mat-header-cell {
 }
 
 td.mat-cell {
-    font-size: 0.4em;
+    font-size: 0.6em;
     white-space:nowrap;
 }
 

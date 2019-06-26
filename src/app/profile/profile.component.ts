@@ -44,7 +44,7 @@ export class ProfileComponent implements OnInit, AfterContentInit, OnDestroy {
   favPred: number;
   udPred: number;
 
-  displayedColumns: string[] = ['team', 'pick', 'avg-coins', 'e-m-h', 'won', 'lost', 'net', 'bonus-fasak'];
+  displayedColumns: string[] = ['team', 'pick', 'avg-coins', 'e-m-h', 'won', 'lost', 'net'];
   picks: ProfileTableInterface[] = [];
   dataSource: MatTableDataSource<ProfileTableInterface>;
 

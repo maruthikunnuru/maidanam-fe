@@ -57,12 +57,13 @@
       </div> 
     </div>
   </div>
-
-
   <a style="font-size:0.8em; color: blue" class="btn" (click)="onClickHistory()"><u><i> Click here for Detailed History </i></u></a>
+</div>
 <!--    <mat-form-field>-->
 <!--      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search / Filter">-->
 <!--    </mat-form-field>-->
+  <div class="d-flex col-sm-8 col-md-6 col-lg-4 mx-auto" >
+    <div class="d-flex-column justify-content-center align-items-center" style="width:100%;">
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
          matSort matSortActive="team" matSortDirection="desc">
 
@@ -101,13 +102,10 @@
       <td align="center" mat-cell *matCellDef="let element">{{element.net}}</td>
     </ng-container>
 
-    <ng-container matColumnDef="bonus-fasak">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Bonus - Fasak</th>
-      <td align="center" mat-cell *matCellDef="let element">{{element.bonus_fasak}}</td>
-    </ng-container>
-
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 </div>
+  </div>
+

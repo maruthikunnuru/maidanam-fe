@@ -313,6 +313,9 @@ export class PredictionsComponent implements OnInit, OnDestroy {
    this.userPredictionToSubmit.coinsAtPlay = this.predictionForm.value.coinsInvested != null ?
        this.predictionForm.value.coinsInvested : this.userPredictionToSubmit.coinsAtPlay;
 
+   if (this.userPredictionToSubmit.coinsAtPlay === 0) {
+       this.userPredictionToSubmit.coinsAtPlay = 10;
+   }
    this.userPredictionToSubmit.challengedUser = null;
    this.userPredictionToSubmit.winner = null;
 
