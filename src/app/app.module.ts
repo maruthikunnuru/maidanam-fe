@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { SocialLoginModule, AuthServiceConfig, LoginOpt, GoogleLoginProvider} from 'angularx-social-login';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatPaginatorModule, MatSelectModule, MatSliderModule, MatSortModule, MatTabsModule} from '@angular/material';
+import {MatPaginatorModule, MatSelectModule, MatSliderModule, MatSortModule, MatTabsModule, MatRadioModule} from '@angular/material';
 import { MatTableModule} from '@angular/material/table';
 import { HttpModule } from '@angular/http';
 import { MatStepperModule} from '@angular/material/stepper';
@@ -116,7 +116,8 @@ export function provideConfig() {
         MatIconModule,
         MatListModule,
         Ng4LoadingSpinnerModule.forRoot(),
-        MatTabsModule
+        MatTabsModule,
+        MatRadioModule
     ],
   entryComponents: [
     ConfirmationDialogComponent

@@ -55,6 +55,9 @@ export class PredictionsComponent implements OnInit, OnDestroy {
   errorMessage: string;
   maxCoins: number;
   username: string;
+  keyPressed = false;
+  stepSize = 1000;
+  // sizes: number[] = [100, 1000, 100000];
 
   @ViewChild('p') predictionForm: NgForm;
   @ViewChild(MatSort) sort: MatSort;
@@ -381,6 +384,32 @@ export class PredictionsComponent implements OnInit, OnDestroy {
     onBuyLoan() {
         this.router.navigate(['/loan']);
     }
+
+  async addCoins (e) {
+      // e.preventDefault();
+      this.keyPressed = true;
+      while (this.keyPressed) {
+        if ((this.currentUserPrediction.coinsAtPlay + this.stepSize) <= this.maxCoins) {
+            this.currentUserPrediction.coinsAtPlay = this.currentUserPrediction.coinsAtPlay + this.stepSize ;
+        }
+        await new Promise (resolve => setTimeout (resolve, 30));
+      }
+  }
+
+  mouseUp () {
+      this.keyPressed = false;
+  }
+
+  async reduceCoins (e) {
+    // e.preventDefault();
+    this.keyPressed = true;
+    while (this.keyPressed) {
+      if ((this.currentUserPrediction.coinsAtPlay - this.stepSize) >= 0) {
+          this.currentUserPrediction.coinsAtPlay = this.currentUserPrediction.coinsAtPlay - this.stepSize ;
+      }
+      await new Promise (resolve => setTimeout (resolve, 30));
+    }
+}
 
   ngOnDestroy(): void {
       this.currentUserSubscription.unsubscribe();

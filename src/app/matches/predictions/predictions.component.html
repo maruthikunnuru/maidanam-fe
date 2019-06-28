@@ -114,21 +114,40 @@
               <div class="d-flex align-items-center" style="width:100%;font-size:1.4em;font-weight:normal;font-family: 'Ubuntu', sans-serif;">
                   Coins<a routerLink="/faq"><img class="rounded" width="20px" src="assets/images/ques.png"/></a>
               </div>
-              <div class="d-flex justify-content-end" style="width:200%;">
-                  <p style="color: deeppink;">{{currentUserPrediction.coinsAtPlay || 0}}/{{maxCoins || 0}}</p>
-                  <mat-slider thumbLabel tickInterval="10"
-                              min="10"
-                              max="{{maxCoins}}"
-                              step="10"
-                              name="coinsInvested"
-                              (change)='changeSlide($event)'
-                              [value]="currentUserPrediction.coinsAtPlay"
-                              [(ngModel)]="currentUserPrediction.coinsAtPlay"
-                              [displayWith]="formatLabel"
-                              required [disabled]="showOthersPredictions">
-                  </mat-slider>
+              <div class="d-flex justify-content-end align-items-center" style="width:200%;">
+                  <div class="d-flex align-items-center">
+                    <mat-icon (mousedown)="reduceCoins($event)" (mouseup)="mouseUp()">
+                        remove_circle_outline&nbsp;</mat-icon>  
+                  </div>
+                  <div style="color: deeppink;">
+                    {{currentUserPrediction.coinsAtPlay || 0}} 
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <mat-icon (mousedown)="addCoins($event)" (mouseup)="mouseUp()">
+                        add_circle_outline</mat-icon>  
+                  </div>
+                  
+                  <div style="color: deeppink;">
+                    &nbsp;/&nbsp;{{maxCoins || 0}}
+                  </div>  
+
               </div>
           </div>
+
+          <div class="d-flex mx-auto" style="width:95%;">
+            <mat-slider thumbLabel tickInterval="10"
+                min="10"
+                max="{{maxCoins}}"
+                step="10"
+                name="coinsInvested"
+                (change)='changeSlide($event)'
+                [value]="currentUserPrediction.coinsAtPlay"
+                [(ngModel)]="currentUserPrediction.coinsAtPlay"
+                [displayWith]="formatLabel"
+                required [disabled]="showOthersPredictions">
+            </mat-slider>
+          </div>
+          
 
           <br>
 
