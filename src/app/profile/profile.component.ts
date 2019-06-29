@@ -39,6 +39,8 @@ export class ProfileComponent implements OnInit, AfterContentInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   showInOOOs: boolean;
   divideByOOOor1: number;
+    showInOOOOOs: boolean;
+    divideByOOOOOor1: number;
   decimal1: number;
   decimal2: number;
   favPred: number;
@@ -119,20 +121,26 @@ export class ProfileComponent implements OnInit, AfterContentInit, OnDestroy {
                     const maxValueOfEffCoins = Math.max(...this.pickSummaryList.map(o => o.winCoins), 0);
                     // console.log(maxValueOfEffCoins.toString().length);
 
-                    this.showInOOOs = maxValueOfEffCoins.toString().length > 5;
+                    this.showInOOOOOs = maxValueOfEffCoins.toString().length > 7;
+                    this.divideByOOOOOor1 = this.showInOOOOOs ? 100000 : 1 ;
+                    this.showInOOOs = maxValueOfEffCoins.toString().length > 5 && maxValueOfEffCoins.toString().length <= 7;
                     this.divideByOOOor1 = this.showInOOOs ? 1000 : 1 ;
-                    this.decimal1 = this.showInOOOs ? 1 : 0 ;
-                    this.decimal2 = this.showInOOOs ? 2 : 0 ;
+                    this.decimal1 = this.showInOOOOOs ? 1 : this.showInOOOs ? 1 : 0 ;
+                    this.decimal2 = this.showInOOOOOs ? 2 : this.showInOOOs ? 2 : 0 ;
 
                     this.pickSummaryList.forEach(pick => {
                     const element: ProfileTableInterface = {
                       teamName: pick.teamName,
                       pick: pick.picksPercent + '%',
-                      avgCoins: (pick.avgCoinsPlayed / this.divideByOOOor1).toFixed(this.decimal1),
+                      avgCoins: this.showInOOOOOs ? (pick.avgCoinsPlayed / this.divideByOOOOOor1).toFixed(this.decimal1) :
+                          (pick.avgCoinsPlayed / this.divideByOOOor1).toFixed(this.decimal1),
                       emh: pick.marginEasy + ' / ' + pick.marginMedium + ' / ' + pick.marginHard,
-                      won: (pick.winCoins / this.divideByOOOor1).toFixed(this.decimal1),
-                      lost: (pick.lossCoins / this.divideByOOOor1).toFixed(this.decimal1),
-                      net: ( (pick.winCoins + pick.lossCoins) / this.divideByOOOor1).toFixed(this.decimal1),
+                      won: this.showInOOOOOs ? (pick.winCoins / this.divideByOOOOOor1).toFixed(this.decimal1) :
+                          (pick.winCoins / this.divideByOOOor1).toFixed(this.decimal1),
+                      lost: this.showInOOOOOs ? (pick.lossCoins / this.divideByOOOOOor1).toFixed(this.decimal1) :
+                          (pick.lossCoins / this.divideByOOOor1).toFixed(this.decimal1),
+                      net: this.showInOOOOOs ? ((pick.winCoins + pick.lossCoins) / this.divideByOOOOOor1).toFixed(this.decimal1) :
+                          ((pick.winCoins + pick.lossCoins) / this.divideByOOOor1).toFixed(this.decimal1),
                       bonus_fasak: (pick.bonusCoins == null ? 0 : pick.bonusCoins) + ' - ' +
                           (pick.fasakCoins == null ? 0 : pick.fasakCoins),
                     };

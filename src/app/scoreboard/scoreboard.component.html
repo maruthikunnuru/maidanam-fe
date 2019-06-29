@@ -30,7 +30,8 @@
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search / Filter">
   </mat-form-field>
 
-  <span class=blinking2 *ngIf="showInOOOs" style="color: darkred; font-size: 0.8em"><i>*All numbers are in 00000's</i></span>
+  <span class=blinking2 *ngIf="showInOOOs" style="color: darkred; font-size: 0.8em"><i>*All numbers are in 000's</i></span>
+  <span class=blinking2 *ngIf="showInOOOOOs" style="color: darkred; font-size: 0.8em"><i>*All numbers are in lakh's</i></span>
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width:100%;"
          matSort matSortActive="rank" matSortDirection="asc">
 
