@@ -234,7 +234,7 @@ export class PredictionsComponent implements OnInit, OnDestroy {
                                       prediction: pred.winner.teamName + '(' + pred.margin + ')',
                                       challenged: pred.challengedUser ? pred.challengedUser.displayName : 'N/A',
                                       challengedUserId: pred.challengedUser ? pred.challengedUser.userId : null,
-                                      coins: pred.coinsAtPlay.toString(),
+                                      coins: pred.coinsAtPlay.toLocaleString('en', {useGrouping: true}),
                                       validFasak: pred.validFasak,
                                       playerId: pred.userId,
                                       predPercent: pred.user.totalCoins > 0 ?

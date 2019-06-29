@@ -20,7 +20,7 @@
         </div>
     </div>
 </div>
-<p>{{currentUserPrediction.user.totalCoins}}
+<p>{{currentUserPrediction.user.totalCoins.toLocaleString('en', {useGrouping:true})}}
     <img src="assets/images/coins.jpg" width="30" height="20">&nbsp;
     <a style="font-size:0.8em;" class="btn btn-outline-secondary btn-sml" (click)="onBuyLoan()" target="_blank"> <b>+ Buy</b> </a>
 </p>
@@ -115,7 +115,7 @@
                   Coins<a routerLink="/faq"><img class="rounded" width="20px" src="assets/images/ques.png"/></a>
               </div>
               <div class="d-flex justify-content-end" style="width:200%;">
-                  <p style="color: deeppink;">{{currentUserPrediction.coinsAtPlay || 0}}/{{maxCoins || 0}}</p>
+                  <p style="color: deeppink;">{{currentUserPrediction.coinsAtPlay.toLocaleString('en', {useGrouping:true}) || 0}}/{{maxCoins.toLocaleString('en', {useGrouping:true}) || 0}}</p>
                   <mat-slider thumbLabel tickInterval="10"
                               min="10"
                               max="{{maxCoins}}"
