@@ -28,6 +28,8 @@ export class ScoreboardComponent implements AfterContentInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   showInOOOs: boolean;
   divideByOOOor1: number;
+    showInOOOOOs: boolean;
+    divideByOOOOOor1: number;
   decimal1: number;
   decimal2: number;
 
@@ -77,21 +79,27 @@ export class ScoreboardComponent implements AfterContentInit, OnDestroy {
                     const maxValueOfEffCoins = Math.max(...this.scoresList.map(o => o.effectiveCoins), 0);
                     // console.log(maxValueOfEffCoins.toString().length);
 
-                    this.showInOOOs = maxValueOfEffCoins.toString().length > 5;
+                    this.showInOOOOOs = maxValueOfEffCoins.toString().length > 7;
+                    this.divideByOOOOOor1 = this.showInOOOOOs ? 100000 : 1 ;
+                    this.showInOOOs = maxValueOfEffCoins.toString().length > 5 && maxValueOfEffCoins.toString().length <= 7;
                     this.divideByOOOor1 = this.showInOOOs ? 1000 : 1 ;
-                    this.decimal1 = this.showInOOOs ? 1 : 0 ;
-                    this.decimal2 = this.showInOOOs ? 2 : 0 ;
+                    this.decimal1 = this.showInOOOOOs ? 1 : this.showInOOOs ? 1 : 0 ;
+                    this.decimal2 = this.showInOOOOOs ? 2 : this.showInOOOs ? 2 : 0 ;
 
                     this.scoresList.forEach((score, index) => {
                     // console.log('Inside scores dataSource..');
                       const element: ScoresTableInterface = {
                         rank: index + 1,
                         player: score.displayName,
-                        score: (score.effectiveCoins / this.divideByOOOor1 ).toFixed(this.decimal1),
-                        coins: (score.totalCoins / this.divideByOOOor1 ).toFixed(this.decimal1),
-                        loan: (score.totalLoan / this.divideByOOOor1 ).toFixed(this.decimal1),
+                        score: this.showInOOOOOs ? (score.effectiveCoins / this.divideByOOOOOor1 ).toFixed(this.decimal1) :
+                            (score.effectiveCoins / this.divideByOOOor1 ).toFixed(this.decimal1),
+                        coins: this.showInOOOOOs ? (score.totalCoins / this.divideByOOOOOor1 ).toFixed(this.decimal1) :
+                            (score.totalCoins / this.divideByOOOor1 ).toFixed(this.decimal1),
+                        loan: this.showInOOOOOs ? (score.totalLoan / this.divideByOOOOOor1 ).toFixed(this.decimal1) :
+                            (score.totalLoan / this.divideByOOOor1 ).toFixed(this.decimal1),
                         playerId: score.userId,
-                        changeInCoins: (score.changeInTotalCoins / this.divideByOOOor1 ).toFixed(this.decimal2)
+                        changeInCoins: this.showInOOOOOs ? (score.changeInTotalCoins / this.divideByOOOOOor1 ).toFixed(this.decimal2) :
+                            (score.changeInTotalCoins / this.divideByOOOor1 ).toFixed(this.decimal2)
                       };
                       this.scores.push(element);
                       this.scores = [...this.scores];

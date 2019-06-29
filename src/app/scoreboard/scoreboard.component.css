@@ -25,3 +25,13 @@ td.mat-cell {
 td.mat-cell {
     border: 1px dotted lightgray;
 }
+
+.blinking2{
+    animation:blinkingText2 2s infinite;
+    text-align: center;
+}
+@keyframes blinkingText2{
+    0%{     color:blue }
+    50%{    color:white }
+    100%{   color: red }
+}

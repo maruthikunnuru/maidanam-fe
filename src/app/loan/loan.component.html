@@ -34,7 +34,7 @@
 
             <div  class="alert alert-warning" *ngIf="exchangeRate != null">
               For each donation in this group,
-              <br>You will receive <span style="color: red; font-size: 1.5em">{{exchangeRate}}</span> coins as loan
+              <br>You will receive <span style="color: red; font-size: 1.5em">{{exchangeRate.toLocaleString('en', {useGrouping:true})}}</span> coins as loan
             </div>
 
             <div class="d-flex justify-content-center align-items-center">

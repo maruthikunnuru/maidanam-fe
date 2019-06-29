@@ -18,7 +18,7 @@
       </div>
     </div>
   </div>
-  <p>{{user.totalCoins}} <img src="assets/images/coins.jpg" width="30" height="20">&nbsp;
+  <p>{{user.totalCoins.toLocaleString('en', {useGrouping:true})}} <img src="assets/images/coins.jpg" width="30" height="20">&nbsp;
     <a style="font-size:0.8em;" class="btn btn-outline-secondary btn-sml"
        (click)="onBuyLoan()"
        target="_blank"> <b>+ Buy</b></a>
@@ -52,7 +52,7 @@
 
     <ng-container matColumnDef="coins">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Coins </th>
-      <td align="center" mat-cell *matCellDef="let element">{{element.coinsAtPlay}}</td>
+      <td align="center" mat-cell *matCellDef="let element">{{element.coinsAtPlay.toLocaleString('en', {useGrouping:true})}}</td>
     </ng-container>
 
     <ng-container matColumnDef="fasak">
@@ -63,9 +63,9 @@
     <ng-container matColumnDef="won">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> WinLoss/<br>byMargin/<br>byFasak </th>
       <td align="center" mat-cell *matCellDef="let element">
-        <span [ngStyle]="{'color':element.loss < 0 ? 'red' : ''}">{{element.won == null? (element.loss == null ? 0 : element.loss) : element.won}}</span> /
-        <span>{{element.bonus == null ?0:element.bonus}}</span> /
-        <span>{{element.fasakPoints == null ? 0 : element.fasakPoints}}</span>
+        <span [ngStyle]="{'color':element.loss < 0 ? 'red' : ''}">{{element.won == null? (element.loss == null ? 0 : element.loss.toLocaleString('en', {useGrouping:true})) : element.won.toLocaleString('en', {useGrouping:true})}}</span> /
+        <span>{{element.bonus == null ?0:element.bonus.toLocaleString('en', {useGrouping:true})}}</span> /
+        <span>{{element.fasakPoints == null ? 0 : element.fasakPoints.toLocaleString('en', {useGrouping:true})}}</span>
       </td>
     </ng-container>
 

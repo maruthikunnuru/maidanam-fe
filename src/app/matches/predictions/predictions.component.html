@@ -20,7 +20,7 @@
         </div>
     </div>
 </div>
-<p>{{currentUserPrediction.user.totalCoins}}
+<p>{{currentUserPrediction.user.totalCoins.toLocaleString('en', {useGrouping:true})}}
     <img src="assets/images/coins.jpg" width="30" height="20">&nbsp;
     <a style="font-size:0.8em;" class="btn btn-outline-secondary btn-sml" (click)="onBuyLoan()" target="_blank"> <b>+ Buy</b> </a>
 </p>
@@ -114,6 +114,7 @@
               <div class="d-flex align-items-center" style="width:100%;font-size:1.4em;font-weight:normal;font-family: 'Ubuntu', sans-serif;">
                   Coins<a routerLink="/faq"><img class="rounded" width="20px" src="assets/images/ques.png"/></a>
               </div>
+
               <div class="d-flex justify-content-end align-items-center" style="width:200%;">
                   <div class="d-flex align-items-center">
                     <mat-icon (mousedown)="reduceCoins($event)" (mouseup)="mouseUp()">
@@ -129,8 +130,7 @@
                   
                   <div style="color: deeppink;">
                     &nbsp;/&nbsp;{{maxCoins || 0}}
-                  </div>  
-
+                  </div>
               </div>
           </div>
 
